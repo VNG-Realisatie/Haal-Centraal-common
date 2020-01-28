@@ -307,7 +307,7 @@ components:
     Href:
       type: string
       format: "uri"
-      example: "datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcename/{resource-dientificatie}"
+      example: "datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcename/{resource-identificatie}"
     HalLink:
       description: De Link Object zoals gespecificeerd in https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5
       type: object
