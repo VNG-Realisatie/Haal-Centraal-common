@@ -462,17 +462,17 @@ components:
           minimum: 1
           maximum: 12
           example: 5
-    Waardetabel:
+    Waardelijst:
       type: "object"
-      description: "Generieke tabel met waarden om een code en omschrijving op te nemen."
+      description: "Generieke lijst met waarden om een code en waarde op te nemen."
       properties:
         code:
           type: "string"
           title: "code"
           description: ""
-        omschrijving:
+        waarde:
           type: "string"
-          title: "omschrijving"
+          title: "waarde"
           description: ""
     Geometry:
       title: Geometry
