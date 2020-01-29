@@ -307,7 +307,7 @@ components:
     Href:
       type: string
       format: "uri"
-      example: "datapunt.voorbeeldgemeente.nl/api/resourcename/123456789"
+      example: "datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcename/{resource-identificatie}"
     HalLink:
       description: De Link Object zoals gespecificeerd in https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5
       type: object
@@ -316,6 +316,8 @@ components:
       properties:
         href:
           $ref: "#/components/schemas/Href"
+        templated: 
+          type: boolean
         title:
          description: "Voor mens leesbaar label bij de link"
          type: string
@@ -336,7 +338,9 @@ components:
               href:
                 type: "string"
                 format: "uri"
-                example: "https://datapunt.voorbeeldgemeente.nl/api/resourcenaam?page=1"
+                example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=1"
+              templated: 
+                type: boolean
               title:
                 type: "string"
                 example: "Eerste pagina"
@@ -347,7 +351,9 @@ components:
               href:
                 type: "string"
                 format: "uri"
-                example: "https://datapunt.voorbeeldgemeente.nl/api/resourcenaam?page=3"
+                example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=3"
+              templated: 
+                type: boolean
               title:
                 type: "string"
                 example: "Vorige pagina"
@@ -358,7 +364,9 @@ components:
               href:
                 type: "string"
                 format: "uri"
-                example: "https://datapunt.voorbeeldgemeente.nl/api/resourcenaam?page=5"
+                example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=5"
+              templated: 
+                type: boolean
               title:
                 type: "string"
                 example: "Volgende pagina"
@@ -394,7 +402,7 @@ components:
         type:
           type: string
           format: uri
-          example: https://www.vng.nl/realisatie/api/validaties/integer
+          example: https://www.vng.nl/realisatie/api/{major-versie}/validaties/integer
         name:
           type: string
           description: Naam van de parameter
