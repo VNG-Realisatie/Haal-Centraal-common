@@ -316,6 +316,8 @@ components:
       properties:
         href:
           $ref: "#/components/schemas/Href"
+        templated: 
+          type: boolean
         title:
          description: "Voor mens leesbaar label bij de link"
          type: string
@@ -337,6 +339,8 @@ components:
                 type: "string"
                 format: "uri"
                 example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=1"
+              templated: 
+                type: boolean
               title:
                 type: "string"
                 example: "Eerste pagina"
@@ -348,6 +352,8 @@ components:
                 type: "string"
                 format: "uri"
                 example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=3"
+              templated: 
+                type: boolean
               title:
                 type: "string"
                 example: "Vorige pagina"
@@ -359,6 +365,8 @@ components:
                 type: "string"
                 format: "uri"
                 example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=5"
+              templated: 
+                type: boolean
               title:
                 type: "string"
                 example: "Volgende pagina"
