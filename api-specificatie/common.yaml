@@ -316,7 +316,7 @@ components:
       properties:
         href:
           $ref: "#/components/schemas/Href"
-        templated: 
+        templated:
           type: boolean
         title:
          description: "Voor mens leesbaar label bij de link"
@@ -339,7 +339,7 @@ components:
                 type: "string"
                 format: "uri"
                 example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=1"
-              templated: 
+              templated:
                 type: boolean
               title:
                 type: "string"
@@ -352,7 +352,7 @@ components:
                 type: "string"
                 format: "uri"
                 example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=3"
-              templated: 
+              templated:
                 type: boolean
               title:
                 type: "string"
@@ -365,7 +365,7 @@ components:
                 type: "string"
                 format: "uri"
                 example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=5"
-              templated: 
+              templated:
                 type: boolean
               title:
                 type: "string"
@@ -469,11 +469,24 @@ components:
         code:
           type: "string"
           title: "code"
-          description: ""
+          description: "6"
         waarde:
           type: "string"
           title: "waarde"
-          description: ""
+          description: "Huurrecht (zakelijk)"
+    Waardetabel:
+      type: "object"
+      description: "Generieke tabel met waarden om een code en omschrijving op te nemen."
+      properties:
+        code:
+          type: "string"
+          title: "code"
+          example: "6030"
+        omschrijving:
+          type: "string"
+          title: "omschrijving"
+          description: "Voor mensen leesbare omschrijving van de waarde."
+          example: "Nederland"
     Geometry:
       title: Geometry
       description: GeoJSON geometry
