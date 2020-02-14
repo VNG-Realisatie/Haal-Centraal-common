@@ -469,11 +469,11 @@ components:
         code:
           type: "string"
           title: "code"
-          description: ""
+          description: "6"
         waarde:
           type: "string"
           title: "waarde"
-          description: ""
+          description: "Huurrecht (zakelijk)"
     Waardetabel:
       type: "object"
       description: "Generieke tabel met waarden om een code en omschrijving op te nemen."
