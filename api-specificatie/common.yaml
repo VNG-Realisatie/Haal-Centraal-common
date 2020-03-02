@@ -72,7 +72,7 @@ components:
       schema:
         type: string
         format: date
-        example: 2018-09-09
+        example: "2018-09-09"
     datumvan:
       name: datumvan
       in: query
@@ -81,7 +81,7 @@ components:
       schema:
         type: string
         format: date
-        example: 2018-09-09
+        example: "2018-09-09"
     datumtotenmet:
       name: datumtotenmet
       in: query
@@ -90,7 +90,7 @@ components:
       schema:
         type: string
         format: date
-        example: 2018-10-09
+        example: "2018-10-09"
   responses:
     '204':
       description: No content
