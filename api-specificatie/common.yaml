@@ -166,6 +166,22 @@ components:
             detail: The server has not found anything matching the Request-URI.
             instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
             code: notFound
+    '405':
+      description: Method not allowed.
+      headers:
+        api-version:
+          $ref: "#/components/headers/api_version"
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Foutbericht'
+          example:
+            status: 405
+            title: Methode niet toegestaan
+            type: 'https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.6 405 Method Not Allowed'
+            detail: 'The method specified in the Request-Line is not allowed for the resource identified by the Request-URI. The response MUST include an Allow header containing a list of valid methods for the requested resource.'
+            instance: 'https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde'
+            code: methodNotAllowed
     '406':
       description: Not Acceptable
       headers:
@@ -214,6 +230,22 @@ components:
             detail: The request could not be completed due to a conflict with the current state of the resource
             instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
             code: gone
+    '412':
+      description: Precondition failed.
+      headers:
+        api-version:
+          $ref: "#/components/headers/api_version"
+      content:
+        application/problem+json:
+          schema:
+            $ref: './error.yaml#/Error'
+          example:
+            status: 412
+            title: Niet voldaan aan vooraf gestelde voorwaarde
+            type: 'https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.13 412 Precondition Failed'
+            detail: The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.
+            instance: 'https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde'
+            code: preconditionFailed
     '415':
       description: Unsupported Media Type
       headers:
@@ -230,6 +262,22 @@ components:
             detail: The server is refusing the request because the entity of the request is in a format not supported by the requested resource for the requested method.
             instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
             code: unsupported
+    '422':
+      description: Unprocessable entity.
+      headers:
+        api-version:
+          $ref: "#/components/headers/api_version"
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Foutbericht'
+          example:
+            status: 422
+            title: Aanvraag kan niet verwerkt worden
+            type: 'https://tools.ietf.org/html/rfc4918#section-11.2'
+            detail: The server understands the content type of the request entity and the syntax of the request entity is correct but was unable to process the contained instructions.
+            instance: 'https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde'
+            code: unprocessableEntity
     '429':
       description: Too Many Requests
       headers:
