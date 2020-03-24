@@ -12,28 +12,57 @@ Functionaliteit: URI templating
     Op het moment van specificeren (18-03-2020) wordt in de Haal Centraal API's alleen de meest simpele 'Simple String Expansion' expression gebruikt,
     een {expression} wordt vervangen door een variabele
 
-Scenario: versie in url
-    Gegeven de link 'https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956'
-    Als URI templating wordt toegepast voor de versie
-    Dan is de template uri 'https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v{versie}/adressen/0163200000554956'
+    De OpenAPI Specifications Server Object ondersteunt ook URI templating (https://swagger.io/specification/#serverObject).
+    In de url property kunnen één of meerdere expressions worden gespecificeerd. De mogelijke waarden voor elke expression worden in de variables map gespecificeerd.
+    In onderstaande scenario's wordt voor de Server objecten URI templating toegepast.
 
-Abstract Scenario: path parameter
-    Gegeven de link '<URI>'
-    En in de link is 0163200000554956 de identificatie van een nummeraanduiding 
-    Als URI templating wordt toegepast voor de nummeraanduidingidentificatie path parameter
-    Dan is de template uri '<URI template>'
+Abstract Scenario: samenstellen van een templated url
+    Gegeven de OpenAPI specificatie met de volgende servers definitie
+    """
+    servers:
+    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{version}
+      variables:
+        hostname:
+          default: 'api.kadaster.nl'
+        versie:
+          default: '1'
+    """
+    En de path om een adres te raadplegen: '/adressen/{adresidentificatie}'
+    Als URI templating is toegepast voor een <type> adres url
+    Dan is de templated url '<templated url>'
 
     Voorbeelden:
-    | Omschrijving | URI                                                                                       | URI template                                                                                             |
-    | Absoluut URL | https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956 | https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/{nummeraanduidingidentificatie} |
-    | Relatief URL | /adressen/0163200000554956                                                                | /adressen/{nummeraanduidingidentificatie}                                                                |
+    | type     | templated url                                                                                    |
+    | absoluut | https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{version}/adressen/{adresidentificatie} |
+    | relatief | /lvbag/api/haal-centraal-bag-bevragen/v{version}/adressen/{adresidentificatie}                   |
 
-Scenario: host name
-    Gegeven de link 'https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956'
-    Als URI templating wordt toegepast voor de host name
-    Dan is de template uri 'https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956'
+Scenario: expanden een templated url
+    Gegeven een json response
+    """
+    {
+        "_link": {
+            adres: {
+                "href": "<templated url>"
+                "templated": true
+            }
+        },
+        "adresidentificatie": "0163200000554956"
+    }
+    """
+    En de OpenAPI specificatie met de volgende servers definitie
+    """
+    servers:
+    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{version}
+      variables:
+        hostname:
+          default: 'api.kadaster.nl'
+        versie:
+          default: '1'
+    """
+    Als de templated adres url is ge-expand voor adresidentificatie '0163200000554956'
+    Dan is de expanded url '<expanded url>'
 
-Scenario: meerdere expressions
-    Gegeven de link 'https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956'
-    Als URI templating wordt toegepast voor alle variabele delen
-    Dan is de template uri 'https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}/adressen/{nummeraanduidingidentificatie}'
+    Voorbeelden:
+    | templated url                                                                                    | expanded url                                                                              |
+    | https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{version}/adressen/{adresidentificatie} | https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956 |
+    | /lvbag/api/haal-centraal-bag-bevragen/v{version}/adressen/{adresidentificatie}                   | /lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956                        |
