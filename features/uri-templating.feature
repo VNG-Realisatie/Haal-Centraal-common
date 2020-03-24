@@ -30,6 +30,7 @@ Abstract Scenario: samenstellen van een templated url
     En de path om een adres te raadplegen: '/adressen/{adresidentificatie}'
     Als URI templating is toegepast voor een <type> adres url
     Dan is de templated url '<templated url>'
+    En bevat de bijbehorende response minimaal één adresidentificatie name-value pair
 
     Voorbeelden:
     | type     | templated url                                                                                    |
