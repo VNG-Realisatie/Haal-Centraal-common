@@ -20,7 +20,7 @@ Abstract Scenario: samenstellen van een templated url
     Gegeven de OpenAPI specificatie met de volgende servers definitie
     """
     servers:
-    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{version}
+    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}
       variables:
         hostname:
           default: 'api.kadaster.nl'
@@ -36,7 +36,7 @@ Abstract Scenario: samenstellen van een templated url
     | absoluut | https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{version}/adressen/{adresidentificatie} |
     | relatief | /lvbag/api/haal-centraal-bag-bevragen/v{version}/adressen/{adresidentificatie}                   |
 
-Scenario: expanden een templated url
+Abstract Scenario: expanden een templated url
     Gegeven een json response
     """
     {
@@ -52,7 +52,7 @@ Scenario: expanden een templated url
     En de OpenAPI specificatie met de volgende servers definitie
     """
     servers:
-    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{version}
+    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}
       variables:
         hostname:
           default: 'api.kadaster.nl'
@@ -60,7 +60,7 @@ Scenario: expanden een templated url
           default: '1'
     """
     Als de templated adres url is ge-expand voor adresidentificatie '0163200000554956'
-    Dan is de expanded url '<expanded url>'
+    Dan is de ge-expande url '<expanded url>'
 
     Voorbeelden:
     | templated url                                                                                    | expanded url                                                                              |
