@@ -320,7 +320,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: "0#/components/schemas/Foutbericht"
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.5.2 501 Not Implemented
             title: Not Implemented
