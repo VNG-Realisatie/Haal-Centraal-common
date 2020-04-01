@@ -39,6 +39,15 @@ Bijvoorbeeld maakt deel uit van + pand + identificatie = pandIdentificatie
 
 In OAS3 wordt er een warning gegeven als er naast een binnen een object een Description wordt opgenomen naast een $ref (Geen enkele Sibling is geoorloofd). In de draft van OAS3.1 is een description binnen een object naast een $ref wel geaccepteerd. Vooruitlopend op deze versie is het binnen de HaalCentraal-specificaties geaccepteerd dat er binnen een object naast een $ref een Description wordt opgenomen en wordt de warning voor lief genoment. [Zie hier](https://github.com/OAI/OpenAPI-Specification/issues/2033) voor toelichting.
 
+## Hergebruik van yaml-componenten
+Bij hergebruik van Yaml-componenten wordt gebruik gemaakt van absolute links zodat de openapi.yaml in alle editors onderhoudbaar is en dus iedereen die een bijdrage wil leveren een pull-request kan indienen. 
+
+*Ratio*
+We willen bijdragers tijdens het ontwikkeltraject niet dwingen om de file-structuuur van de provider-developer over te nemen. dit leidt tot onnodige complexiteit op het ontkoppelpunt van provider en consumer tijdens het ontwikkeltraject. 
+
+*Kanttekening*
+Nu verwijzen de links nog naar de master-branch van Haal-centraal-common. Op het moment dat de specificaties van 1 van de API's definitief wordt zal ook de common geversioneerd moeten worden (dmv een release op github) 
+
 ## Toepassen van Patterns
 
 Bij een specifieke bevragingen-API is het toepassen van Patterns beperkt tot de parameters.  
