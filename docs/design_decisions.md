@@ -188,3 +188,5 @@ Voor developers die geen HAL links willen gebruiken wordt tevens de identificati
 
 ## Gebruik van Booleans als indicatoren
 In diverse situaties worden booleans opgenomen als er sprake is van indicatoren. Deze booleans worden alleen geretourneerd als de waarde van de boolean ook informatief is. De indicator wordt dus alleen opgenomen als de waarde vand de Boolean "true" is. 
+
+## Attributen die geen waarde of een boolean waarde ‘false’ hebben, worden niet geretourneerd door de API.
