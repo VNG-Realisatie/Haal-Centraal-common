@@ -6,4 +6,4 @@ In de [common.yaml](./api-specificatie/common.yaml) een aantal yaml-componenten 
 
 Er zijn diverse [features](./features) opgenomen die in alle Haal Centraal API's van toepassing zijn. 
 
-Design decisions die van toepassing zijn op alle Haal Centraal API's zijn opgenomen in het [Design Decisions](./docs/design_desicions.md) document
+Design decisions die van toepassing zijn op alle Haal Centraal API's zijn opgenomen in het [Design Decisions](./docs/design_decisions.md) document
