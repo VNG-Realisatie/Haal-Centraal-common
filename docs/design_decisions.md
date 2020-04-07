@@ -16,6 +16,8 @@ Naamgevingsconventie is altijd zo duidelijk mogelijk te benoemen wat iets is.
   
 Als de relatie 1 keer kan voorkomen (kardinaliteit 0..1 of 1..1) dan wordt de naam van de resource in enkelvoud opgenomen; als de relatie meer dan 1 keer kan voorkomen (gedefinieerd als array), dan wordt de naam van de resource in meervoud opgenomen.
 
+* Een property die 1 maal voorkomt wordt in enklevoud benomed. Property die als array gedefinieerd is wordt in meervoud benoemd. 
+
 * Identificatie: Wanneer een property (niet link of embedded) alleen de identificatie van de gerelateerde resource bevat, wordt naam van de resource plus het woord "identificatie"gebruikt.
 Bijvoorbeeld maakt deel uit van + pand + identificatie = pandIdentificatie
 
