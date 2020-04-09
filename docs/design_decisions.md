@@ -1,36 +1,40 @@
 # Design decisions HaalCentraal API's
-Dit document beschrijft ontwerpkeuzes die gemaakt zijn voor het ontwerpen en specificeren van de API's binnen het programma HaalCentraal 
+Dit document beschrijft ontwerpkeuzes die gemaakt zijn voor het ontwerpen en specificeren van de API's binnen het programma HaalCentraal
 
-## Naamgevingsconventie 
+## Naamgevingsconventie
 
-Naamgevingsconventie is altijd zo duidelijk mogelijk te benoemen wat iets is. 
+Naamgevingsconventie is altijd zo duidelijk mogelijk te benoemen wat iets is.
+Hoofdregel is altijd:
+1. propertynamen moeten zoveel mogelijk zelfverklarend zijn (lezen van de description om de betekenis te begrijpen is liefst niet nodig)
+2. propertynamen zijn zo kort als mogelijk om toch voldoende duidelijk en onderscheidend te zijn en niet langer dan daarvoor nodig
 
-* Relaties: De naam van de relatie plus de naam van de gerelateerde resource, tenzij er een reden is om dat niet te doen.
+Hieronder staat een aantal algemene richtlijnen voor naamgeving van properties.
+* Relaties (links naar gerelateerde resources): De naam van de relatie plus de naam van de gerelateerde resource.
   * Bijvoorbeeld:
 
   ligt in + woonplaats = ligtInWoonplaats
-  
+
   ligt aan + openbare ruimte = ligtAanOpenbareRuimte
-  
+
   maakt deel uit van + pand = maaktDeelUitVanPand
-  
+
 Als de relatie 1 keer kan voorkomen (kardinaliteit 0..1 of 1..1) dan wordt de naam van de resource in enkelvoud opgenomen; als de relatie meer dan 1 keer kan voorkomen (gedefinieerd als array), dan wordt de naam van de resource in meervoud opgenomen.
 
-* Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Property die als array gedefinieerd is wordt in meervoud benoemd. 
+* Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Property die als array gedefinieerd is wordt in meervoud benoemd.
 
 * Identificatie: Wanneer een property (niet link of embedded) alleen de identificatie van de gerelateerde resource bevat, wordt naam van de resource plus het woord "identificatie"gebruikt.
 Bijvoorbeeld maakt deel uit van + pand + identificatie = pandIdentificatie
 
-* Parameters: Indien een parameter een element betreft dat geen onderdeel van de op te vragen resource is, maar onderdeel van een gerelateerde resource, een subresource of een gegevensgroep dat wordt de elementnaam vooraf gegaan door de betreffende resourcenaam of gegevensgroepnaam en vervolgens twee underscores. 
-  * Bijvoorbeeld: 
- 
+* Parameters: Indien een parameter een element betreft dat geen onderdeel van de op te vragen resource is, maar onderdeel van een gerelateerde resource, een subresource of een gegevensgroep dat wordt de elementnaam vooraf gegaan door de betreffende resourcenaam of gegevensgroepnaam en vervolgens twee underscores.
+  * Bijvoorbeeld:
+
   ingeschrevenpersoon__burgerservicenummer
-  
+
   verblijfplaats__postcode
 
 * Enumeratiewaarden : Er wordt naar gestreefd om enumeratiewaarden te ontdoen van spaties en byzondere tekens. Indien mogelijk worden spaties in enumeratiewaarden vervangen door underscores.
 
-* Voor endpoints, url's en parameters worden alleen kleine letters toegepast. 
+* Voor endpoints, url's en parameters worden alleen kleine letters toegepast.
 * Voor componentnamen in het schema wordt UpperCamelCase toegepast
 * Voor properties wordt lowerCamelCase toegepast
 
@@ -42,13 +46,13 @@ Bijvoorbeeld maakt deel uit van + pand + identificatie = pandIdentificatie
 In OAS3 wordt er een warning gegeven als er naast een binnen een object een Description wordt opgenomen naast een $ref (Geen enkele Sibling is geoorloofd). In de draft van OAS3.1 is een description binnen een object naast een $ref wel geaccepteerd. Vooruitlopend op deze versie is het binnen de HaalCentraal-specificaties geaccepteerd dat er binnen een object naast een $ref een Description wordt opgenomen en wordt de warning voor lief genoment. [Zie hier](https://github.com/OAI/OpenAPI-Specification/issues/2033) voor toelichting.
 
 ## Hergebruik van yaml-componenten
-Bij hergebruik van Yaml-componenten wordt gebruik gemaakt van absolute links zodat de openapi.yaml in alle editors onderhoudbaar is en dus iedereen die een bijdrage wil leveren een pull-request kan indienen. 
+Bij hergebruik van Yaml-componenten wordt gebruik gemaakt van absolute links zodat de openapi.yaml in alle editors onderhoudbaar is en dus iedereen die een bijdrage wil leveren een pull-request kan indienen.
 
 *Ratio*
-We willen bijdragers tijdens het ontwikkeltraject niet dwingen om de file-structuuur van de provider-developer over te nemen. dit leidt tot onnodige complexiteit op het ontkoppelpunt van provider en consumer tijdens het ontwikkeltraject. 
+We willen bijdragers tijdens het ontwikkeltraject niet dwingen om de file-structuuur van de provider-developer over te nemen. dit leidt tot onnodige complexiteit op het ontkoppelpunt van provider en consumer tijdens het ontwikkeltraject.
 
 *Kanttekening*
-Nu verwijzen de links nog naar de master-branch van Haal-centraal-common. Op het moment dat de specificaties van 1 van de API's definitief wordt zal ook de common geversioneerd moeten worden (dmv een release op github) 
+Nu verwijzen de links nog naar de master-branch van Haal-centraal-common. Op het moment dat de specificaties van 1 van de API's definitief wordt zal ook de common geversioneerd moeten worden (dmv een release op github)
 
 ## Toepassen van Patterns
 
@@ -71,17 +75,17 @@ In de API specificaties worden enumeratiewaarden opgenomen met de waarde, in de 
 Door direct de waarde in de enumeratie aan te bieden hoeft de consumer-developer niet eerst de enumeratie-code te vertalen naar de enumeratiewaarde.
 
 *Kanttekening*
-De lengte van de enumeratiewaarden zal zoveel mogelijk beperkt moeten worden. 
+De lengte van de enumeratiewaarden zal zoveel mogelijk beperkt moeten worden.
 
 ## Enumeraties-waarden bevatten geen hoofdletters.
 Enumeratiewaarden bevatten alleen kleine letters en underscores. Geen spaties, geen speciale tekenen en geen hoofletters.
 
 *Ratio*
-In sommige development-omgevingen leveren hoofletters, spaties of speciale tekens in enumeratie-waarden een probleem op met code-genereren. 
+In sommige development-omgevingen leveren hoofletters, spaties of speciale tekens in enumeratie-waarden een probleem op met code-genereren.
 
 ## oneOf constructie wordt niet gebruikt in de API-sepcificaties.
 Alhoewel de oneOf constructie een valide OAS3 constructie is levert deze bij het genereren van code problemen op.
-Deze constructie wordt ontweken door twee mogelijke alternatieven. 
+Deze constructie wordt ontweken door twee mogelijke alternatieven.
 * De subtypes worden samengevoegd tot 1 object en er wordt een typeveld toegevoegd om te duiden welk subtype het betreft. Deze keuze is logisch als de subtypes grotendeels overlappen.
 * De subtypes worden volledig opgenomen als property van een object. In het response is altijd maar 1 van deze properties gevuld. Deze keuze is logisch als de subtypes weing gemeenschappelijke properties hebben.
 
@@ -92,7 +96,7 @@ Diverse code-generatoren gaan dus niet goed om met deze constructie en genereren
 Mochten code-genratoren in de toekomst wel goed met deze constructie om kunnen gaan dan is het het overwegen waard om deze constructie aan te passen bij de eerstvolgende major (breaking) change.
 
 ## Gemeentelijke kerngegevens en plusgegevens worden niet opgenomen in de resource.
-In de response worden alleen gegevens opgenomen die in de basisregistratie worden vastgelegd. 
+In de response worden alleen gegevens opgenomen die in de basisregistratie worden vastgelegd.
 
 *Ratio*
 Deze gegevens worden niet vastgelegd in een (voor alle gemeenten geldend) bronsysteem dat voor de bevraging geraadpleegd kan worden. Deze gegevens zijn dus (voorlopig) niet raadpleegbaar. Ook worden deze gegevens niet in alle gemeenten (op dezelfde manier) gebruikt.
@@ -105,7 +109,7 @@ Wanneer een gerelateerde resource expand wordt, wordt de gehele sub-resource ter
 Gegevens uit een andere bron/registratie (bijvoorbeeld het BAG-adres van een persoon) kunnen niet embed worden.
 
 *Ratio*
-We willen "tight coupling" met andere bronnen voorkomen. Overd domeinen heen wordt alleen met links verwezen. 
+We willen "tight coupling" met andere bronnen voorkomen. Overd domeinen heen wordt alleen met links verwezen.
 
 ## We nemen geen (inverse) relaties uit een ander domein op
 Vanuit andere registraties bestaan er relaties naar ingeschreven natuurlijk personen. Een persoon kan bijvoorbeeld zakelijk gerechtigde zijn van een Kadastraal object of functionaris zijn van een bedrijf.
@@ -131,10 +135,10 @@ Wanneer echter de partner (ook) een ingeschreven persoon is, wordt een hyperlink
 
 *Ratio*
 Implementatie en gebruik eenvoudig houden. Er is geen functionele behoefte om diep gegevens te embedded.
-Het opvragen van relaties is eenvoudig. Bij dieper embedden kan doelbinding een probleem worden. Bij dieper embedden kunnen er aan provider-kan performance-problemen ontstaan. 
+Het opvragen van relaties is eenvoudig. Bij dieper embedden kan doelbinding een probleem worden. Bij dieper embedden kunnen er aan provider-kan performance-problemen ontstaan.
 
 ## Namen van gegevensgroepen worden ingekort.
-De benaming van componenten en properties die gebaseerd zijn op een informatiemodel worden waar nodig ingekort. 
+De benaming van componenten en properties die gebaseerd zijn op een informatiemodel worden waar nodig ingekort.
 
 Bijvoorbeeld "verblijfstitelIngeschrevenNatuurlijkPersoon" wordt "verblijfstitel", "overlijdenIngeschrevenNatuurlijkPersoon" wordt "overlijden", "geboorteIngeschrevenNatuurlijkPersoon" wordt "geboorte", enz.
 
@@ -158,7 +162,7 @@ Alle properties in de response worden in de Open API Specificaties gedefinieerd 
 
 *Ratio*
 De hoeveelheid businesslogica in interface beperken. Zorgen dat zoveel mogelijk antwoord gegeven kan worden, ook wanneer een verwachte property geen waarde heeft. Het alternatief, het opnemen van de reden van geen waarde (zoals StUF:noValue) is dan niet nodig, wat het gebruik van de API eenvoudiger maakt.
-Tevens compliceert het verplicht maken van elementen de toepassing van de "fields" en de "expand" parameters. 
+Tevens compliceert het verplicht maken van elementen de toepassing van de "fields" en de "expand" parameters.
 
 ## We gebruiken geen overerving van abstracte types in de API specificaties
 Bijvoorbeeld ingeschreven natuurlijk persoon wordt in de schema's platgeslagen met bovenliggende types (subject, persoon, natuurlijk persoon).
@@ -167,7 +171,7 @@ Bijvoorbeeld ingeschreven natuurlijk persoon wordt in de schema's platgeslagen m
 Zolang we niets doen met de abstracte types (subject, persoon, natuurlijk persoon), heeft het geen zin dit mee te nemen in de component schema's.
 
 *Kanttekening*
-Deze design decision is al lang geleden gemaakt. Meer recent hebben we uit technische hergebruik overwegingen abstracte types geïntroduceerd. Het is het overwegen waard om die technische keuzes te vergelijken met de keuzes uit de informatiemodellen en te controleren of daar uniformereing mogelijk en wenselijk is. 
+Deze design decision is al lang geleden gemaakt. Meer recent hebben we uit technische hergebruik overwegingen abstracte types geïntroduceerd. Het is het overwegen waard om die technische keuzes te vergelijken met de keuzes uit de informatiemodellen en te controleren of daar uniformereing mogelijk en wenselijk is.
 
 ## Sortering voor actuele zoekresultaten worden niet gesorteerd
 De API standaard schrijft niet voor hoe zoekresultaten in de API moeten worden gesorteerd. Wanneer de client behoefte heeft aan gesorteerde resultaten, moet zij de ontvangen resultaten zelf sorteren.
@@ -177,18 +181,18 @@ Historie wordt aflopend gesorteerd op datum geldigheid (geldigVan).
 
 ## Historie elementen krijgen dezelfde naam en betekenis als in de NEN3610
 beginGeldigheid en eindGeldigheid
-Binnen de NEN standaard is er een keuze-mogelijkheid (datum en datumtijd) voor het formaat waarin de historie wordt bijgehouden. De Bron houdt geen tijd bij dus schrijven we het datum-formaat voor. 
+Binnen de NEN standaard is er een keuze-mogelijkheid (datum en datumtijd) voor het formaat waarin de historie wordt bijgehouden. De Bron houdt geen tijd bij dus schrijven we het datum-formaat voor.
 
 ## Historie: inonderzoek wordt alleen actueel getoond
 Binnen de historie-endpoints wordt alleen de actuele situatie met betrekking tot "in Onderzoek" getoond. Er wordt geen historie getoond van de onderzoeken die in het verleden hebben plaatsgevonden.  
 
 ## Toepassen van HAL-Links
-Er zijn grofweg twee categoriën Hal-links waar we gebruik van maken. Links naar resources binnen het eigen domein en links naar resources die in een ander domein beheerd worden. Om discoverability te bereiken, worden voor beide categorieën de Hal-link opgenomen naar de gerelateerde resource. 
+Er zijn grofweg twee categoriën Hal-links waar we gebruik van maken. Links naar resources binnen het eigen domein en links naar resources die in een ander domein beheerd worden. Om discoverability te bereiken, worden voor beide categorieën de Hal-link opgenomen naar de gerelateerde resource.
 
 ## Identificatie van de gerelateerde resources worden opgenomen in de content van de opgevraagde resource
 Voor developers die geen HAL links willen gebruiken wordt tevens de identificatie van de gerelateerde resource opgenomen.
 
 ## Gebruik van Booleans als indicatoren
-In diverse situaties worden booleans opgenomen als er sprake is van indicatoren. Deze booleans worden alleen geretourneerd als de waarde van de boolean ook informatief is. De indicator wordt dus alleen opgenomen als de waarde vand de Boolean "true" is. 
+In diverse situaties worden booleans opgenomen als er sprake is van indicatoren. Deze booleans worden alleen geretourneerd als de waarde van de boolean ook informatief is. De indicator wordt dus alleen opgenomen als de waarde vand de Boolean "true" is.
 
 ## Attributen die geen waarde of een boolean waarde ‘false’ hebben, worden niet geretourneerd door de API.
