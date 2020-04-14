@@ -25,6 +25,7 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
   Met de fields parameter kan ook worden aangegeven welke relaties moeten worden opgenomen. Dit betreft de links (in _links) die verwijzen (uri) naar de betreffende gerelateerde resource. Wanneer de fields parameter is meegegeven in het request worden alleen die relaties teruggegeven die zijn gevraagd in de fields parameter.
   In de fields parameter kan de relatie worden gevraagd door de relatienaam op te nemen al dan niet voorafgegaan door HAL-element _links.
   Bijvoorbeeld de links naar de kinderen van een persoon worden teruggegeven bij fields=burgerservicenummer,naam,kinderen. In dat geval worden andere relaties, zoals ouders en partners niet opgenomen in het antwoord (in _links). Hetzelfde antwoord kan worden verkregen met fields=burgerservicenummer,naam,_links.kinderen.
+  Wanneer in de resource een property is bevat met exact dezelfde naam als een van de properties in _links, dan wordt bij het vragen van deze property alleen het property uit de resource teruggegeven en niet het gelijknamige property uit _links. In dat geval kan de gelijknamige relatie alleen worden gevraagd door _links voor de linkpropertynaam te plaatsen.
 
   De self-link in _links (JSON HAL) wordt altijd teruggegeven in het antwoord. Deze hoeft (en mag) niet te worden opgenomen in de fields parameter.
 
@@ -284,3 +285,21 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
     En is in het antwoord redenOpschortingBijhouding=E
     En wordt attribuut _links.self teruggegeven
     En wordt geen enkel ander attribuut dan geslachtsaanduiding, datumOpschortingBijhouding, redenOpschortingBijhouding en _links.self teruggegeven
+
+  Scenario: property en link met dezelfde naam en property wordt gevraagd met fields
+    Gegeven de resource kadastraalonroerendezaken bevat een property stukken
+    En de resource kadastraalonroerendezaken bevat in _links een property stukken
+    En de opgevraagde kadastraalonroerendezaak heeft ten minste één voorkomen voor stukken.
+    Als de kastraalonroerendezaak wordt opgevraagd met fields=stukken
+    Dan bevat het antwoord property stukken
+    En bevat het antwoord geen property _links.stukken
+    En bevat het antwoord property _links.self
+
+  Scenario: property en link met dezelfde naam en link wordt gevraagd met fields
+    Gegeven de resource kadastraalonroerendezaken bevat een property stukken
+    En de resource kadastraalonroerendezaken bevat in _links een property stukken
+    En de opgevraagde kadastraalonroerendezaak heeft ten minste één voorkomen voor stukken.
+    Als de kastraalonroerendezaak wordt opgevraagd met fields=_links.stukken
+    Dan bevat het antwoord geen property stukken
+    En bevat het antwoord property _links.stukken
+    En bevat het antwoord property _links.self
