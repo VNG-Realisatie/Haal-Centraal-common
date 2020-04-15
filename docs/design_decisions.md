@@ -107,7 +107,7 @@ Wanneer een gerelateerde resource expand wordt, wordt de gehele sub-resource ter
 Gegevens uit een andere bron/registratie (bijvoorbeeld het BAG-adres van een persoon) kunnen niet embed worden.
 
 *Ratio*
-We willen "tight coupling" met andere bronnen voorkomen. Overd domeinen heen wordt alleen met links verwezen.
+We willen "tight coupling" met andere bronnen voorkomen. Over domeinen heen wordt alleen met links verwezen.
 
 ## We nemen geen (inverse) relaties uit een ander domein op
 Vanuit andere registraties bestaan er relaties naar ingeschreven natuurlijk personen. Een persoon kan bijvoorbeeld zakelijk gerechtigde zijn van een Kadastraal object of functionaris zijn van een bedrijf.
