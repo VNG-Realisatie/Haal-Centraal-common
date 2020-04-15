@@ -133,7 +133,7 @@ Wanneer echter de partner (ook) een ingeschreven persoon is, wordt een hyperlink
 
 *Ratio*
 Implementatie en gebruik eenvoudig houden. Er is geen functionele behoefte om diep gegevens te embedded.
-Het opvragen van relaties is eenvoudig. Bij dieper embedden kan doelbinding een probleem worden. Bij dieper embedden kunnen er aan provider-kan performance-problemen ontstaan.
+Het opvragen van relaties is eenvoudig. Bij dieper embedden kan doelbinding een probleem worden. Bij dieper embedden kunnen er aan provider-kant performanceproblemen ontstaan.
 
 ## Namen van gegevensgroepen worden ingekort.
 De benaming van componenten en properties die gebaseerd zijn op een informatiemodel worden waar nodig ingekort.
