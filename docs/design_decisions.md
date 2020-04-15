@@ -9,16 +9,14 @@ Hoofdregel is altijd:
 2. propertynamen zijn zo kort als mogelijk om toch voldoende duidelijk en onderscheidend te zijn en niet langer dan daarvoor nodig
 
 Hieronder staat een aantal algemene richtlijnen voor naamgeving van properties.
-* Relaties (links naar gerelateerde resources): De naam van de relatie plus de naam van de gerelateerde resource.
+* Relaties (links naar gerelateerde resources): Kan de naam van de relatie hebben, of de naam van de gerelateerde resource, of beide, zodat in de context waarin deze is opgenomen duidelijk is waar de link betrekking op heeft.
   * Bijvoorbeeld:
 
-  ligt in + woonplaats = ligtInWoonplaats
+    * woonplaats (resource "woonplaats")
 
-  ligt aan + openbare ruimte = ligtAanOpenbareRuimte
+    * ligtAanOpenbareRuimte (relatie "ligt aan" + gerelateerde resource "openbareRuimte")
 
-  maakt deel uit van + pand = maaktDeelUitVanPand
-
-Als de relatie 1 keer kan voorkomen (kardinaliteit 0..1 of 1..1) dan wordt de naam van de resource in enkelvoud opgenomen; als de relatie meer dan 1 keer kan voorkomen (gedefinieerd als array), dan wordt de naam van de resource in meervoud opgenomen.
+    * hoofdAdres (relatie "hoofdAdres")
 
 * Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Property die als array gedefinieerd is wordt in meervoud benoemd.
 
