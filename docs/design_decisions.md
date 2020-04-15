@@ -63,6 +63,8 @@ Garanderen dat verschillende systemen binnen en buiten de gemeente dezelfde (toe
 *Kanttekening*
 Als landelijk beheerde dynamische domeinwaarden ook daadwerkelijk landelijk beschikbaar gesteld worden (zoals de common groud gedachte wel beoogd) dan worden deze als resource ontsloten en dus als link (uri) opgenomen.
 
+## Dynamische domeinwaarden worden in de query-parameters met de code opgenomen
+Voor een query-parameter waarin een enty uit een waardelijst of een landelijke tabel als selectie-criterium wordt gebruikt wordt altijd de *code* van de entry gebruikt. 
 
 ## Enumeraties worden in het bericht opgenomen als waarde.
 In de API specificaties worden enumeratiewaarden opgenomen met de waarde, in de description wordt de bijbehorende code genoemd.
