@@ -23,12 +23,12 @@ Hieronder staat een aantal algemene richtlijnen voor naamgeving van properties.
 * Identificatie: Wanneer een property (niet link of embedded) alleen de identificatie van de gerelateerde resource bevat, wordt naam van de resource plus het woord "identificatie"gebruikt.
 Bijvoorbeeld maakt deel uit van + pand + identificatie = pandIdentificatie
 
-* Parameters: Indien een parameter een element betreft dat geen onderdeel van de op te vragen resource is, maar onderdeel van een gerelateerde resource, een subresource of een gegevensgroep dat wordt de elementnaam vooraf gegaan door de betreffende resourcenaam of gegevensgroepnaam en vervolgens twee underscores.
+* Parameters: Indien een parameter een element betreft dat geen onderdeel van de op te vragen resource is, maar onderdeel van een gerelateerde resource, een subresource of een gegevensgroep, dan wordt de elementnaam voorafgegaan door de betreffende resourcenaam of gegevensgroepnaam en vervolgens twee underscores.
   * Bijvoorbeeld:
 
-  ingeschrevenpersoon__burgerservicenummer
+    * ingeschrevenpersoon__burgerservicenummer
 
-  verblijfplaats__postcode
+    * verblijfplaats__postcode
 
 * Enumeratiewaarden : Er wordt naar gestreefd om enumeratiewaarden te ontdoen van spaties en byzondere tekens. Indien mogelijk worden spaties in enumeratiewaarden vervangen door underscores.
 
