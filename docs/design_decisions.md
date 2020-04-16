@@ -1,12 +1,16 @@
 # Design decisions HaalCentraal API's
-Dit document beschrijft ontwerpkeuzes die gemaakt zijn voor het ontwerpen en specificeren van de API's binnen het programma HaalCentraal 
+Dit document beschrijft ontwerpkeuzes die gemaakt zijn voor het ontwerpen en specificeren van de API's binnen het programma HaalCentraal
 
-## Naamgevingsconventies 
+## Richtlijnen voor naamgeving 
 
 Onderstaande Design Decisions zijn een verbijzondering van paragraaf 6.1 van de [API Designrules Extensions](https://docs.geostandaarden.nl/api/API-Strategie-ext/#field-names-in-snake_case-camelcase-uppercamelcase-or-kebab-case). 
 
 ### DD1.1 Geef een zo duidelijk mogelijke naam
 We benoemen altijd zo duidelijk mogelijk wat iets is. 
+
+Hoofdregel is altijd:
+1. propertynamen moeten zoveel mogelijk zelfverklarend zijn (lezen van de description om de betekenis te begrijpen is liefst niet nodig)
+2. propertynamen zijn zo kort als mogelijk om toch voldoende duidelijk en onderscheidend te zijn en niet langer dan daarvoor nodig
 
 ### DD1.2 Namen van properties zijn in lowerCamelCase
 Voor de namen van properties wordt lowerCamelCase toegepast.
@@ -24,20 +28,24 @@ In sommige development-omgevingen leveren hoofdletters, spaties of speciale teke
 ### DD1.5 Namen van endpoints, url's en parameters bevatten alleen kleine letters
 Voor de namen van endpoints, url's en parameters worden alleen kleine letters gebruikt. 
 
-### DD1.6 Naamgeving van properties wordt beïnvloed door de kardinaliteit
+### DD1.6 Naamgeving van properties worden beïnvloed door de kardinaliteit
 * Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Een property die als array gedefinieerd is wordt in meervoud benoemd. 
 * Als een relatie 1 keer kan voorkomen (kardinaliteit 0..1 of 1..1) dan wordt de naam van de resource in enkelvoud opgenomen; als de relatie meer dan 1 keer kan voorkomen (gedefinieerd als array), dan wordt de naam van de resource in meervoud opgenomen.
 
-### DD1.7 Namen van relaties bestaan uit een combinatie van relatienaam en gerelateerde resource 
-De naam van een relatie-property bestaat uit de naam van de relatie plus de naam van de gerelateerde resource, tenzij er een reden is om dat niet te doen.
+### DD1.7 Bij namen van relaties (links naar gerelateerde resources) gebruiken we in principe de naam van de betreffende resource als propertynaam voor de link
+* Wanneer de gerelateerde resource één keer kan voorkomen wordt de resourcenaam omgezet naar enkelvoud. Wanneer de relatie meerdere keren kan voorkomen, wordt de resourcenaam in meervoud gebruikt.
+* Bij gebruik van de resourcenaam als propertynaam wordt lowerCamelCase toegepast (zie DD1.2).
+* Wanneer de resourcenaam niet voldoende beschrijvend is voor de betekenis van de relatie ("adres" is "verblijfplaats" van een persoon), of wanneer de resourcenaam niet onderscheidend is (ouders, partners en kinderen zijn allen relaties naar ingeschrevenpersonen) kan gekozen worden om bijvoorbeeld de relatienaam te gebruiken, of bijvoorbeeld de relatienaam gevolgd door de resourcenaam. Zo nodig wordt dit ingekort of aangepast om tot een bondige en duidelijke naam te komen.
 
   Bijvoorbeeld:
 
-  _ligt in + woonplaats = ligtInWoonplaats_
-  
-  _ligt aan + openbare ruimte = ligtAanOpenbareRuimte_
-  
-  _maakt deel uit van + pand = maaktDeelUitVanPand_
+  * woonplaats (resource "woonplaatsen")
+
+  * openbareRuimte (resource "openbareruimten")
+
+  * verblijfplaats (resource "adressen")
+
+  * kinderen (resource "ingeschrevenpersonen" en relatie "heeft kinderen")
   
 ### DD1.8 Namen van Identificatie properties zijn afhankelijk van het wel of niet voorkomen van sibling properties
 Wanneer een relatie-property (niet link of embedded) alleen de identificatie van een gerelateerde resource bevat en geen andere properties, wordt als naam van de property de naam van de resource plus het woord 'Identificatie' gebruikt.
@@ -45,14 +53,13 @@ Wanneer een relatie-property (niet link of embedded) alleen de identificatie van
 Bijvoorbeeld: _maakt deel uit van + pand + Identificatie = pandIdentificatie_
 
 ### DD1.9 Namen van parameters die geen onderdeel zijn van de op te vragen resource wijken af
-Indien een parameter een element betreft dat geen onderdeel van de op te vragen resource is, maar onderdeel van een gerelateerde resource, een subresource of een gegevensgroep dat wordt de elementnaam vooraf
-  gegaan door de betreffende resourcenaam of gegevensgroepnaam en vervolgens twee underscores.
+Indien een parameter een element betreft dat geen onderdeel van de op te vragen resource is, maar onderdeel van een gerelateerde resource, een subresource of een gegevensgroep, dan wordt de elementnaam voorafgegaan door de betreffende resourcenaam of gegevensgroepnaam en vervolgens twee underscores.
 
-  Bijvoorbeeld: 
+Bijvoorbeeld: 
  
-  _ingeschrevenpersoon__burgerservicenummer_
-  
-  _verblijfplaats__postcode_
+  * ingeschrevenpersoon__burgerservicenummer
+
+  * verblijfplaats__postcode
 
 ### DD1.10 Naamgeving van enumeratiewaarden wordt ontdaan van spaties en bijzondere tekens
 Er wordt naar gestreefd om enumeratiewaarden te ontdoen van spaties en bijzondere tekens. Indien mogelijk worden spaties in enumeratiewaarden vervangen door underscores.
@@ -82,7 +89,10 @@ _**Kanttekening**_
 
 Als landelijk beheerde dynamische domeinwaarden ook daadwerkelijk landelijk beschikbaar gesteld worden (zoals de common ground gedachte wel beoogd) dan worden deze als resource ontsloten en dus als link (uri) opgenomen.
 
-### DD2.2 Enumeraties worden in het bericht opgenomen als waarde
+### DD2.2 Dynamische domeinwaarden worden in de query-parameters met de code opgenomen
+Voor een query-parameter waarin een entry uit een waardelijst of een landelijke tabel als selectie-criterium wordt gebruikt wordt altijd de *code* van de entry gebruikt. 
+
+### DD2.3 Enumeraties worden in het bericht opgenomen als waarde
 In de API specificaties worden enumeratiewaarden opgenomen met de waarde, in de description wordt de bijbehorende code genoemd.
 
 _**Ratio**_
@@ -136,7 +146,7 @@ Wanneer echter de partner (ook) een ingeschreven persoon is, wordt alleen een hy
 _**Ratio**_
 
 Implementatie en gebruik eenvoudig houden. Er is geen functionele behoefte om diep gegevens te embedden.
-Het opvragen van relaties is eenvoudig. Bij dieper embedden kan doelbinding een probleem worden. Bij dieper embedden kunnen er aan provider-kant performance-problemen ontstaan. 
+Het opvragen van relaties is eenvoudig. Bij dieper embedden kan doelbinding een probleem worden. Bij dieper embedden kunnen er aan de provider-kant performanceproblemen ontstaan. 
 
 ### DD3.6 De identificatie van de gerelateerde resources worden opgenomen in de content van de opgevraagde resource
 Voor developers die geen HAL links willen gebruiken wordt tevens de identificatie van de gerelateerde resource opgenomen in de content van de opgevraagde resource.
