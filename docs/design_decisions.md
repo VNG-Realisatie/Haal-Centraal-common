@@ -1,24 +1,29 @@
 # Design decisions HaalCentraal API's
 Dit document beschrijft ontwerpkeuzes die gemaakt zijn voor het ontwerpen en specificeren van de API's binnen het programma HaalCentraal
 
-## Naamgevingsconventie
+## Naamgeving van resourceproperties
 
-Naamgevingsconventie is altijd zo duidelijk mogelijk te benoemen wat iets is.
+Uitgangspunt voor de naamgeving van resourceproperties is altijd zo duidelijk mogelijk te benoemen wat iets is.
 Hoofdregel is altijd:
 1. propertynamen moeten zoveel mogelijk zelfverklarend zijn (lezen van de description om de betekenis te begrijpen is liefst niet nodig)
 2. propertynamen zijn zo kort als mogelijk om toch voldoende duidelijk en onderscheidend te zijn en niet langer dan daarvoor nodig
 
 Hieronder staat een aantal algemene richtlijnen voor naamgeving van properties.
-* Relaties (links naar gerelateerde resources): Kan de naam van de relatie hebben, of de naam van de gerelateerde resource, of beide, zodat in de context waarin deze is opgenomen duidelijk is waar de link betrekking op heeft.
+* Relaties (links naar gerelateerde resources): in principe gebruiken we dan de naam van de betreffende resource als propertynaam voor de link.
+  * Wanneer de gerelateerde resource één keer kan voorkomen wordt de resourcenaam omgezet naar enkelvoud. Wanneer de relatie meerdere keren kan voorkomen, wordt de resourcenaam in meervoud gebruikt.
+  * Bij gebruik van de resourcenaam als propertynaam wordt camelCase toegepast.
+  * Wanneer de resourcenaam niet voldoende beschrijvend is voor de betekenis van de relatie ("adres" is "verblijfplaats" van een persoon), of wanneer de resourcenaam niet onderscheidend is (ouders, partners en kinderen zijn allen relaties naar ingeschrevenpersonen) kan gekozen worden om bijvoorbeeld de relatienaam te gebruiken, of bijvoorbeeld de relatienaam gevolgd door de resourcenaam. Zo nodig wordt dit ingekort of aangepast om tot een bondige en duidelijke naam te komen.
   * Bijvoorbeeld:
 
-    * woonplaats (resource "woonplaats")
+    * woonplaats (resource "woonplaatsen")
 
-    * ligtAanOpenbareRuimte (relatie "ligt aan" + gerelateerde resource "openbareRuimte")
+    * openbareRuimte (resource "openbareruimten")
 
-    * hoofdAdres (relatie "hoofdAdres")
+    * verblijfplaats (resource "adressen")
 
-* Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Property die als array gedefinieerd is wordt in meervoud benoemd.
+    * kinderen (resource "ingeschrevenpersonen" en relatie "heeft kinderen")
+
+* Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Property die als array (collectie) gedefinieerd is wordt in meervoud benoemd.
 
 * Identificatie: Wanneer een property (niet link of embedded) alleen de identificatie van de gerelateerde resource bevat, wordt naam van de resource plus het woord "identificatie"gebruikt.
 Bijvoorbeeld maakt deel uit van + pand + identificatie = pandIdentificatie
