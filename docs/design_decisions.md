@@ -151,8 +151,9 @@ Binnen de historie-endpoints wordt alleen de actuele situatie met betrekking tot
 
 ### DD5.1 Descriptions worden als sibling van $Ref's opgenomen
 
-Waar in OAS3 een Description binnen een object naast een $ref niet toegestaan (daar is geen enkele sibling geoorloofd) is wordt deze in de draft van OAS3.1 wel toegestaan. Vooruitlopend op deze nieuwe versie is het binnen de HaalCentraal-specificaties geaccepteerd dat er binnen een object naast een $ref een Description wordt opgenomen. 
+Waar in OAS3 een Description binnen een object naast een $ref niet toegestaan is (daar is geen enkele sibling geoorloofd) wordt deze in de draft van OAS3.1 wel toegestaan. Vooruitlopend op deze nieuwe versie is het binnen de HaalCentraal-specificaties geaccepteerd dat er binnen een object naast een $ref een Description wordt opgenomen. 
 In OAS3 wordt er in deze gevallen een warning gegeven, aangezien dit soort descriptions echter binnen de geresolvde versie van het yaml bestand niet meer voorkomen wordt deze warning voor lief genomen. [Zie hier](https://github.com/OAI/OpenAPI-Specification/issues/2033) voor een toelichting.
+Om te zorgen dat de description in OAS3 toch wordt getoond wordt deze ook opgenomen in het schema component waar de $ref naar verwijst.
 
 ### DD5.2 We maken hergebruik van yaml-componenten d.m.v. absolute links
 Bij hergebruik van Yaml-componenten wordt gebruik gemaakt van absolute links zodat de openapi.yaml in alle editors onderhoudbaar is en dus iedereen die een bijdrage wil leveren een pull-request kan indienen. 
@@ -185,8 +186,8 @@ _**Kanttekening**_
 
 Mochten code-generatoren in de toekomst wel goed met deze constructie om kunnen gaan dan is het het overwegen waard om deze constructie aan te passen bij de eerstvolgende major (breaking) change.
 
-### DD5.5 Gemeentelijke kerngegevens en plusgegevens worden niet opgenomen in de resource
-We nemen in de API alleen gegevens op die zijn vastgelegd in de bronregistratie van de provider van de API. Een van de consequenties daarvan is DD3.2 het niet embedded van resources uit een andere registratie. Een andere consequentie is het niet opnemen van kerngegevens. Dus de regel is halen bij de bron, een consequentie (toelichting of voorbeeld) is het niet opnemen van gemeentelijke kerngegevens en plusgegevens. 
+### DD5.5 Alleen gegevens vastgelegd in de bronregistratie van de provider van de API worden opgenomen
+In de API worden alleen gegevens opgenomen die zijn vastgelegd in de bronregistratie van de provider van de API. Een van de consequenties daarvan is DD3.2 het niet embedden van resources uit een andere registratie. Een andere consequentie is het niet opnemen van kerngegevens. Dus de regel is halen bij de bron, een consequentie (toelichting of voorbeeld) is het niet opnemen van gemeentelijke kerngegevens en plusgegevens. 
 
 _**Ratio**_
 
