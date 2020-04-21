@@ -191,7 +191,9 @@ In de API worden alleen gegevens opgenomen die zijn vastgelegd in de bronregistr
 
 _**Ratio**_
 
-Deze gegevens worden niet vastgelegd in een (voor alle gemeenten geldend) bronsysteem dat voor de bevraging geraadpleegd kan worden. Deze gegevens zijn dus (voorlopig) niet raadpleegbaar. Ook worden deze gegevens niet in alle gemeenten (op dezelfde manier) gebruikt.
+Het opnemen van gegevens uit een andere bron zorgt voor tight coupling met die andere bron.
+Ook kan een bronsysteem niet zomaar gegevens uit een andere bron halen, zeker niet wanneer dat gegevens zijn waar autorisaties voor nodig zijn (zoals privacy gevoelige gegevens).
+Tenslotte verhoogd het tevens moeten ontsluiten van gegevens uit andere bronnen de complexiteit nodeloos.
 
 ### DD5.6 De API filtert terug te geven gegevens op autorisatie van de organisatie
 De API levert alleen gegevens terug waar de vragende organisatie voor geautoriseerd is.
