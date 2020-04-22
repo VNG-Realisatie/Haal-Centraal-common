@@ -153,7 +153,7 @@ Binnen de historie-endpoints wordt alleen de actuele situatie met betrekking tot
 
 Waar in OAS3 een Description binnen een object naast een $ref niet toegestaan is (daar is geen enkele sibling geoorloofd) wordt deze in de draft van OAS3.1 wel toegestaan. Vooruitlopend op deze nieuwe versie is het binnen de HaalCentraal-specificaties geaccepteerd dat er binnen een object naast een $ref een Description wordt opgenomen. 
 In OAS3 wordt er in deze gevallen een warning gegeven, aangezien dit soort descriptions echter binnen de geresolvde versie van het yaml bestand niet meer voorkomen wordt deze warning voor lief genomen. [Zie hier](https://github.com/OAI/OpenAPI-Specification/issues/2033) voor een toelichting.
-Om te zorgen dat de description in OAS3 toch wordt getoond wordt deze ook opgenomen in het schema component waar de $ref naar verwijst.
+Om er voor te zorgen dat er in OAS3 toch een description wordt getoond wordt deze opgenomen in de description van het schema component waar de property met de $ref in is opgenomen. Het wordt dus naar een niveau hoger getild.
 
 ### DD5.2 We maken hergebruik van yaml-componenten d.m.v. absolute links
 Bij hergebruik van Yaml-componenten wordt gebruik gemaakt van absolute links zodat de openapi.yaml in alle editors onderhoudbaar is en dus iedereen die een bijdrage wil leveren een pull-request kan indienen. 
