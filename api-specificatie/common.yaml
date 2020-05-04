@@ -14,6 +14,10 @@ components:
         type: string
         description: 'zie RFC 7234. In het geval een major versie wordt uitgefaseerd, gebruiken we warn-code 299 ("Miscellaneous Persistent Warning") en het API end-point (inclusief versienummer) als de warn-agent van de warning, gevolgd door de warn-text met de human-readable waarschuwing'
         example: '299 https://service.../api/.../v1 "Deze versie van de API is verouderd en zal uit dienst worden genomen op 2018-02-01. Raadpleeg voor meer informatie hier de documentatie: https://omgevingswet.../api/.../v1".'
+    contentCrs:
+      description: CRS van de meegegeven geometrie.
+      schema:
+        type: string
     X_Pagination_Page:
       schema:
         type: integer
@@ -46,14 +50,14 @@ components:
       name: expand
       in: query
       required: false
-      description: "Hier kan aangegeven worden welke gerelateerde resources meegeladen moeten worden. Resources en velden van resources die gewenst zijn kunnen in de expand parameter kommagescheiden worden opgegeven. Specifieke velden van resource kunnen worden opgegeven door het opgeven van de resource-naam gevolgd door de veldnaam, met daartussen een punt. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Bevragingen-ingeschreven-personen/blob/master/features/expand.feature)"
+      description: "Hiermee kun je opgeven welke gerelateerde resources meegeleverd moeten worden, en hun inhoud naar behoefte aanpassen. Hele resources of enkele properties geef je in de expand parameter kommagescheiden op. Properties die je wil ontvangen geef je op met de resource-naam gevolgd door de property naam, met daartussen een punt. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/master/features/expand.feature)"
       schema:
         type: string
     fields:
       name: fields
       in: query
       required: false
-      description: "Geeft de mogelijkheid de inhoud van de body van het antwoord naar behoefte aan te passen. Bevat een door komma's gescheiden lijst van veldennamen. Als niet-bestaande veldnamen worden meegegeven wordt een 400 Bad Request teruggegeven. Wanneer de parameter fields niet is opgenomen, worden alle gedefinieerde velden die een waarde hebben teruggegeven. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Bevragingen-ingeschreven-personen/blob/master/features/fields.feature)"
+      description: "Hiermee kun je de inhoud van de resource naar behoefte aanpassen door een door komma's gescheiden lijst van property namen op te geven. Bij opgave van niet-bestaande properties wordt een 400 Bad Request teruggegeven. Wanneer de fields parameter niet is opgegeven, worden alle properties met een waarde teruggegeven. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/master/features/fields.feature)"
       schema:
         type: string
     uuid:
@@ -108,7 +112,22 @@ components:
         type: integer
         minimum: 1
         maximum: 100
-        default: '20'
+        default: 20
+    contentCrs:
+      name: Content-Crs
+      in: header
+      required: false
+      description: CRS van de meegegeven geometrie.
+      schema:
+        type: string
+    acceptCrs:
+      name: Accept-Crs
+      in: header
+      required: false
+      description: Gewenste CRS van de coördinaten in de response.
+      schema:
+        description: 'CRS van de coördinaten in de response.'
+        type: string
   responses:
     '204':
       description: No content
@@ -123,7 +142,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/BadRequestFoutbericht'
+            $ref: "#/components/schemas/BadRequestFoutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.1 400 Bad Request
             title: Ten minste één parameter moet worden opgegeven.
@@ -144,7 +163,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.2 401 Unauthorized
             title: Niet correct geauthenticeerd.
@@ -160,7 +179,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.4 403 Forbidden
             title: U bent niet geautoriseerd voor deze operatie.
@@ -176,7 +195,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.5 404 Not Found
             title: Opgevraagde resource bestaat niet.
@@ -192,7 +211,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.7 406 Not Acceptable
             title: Gevraagde contenttype wordt niet ondersteund.
@@ -208,7 +227,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.10 409 Conflict
             title: Conflict
@@ -224,7 +243,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.11 410 Gone
             title: Gone
@@ -232,6 +251,22 @@ components:
             detail: The request could not be completed due to a conflict with the current state of the resource
             instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
             code: gone
+    '412':
+      description: Precondition failed
+      headers:
+        api-version:
+          $ref: "#/components/headers/api_version"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Foutbericht"
+          example:
+            type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.13 412 Precondition Failed
+            title: Precondition Failed
+            status: 412
+            detail: The precondition given in one or more of the request-header fields evaluated to false when it was tested on the server.
+            instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
+            code: preconditionFailed
     '415':
       description: Unsupported Media Type
       headers:
@@ -240,7 +275,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.4.16 415 Unsupported Media Type
             title: Unsupported Media Type
@@ -248,6 +283,22 @@ components:
             detail: The server is refusing the request because the entity of the request is in a format not supported by the requested resource for the requested method.
             instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
             code: unsupported
+    '422':
+      description: Unprocessable entity
+      headers:
+        api-version:
+          $ref: "#/components/headers/api_version"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Foutbericht"
+          example:
+            type: 'https://tools.ietf.org/html/rfc4918#section-11.2'
+            title: Aanvraag kan niet verwerkt worden
+            status: 422
+            detail: The server understands the content type of the request entity and the syntax of the request entity is correct but was unable to process the contained instructions.
+            instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
+            code: unprocessableEntity
     '429':
       description: Too Many Requests
       headers:
@@ -256,7 +307,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
             title: Too many request
@@ -272,7 +323,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.5.1 500 Internal server error
             title: Interne server fout.
@@ -288,7 +339,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.5.2 501 Not Implemented
             title: Not Implemented
@@ -304,7 +355,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
           example:
             type: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#/10.5.4 503 Service Unavailable
             title: Bronservice {bron} is tijdelijk niet beschikbaar.
@@ -320,7 +371,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Foutbericht'
+            $ref: "#/components/schemas/Foutbericht"
   schemas:
     Href:
       type: string
@@ -416,30 +467,30 @@ components:
         type:
           type: string
           format: uri
-          example: https://www.vng.nl/realisatie/api/{major-versie}/validaties/integer
+          example: "https://www.vng.nl/realisatie/api/{major-versie}/validaties/integer"
         name:
           type: string
           description: Naam van de parameter
-          example: verblijfplaats__huisnummer
+          example: "verblijfplaats__huisnummer"
         code:
           type: string
           description: Systeemcode die het type fout aangeeft
           minLength: 1
-          example: integer
+          example: "integer"
         reason:
           type: string
           description: Beschrijving van de fout op de parameterwaarde
-          example: Waarde is geen geldige integer.
+          example: "Waarde is geen geldige integer."
     BadRequestFoutbericht:
       allOf:
-      - $ref: '#/components/schemas/Foutbericht'
-      - type: object
+      - $ref: "#/components/schemas/Foutbericht"
+      - type: "object"
         properties:
           invalidParams:
             description: Foutmelding per fout in een parameter. Alle gevonden fouten worden één keer teruggemeld.
             type: array
             items:
-              $ref: '#/components/schemas/InvalidParams'
+              $ref: "#/components/schemas/InvalidParams"
     Datum_onvolledig:
       type: "object"
       description: "Gegevens over de datums die mogelijk niet volledig zijn, maar\
@@ -649,10 +700,10 @@ components:
       title: GeoJSONGeometry
       type: object
       oneOf:
-      - $ref: '#/components/schemas/Point'
-      - $ref: '#/components/schemas/MultiPoint'
-      - $ref: '#/components/schemas/LineString'
-      - $ref: '#/components/schemas/MultiLineString'
-      - $ref: '#/components/schemas/Polygon'
-      - $ref: '#/components/schemas/MultiPolygon'
-      - $ref: '#/components/schemas/GeometryCollection'
+      - $ref: "#/components/schemas/Point"
+      - $ref: "#/components/schemas/MultiPoint"
+      - $ref: "#/components/schemas/LineString"
+      - $ref: "#/components/schemas/MultiLineString"
+      - $ref: "#/components/schemas/Polygon"
+      - $ref: "#/components/schemas/MultiPolygon"
+      - $ref: "#/components/schemas/GeometryCollection"
