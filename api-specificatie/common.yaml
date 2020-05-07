@@ -150,7 +150,7 @@ components:
             detail: The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modification.
             instance: https://datapunt.voorbeeldgemeente.nl/api/v1/resourcenaam?parameter=waarde
             code: paramsRequired
-            invalid-params:
+            invalidParams:
               - type: https://www.vng.nl/realisatie/api/validaties/integer
                 name: verblijfplaats__huisnummer
                 code: integer
