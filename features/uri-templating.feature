@@ -13,95 +13,61 @@ Functionaliteit: URI templating
     Op het moment van specificeren (18-03-2020) wordt in de Haal Centraal API's alleen de meest simpele 'Simple String Expansion' expression gebruikt,
     een {expression} wordt vervangen door een variabele
 
-    De OpenAPI Specifications Server Object ondersteunt ook URI templating. Zie [Server Object](https://swagger.io/specification/#serverObject).
-    In de url property kunnen één of meerdere expressions worden gespecificeerd. De mogelijke waarden voor elke expression worden in de variables map gespecificeerd.
-    In scenario 'url templating is toegepast in de server url' wordt voor de Server objecten URI templating toegepast.
-
     Afspraken:
     - gebruik {serverurl} als placeholder voor de server url van externe API url's
     - gebruik {propertynaam} als placeholder in een resource path.
       Propertynaam moet de naam zijn van een property van de resource of van een property van een gegevensgroep van de resource
 
-  Scenario: url templating is toegepast in de server url
-    Gegeven een OpenAPI specificatie met de volgende servers definitie
-    """
-    servers:
-    - url: https://{domainname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}
-      variables:
-        domainname:
-          enum:
-          - 'test.kadaster.nl'
-          - 'www.kadaster.nl'
-          default: 'www.kadaster.nl'
-        versie:
-          enum:
-          - '1'
-          - '2'
-          default: '1'
-    """
-    Als een consumer de server url wil expanden voor versie 2 op de test omgeving
-    Dan moet hij {domainname} vervangen met test.kadaster.nl
-    En moet hij {versie} vervangen met 2
-    En ziet de ge-expande server url er als volgt uit: https://test.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v2
+  Scenario: Verwijzing naar één externe Resource
+    Gegeven een KadastraalOnroerendeZaak heeft een verwijzing naar een Adres met identificatie '0200200000003734'
+    En een Adres is te bevragen bij de BAG API via endpoint '/adressen'
+    Als een templated Hal link voor de Adres is gegenereerd
+    Dan is de Hal link naar de Adres gelijk aan
+    | href                                  | templated |
+    | {serverurl}/adressen/0200200000003734 | true      |
+  
+  Scenario: Verwijzingen naar meerdere externe Resources van dezelfde soort
+    Gegeven een KadastraalOnroerendeZaak heeft een verwijzing naar meerdere Adressen met identificaties '0518200000437093, 0518200000812475'
+    En een Adres is te bevragen bij de BAG API via endpoint '/adressen'
+    Als een templated Hal link voor de Adressen is gegenereerd
+    Dan is de Hal link naar de Adressen gelijk aan
+    | href                                       | templated |
+    | {serverurl}/adressen/{adresidentificaties} | true      |
+    En is er een 'adresidentificaties' property die de identificatie van de verwezen Adressen bevat
 
-  Scenario: url templating toegepassen voor een externe API url
-    Gegeven de resource path om een ingeschreven persoon te raadplegen is: /ingeschrevenpersonen/{burgerservicenummer}
-    Als de provider URI templating wil toepassen voor de betreffende resource path
-    Dan voegt hij {serverurl} aan het begin van de resource path
-    En ziet de volgende HAL link er als volgt uit
-    | templated | href                                                   |
-    | true      | {serverurl}/ingeschrevenpersonen/{burgerservicenummer} |
+  Scenario: Verwijzing naar verschillende externe Resources
+    Gegeven een ZakelijkGerechtigde heeft een verwijzing naar een Persoon
+    | type                            | identificatie |
+    | ingeschreven_natuurlijk_persoon | 123456789     |
+    En een ZakelijkGerechtigde heeft een verwijzing naar een Persoon
+    | type                                 | identificatie |
+    | ingeschreven_niet_natuurlijk_persoon | 440650207     |
+    En een Persoon van het type ingeschreven_natuurlijk_persoon is te bevragen bij de BRP API via de endpoint /ingeschrevenpersonen
+    En een Persoon van het type ingeschreven_niet_natuurlijk_persoon is te bevragen bij de BRK via de endpoint /kadasternietnatuurlijkpersonen
+    Als een templated Hal link voor de Personen is gegenereerd
+    Dan is de Hal link naar de Persoon van het type ingeschreven_natuurlijk_persoon gelijk aan
+    | href                                       | templated | title |
+    | {serverurl}/ingeschrevenpersonen/123456789 | true      | BRP   |
+    En is de Hal link naar de Persoon van het type ingeschreven_niet_natuurlijk_persoon gelijk aan
+    | href                                       | templated | title |
+    | {serverurl}/ingeschrevenpersonen/440650207 | true      | BRK   |
 
-  Abstract Scenario: url templating toepassen voor een resource path
-    Gegeven de OpenAPI specificatie met de volgende servers definitie
-    """
-    servers:
-    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}
-      variables:
-        hostname:
-          default: 'www.kadaster.nl'
-        versie:
-          default: '1'
-    """
-    En de path om een adres te raadplegen: '/adressen/{adresidentificatie}'
-    Als de provider URI templating voor een <type> adres url
-    Dan bevat de response de volgende HAL link
-    | templated | href            |
-    | true      | <templated url> |
-    En bevat de response een property met de naam adresidentificatie die moet worden gebruikt om de templated url te expanden
-
-    Voorbeelden:
-    | type     | templated url                                                                                   |
-    | absoluut | https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}/adressen/{adresidentificatie} |
-    | relatief | /lvbag/api/haal-centraal-bag-bevragen/v{versie}/adressen/{adresidentificatie}                   |
-
-  Abstract Scenario: expanden van een templated url
-    Gegeven een json response
+  Scenario: Expanden van een templated url
+    Gegeven de json response fragment van een kadastraal onroerende KadastraalOnroerendeZaak
     """
     {
       "_link": {
-        adres: {
-          "href": "<templated url>",
+        "adressen": {
+          "href": "{serverurl}/adressen/{adresidentificaties}",
           "templated": true
         }
       },
-      "adresidentificatie": "0163200000554956"
+      "adresidentificaties": [
+        "0518200000437093",
+        "0518200000812475"
+      ]
     }
     """
-    En de OpenAPI specificatie met de volgende servers definitie
-    """
-    servers:
-    - url: https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}
-      variables:
-        hostname:
-          default: 'www.kadaster.nl'
-        versie:
-          default: '1'
-    """
-    Als de templated adres url is ge-expand voor adresidentificatie '0163200000554956'
-    Dan is de ge-expande url '<expanded url>'
-
-    Voorbeelden:
-    | templated url                                                                                   | expanded url                                                                              |
-    | https://{hostname}/lvbag/api/haal-centraal-bag-bevragen/v{versie}/adressen/{adresidentificatie} | https://api.kadaster.nl/lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956 |
-    | /lvbag/api/haal-centraal-bag-bevragen/v{versie}/adressen/{adresidentificatie}                   | /lvbag/api/haal-centraal-bag-bevragen/v1/adressen/0163200000554956                        |
+    En de server url van de BAG API is gelijk aan 'https://api.bag.kadaster.nl/esd/huidigebevragingen/v1'
+    Als de templated adressen url is ge-expand voor adresidentificatie '0518200000437093'
+    Dan is de ge-expande url gelijk aan 'https://api.bag.kadaster.nl/esd/huidigebevragingen/v1/adressen/0518200000437093'
