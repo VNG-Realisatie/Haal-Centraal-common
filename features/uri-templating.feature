@@ -11,12 +11,17 @@ Functionaliteit: URI templating
     - Expanden van een template is het vervangen van een expression door een waarde.
       De manier van expanden wordt bepaald door een optionele operator in de expression. Voor meer info zie: [Expressions](https://tools.ietf.org/html/rfc6570#section-2.2)
 
-    Op het moment van specificeren (18-03-2020) wordt in de Haal Centraal API's alleen de meest simpele 'Simple String Expansion' expression gebruikt,
+    Op het moment van specificeren (18-05-2020) wordt in de Haal Centraal API's alleen de meest simpele 'Simple String Expansion' expression gebruikt,
     een {expression} wordt vervangen door een variabele
 
     Afspraken:
     - gebruik {[xxx]serverurl} als placeholder voor de server url van externe API url's
-      [xxx] is de afkorting die wordt gebruikt voor de externe API, bijv. brp, bag, brk
+      [xxx] is de afkorting die wordt gebruikt voor de externe API.
+      Op het moment van specificeren worden de volgende serverurl placeholders gebruikt in de Haal Centraal API's:
+      - {brpserverurl}
+      - {bagserverurl}
+      - {brkserverurl}
+      - {hrserverurl}
     - gebruik {propertynaam} als placeholder in een resource path. propertynaam is:
       - de naam van een property van de resource of
       - de naam van een property van een gegevensgroep van de resource.
@@ -46,7 +51,7 @@ Functionaliteit: URI templating
     | href                                          | templated |
     | {bagserverurl}/adressen/{adresidentificaties} | true      |
 
-  Scenario: Verwijzing naar verschillende externe Resources
+  Scenario: Verwijzing naar verschillende externe en interne Resources
     Gegeven een ZakelijkGerechtigde heeft een verwijzing via de 'identificatie' property naar een Ingeschreven Natuurlijk Persoon
     En een Ingeschreven Natuurlijk Persoon is te bevragen bij de BRP API via de endpoint /ingeschrevenpersonen
     En een ZakelijkGerechtigde heeft een verwijzing via de 'identificatie' property naar een Ingeschreven Niet Natuurlijk Persoon
@@ -56,8 +61,8 @@ Functionaliteit: URI templating
     | href                                                | templated |
     | {brpserverurl}/ingeschrevenpersonen/{identificatie} | true      |
     En is de Hal link naar de Persoon van het type ingeschreven_niet_natuurlijk_persoon gelijk aan
-    | href                                                          | templated |
-    | {brkserverurl}/kadasternietnatuurlijkpersonen/{identificatie} | true      |
+    | href                                            | templated |
+    | /kadasternietnatuurlijkpersonen/{identificatie} | true      |
 
   Scenario: Expanden van een templated url
     Gegeven de json response fragment van een kadastraal onroerende KadastraalOnroerendeZaak
@@ -65,7 +70,7 @@ Functionaliteit: URI templating
     {
       "_link": {
         "adressen": {
-          "href": "{serverurl}/adressen/{adresidentificaties}",
+          "href": "{bagserverurl}/adressen/{adresidentificaties}",
           "templated": true
         }
       },
@@ -76,5 +81,8 @@ Functionaliteit: URI templating
     }
     """
     En de server url van de BAG API is gelijk aan 'https://api.bag.kadaster.nl/esd/huidigebevragingen/v1'
-    Als de templated adressen url is ge-expand voor adresidentificatie '0518200000437093'
-    Dan is de ge-expande url gelijk aan 'https://api.bag.kadaster.nl/esd/huidigebevragingen/v1/adressen/0518200000437093'
+    Als de templated adressen url is ge-expand voor de adresidentificaties
+    Dan zijn de ge-expande urls
+    | ge-expande urls                                                                 |
+    | https://api.bag.kadaster.nl/esd/huidigebevragingen/v1/adressen/0518200000437093 |
+    | https://api.bag.kadaster.nl/esd/huidigebevragingen/v1/adressen/0518200000812475 |
