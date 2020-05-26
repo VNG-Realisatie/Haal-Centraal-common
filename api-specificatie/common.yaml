@@ -15,9 +15,15 @@ components:
         description: 'zie RFC 7234. In het geval een major versie wordt uitgefaseerd, gebruiken we warn-code 299 ("Miscellaneous Persistent Warning") en het API end-point (inclusief versienummer) als de warn-agent van de warning, gevolgd door de warn-text met de human-readable waarschuwing'
         example: '299 https://service.../api/.../v1 "Deze versie van de API is verouderd en zal uit dienst worden genomen op 2018-02-01. Raadpleeg voor meer informatie hier de documentatie: https://omgevingswet.../api/.../v1".'
     contentCrs:
-      description: CRS van de meegegeven geometrie.
+      description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
         type: string
+        enum:
+          - epsg:28992
+        default:
+          'epsg:28992'
+# Dit is RD, het enige coordinatenstelsetl dat het kadaster nu kan leveren en daarmee dus de default (ook impliciet indien niet gedefinieerd als default).
+# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers. Wijzigne van de default leidt wel tot breaking changes
     X_Pagination_Page:
       schema:
         type: integer
@@ -117,17 +123,29 @@ components:
       name: Content-Crs
       in: header
       required: false
-      description: CRS van de meegegeven geometrie.
+      description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
         type: string
+        enum:
+          - epsg:28992
+        default:
+          'epsg:28992'
+# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren en daarmee dus de default (ook impliciet indien niet gedefinieerd als default).
+# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers. Wijzigne van de default leidt wel tot breaking changes
     acceptCrs:
       name: Accept-Crs
       in: header
       required: false
       description: Gewenste CRS van de coördinaten in de response.
       schema:
-        description: 'CRS van de coördinaten in de response.'
+        description: 'CRS van de coördinaten in de response. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.'
         type: string
+        enum:
+          - epsg:28992
+        default:
+          'epsg:28992'
+# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren en daarmee dus de default (ook impliciet indien niet gedefinieerd als default).
+# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers. Wijzigne van de default leidt wel tot breaking changes
   responses:
     '204':
       description: No content

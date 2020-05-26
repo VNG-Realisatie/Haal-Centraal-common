@@ -48,7 +48,7 @@ Functionaliteit: Afhandeling van fouten
   | minimum          | Waarde is lager dan minimum {minimum}.                    | minimum      |
   | maximum          | Waarde is hoger dan maximum {maximum}.                    | maximum      |
   | minLength        | Waarde is korter dan minimale lengte {minLength}.         | minLength    |
-  | maxLength        | Waarde is langer dan maximale lengte {minLength}.         | maxLength    |
+  | maxLength        | Waarde is langer dan maximale lengte {maxLength}.         | maxLength    |
   | pattern          | Waarde voldoet niet aan patroon {pattern}.                | pattern      |
   | enumeratiewaarde | Waarde heeft geen geldige waarde uit de enumeratie.       | enum         |
   | tabelwaarde      | Waarde komt niet voor in de tabel.                        | table        |
