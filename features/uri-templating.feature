@@ -86,3 +86,18 @@ Functionaliteit: URI templating
     | ge-expande urls                                                                 |
     | https://api.bag.kadaster.nl/esd/huidigebevragingen/v1/adressen/0518200000437093 |
     | https://api.bag.kadaster.nl/esd/huidigebevragingen/v1/adressen/0518200000812475 |
+
+  Scenario: Uitsluiten van properties die een placeholder functie hebben met de fields parameter
+    Gegeven een KadastraalOnroerendeZaak heeft een verwijzing via de 'adresIdentificaties' property naar meerdere Adressen
+    Als met de fields parameter de 'adresIdentificaties' property niet wordt opgevraagd
+    Dan bevat de response geen '_links.adressen' property
+
+  Scenario: Meenemen van properties die een placeholder functie hebben bij het opvragen van templated link properties met de fields parameter
+    Gegeven een KadastraalOnroerendeZaak heeft een verwijzing via de 'adresIdentificaties' property naar meerdere Adressen
+    Als met de fields parameter de '_links.adressen' property wordt opgevraagd en de 'adresIdentificaties' property niet
+    Dan bevat de response toch de 'adresIdentificaties' property
+
+  Scenario: Meenemen van templated link properties bij het opvragen van properties die een placeholder functie hebben met de fields parameter
+    Gegeven een KadastraalOnroerendeZaak heeft een verwijzing via de 'adresIdentificaties' property naar meerdere Adressen
+    Als met de fields parameter de 'adresIdentificaties' property wordt opgevraagd en de '_links.adressen' property niet
+    Dan bevat de response toch de '_links.adressen' property
