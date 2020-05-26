@@ -49,7 +49,7 @@ Functionaliteit: URI templating
     Als een templated Hal link voor de Adressen is gegenereerd
     Dan is de Hal link naar de Adressen gelijk aan
     | href                                          | templated |
-    | {bagserverurl}/adressen/{adresidentificaties} | true      |
+    | {bagserverurl}/adressen/{adresIdentificaties} | true      |
 
   Scenario: Verwijzing naar verschillende externe en interne Resources
     Gegeven een ZakelijkGerechtigde heeft een verwijzing via de 'identificatie' property naar een Ingeschreven Natuurlijk Persoon
@@ -65,7 +65,7 @@ Functionaliteit: URI templating
     | /kadasternietnatuurlijkpersonen/{identificatie} | true      |
 
   Scenario: Expanden van een templated url
-    Gegeven de json response fragment van een kadastraal onroerende KadastraalOnroerendeZaak
+    Gegeven de json response fragment van een kadastraal onroerende zaak
     """
     {
       "_link": {
@@ -89,7 +89,9 @@ Functionaliteit: URI templating
 
   Scenario: Uitsluiten van properties die een placeholder functie hebben met de fields parameter
     Gegeven een KadastraalOnroerendeZaak heeft een verwijzing via de 'adresIdentificaties' property naar meerdere Adressen
-    Als met de fields parameter de 'adresIdentificaties' property niet wordt opgevraagd
+    Als met de fields parameter specifieke properties worden opgevraagd
+    En met de fields parameter de 'adresIdentificaties' property niet wordt opgevraagd
+    En met de fields parameter de '_links.adressen' property niet wordt opgevraagd
     Dan bevat de response geen '_links.adressen' property
 
   Scenario: Meenemen van properties die een placeholder functie hebben bij het opvragen van templated link properties met de fields parameter
