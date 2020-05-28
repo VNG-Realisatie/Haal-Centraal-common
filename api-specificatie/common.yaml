@@ -393,7 +393,7 @@ components:
   schemas:
     Href:
       type: string
-      example: "datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcename/{resource-identificatie}"
+      example: "https://datapunt.voorbeeldgemeente.nl/api/v{major-versie}/resourcename/{resource-identificatie}"
     HalLink:
       description: De Link Object zoals gespecificeerd in https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5
       type: object
@@ -423,7 +423,7 @@ components:
             properties:
               href:
                 type: "string"
-                example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=1"
+                example: "/resourcenaam?page=1"
               templated:
                 type: boolean
               title:
@@ -435,7 +435,7 @@ components:
             properties:
               href:
                 type: "string"
-                example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=3"
+                example: "/resourcenaam?page=3"
               templated:
                 type: boolean
               title:
@@ -447,7 +447,7 @@ components:
             properties:
               href:
                 type: "string"
-                example: "https://datapunt.voorbeeldgemeente.nl/api/{major-versie}/resourcenaam?page=5"
+                example: "/resourcenaam?page=5"
               templated:
                 type: boolean
               title:
