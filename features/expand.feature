@@ -30,6 +30,7 @@ Functionaliteit: Automatisch laden van sub-resources
   We ondersteunen het automatisch laden van sub-resources één niveau diep. Dit betekent dat er geen gelinkte resources van de sub-resources direct kunnen worden meegeladen. Bijvoorbeeld van een persoon is er de sub-resource ouders, die de gegevens ouder de ouder toont die op de persoonslijst van een persoon staan (categorie 02/52 en 03/53). Deze sub-resource "ouders" kan automatisch worden meegeladen door gebruik van de parameter expand=ouders. In de sub-resource ouders is ook een link opgenomen naar de ouder zelf (deze link heet "ingeschrevenpersonen"), wanneer de ouder ook een ingeschreven persoon is. Deze relatie naar de ouder (de ingeschreven persoon) kan (zal) niet automatisch worden meegeladen met de sub-resource. De volledige resource van de ouder (ingeschreven persoon) kan met een extra aanroep naar de gegeven link in _embedded.ouders.ingeschrevenpersonen worden opgehaald.
 
   Relaties (links) van de embedded resource kunnen worden gevraagd met de naam van de relatie, al dan niet voorafgegaan door HAL-element _links. Bijvoorbeeld expand=partners.ingeschrevenpersonen geeft de link (uri) van de resource ingeschrevenpersoon die de partner is van de bevraagde persoon. Hetzelfde kan worden bereikt met expand=partners._links.ingeschrevenpersonen.
+  Wanneer de embedded resource een property bevat met exact dezelfde naam als een van de properties in _links van de embedded resource, dan wordt bij het vragen van deze property alleen het property uit de resource teruggegeven en niet het gelijknamige property uit _links. In dat geval kan de gelijknamige relatie alleen worden gevraagd door _links voor de linkpropertynaam te plaatsen.
 
   Gevraagde attributen kunnen in willekeurige volgorde worden opgenomen in de expand-parameter. De volgorde waarin de gevraagde attributen worden opgesomd in de expand-parameter heeft geen invloed op de volgorde waarin deze attributen worden opgenomen in het antwoord (volgorde is niet relevant in een json object).
 
@@ -162,3 +163,21 @@ Functionaliteit: Automatisch laden van sub-resources
     En wordt attribuut _links.partners teruggegeven
     En wordt attribuut _links.ouders teruggegeven
     En wordt attribuut _links.kinderen teruggegeven
+
+  Scenario: property en link met dezelfde naam en property wordt gevraagd met expand
+    Gegeven de embedded resource openbareruimte bevat een property ligtInWoonplaats
+    En de embedded resource openbareruimte bevat in _links een property ligtInWoonplaats
+    En de opgevraagde kadastraalonroerendezaak heeft een waarde voor ligtInWoonplaats.
+    Als het adres wordt opgevraagd met expand=openbareruimte.ligtInWoonplaats
+    Dan bevat het antwoord property _embedded.openbareruimte.ligtInWoonplaats
+    En bevat het antwoord geen property _embedded.openbareruimte._links.ligtInWoonplaats
+    En bevat het antwoord property _embedded.openbareruimte._links.self
+
+  Scenario: property en link met dezelfde naam en link wordt gevraagd met expand
+    Gegeven de embedded resource openbareruimte bevat een property ligtInWoonplaats
+    En de embedded resource openbareruimte bevat in _links een property ligtInWoonplaats
+    En de opgevraagde kadastraalonroerendezaak heeft een waarde voor ligtInWoonplaats.
+    Als het adres wordt opgevraagd met expand=openbareruimte._links.ligtInWoonplaats
+    Dan bevat het antwoord geen property _embedded.openbareruimte.ligtInWoonplaats
+    En bevat het antwoord een property _embedded.openbareruimte._links.ligtInWoonplaats
+    En bevat het antwoord property _embedded.openbareruimte._links.self
