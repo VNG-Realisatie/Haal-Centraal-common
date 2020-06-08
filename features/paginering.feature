@@ -26,7 +26,6 @@ Functionaliteit: Als gemeente wil ik kunnen bladeren door een groot aantal resul
     En bevat het antwoord geen attribuut _links.first
     En bevat het antwoord geen attribuut _links.previous
     En is attribuut _links.next.href gelijk aan "/adressen?pandidentificatie=0826100000000467&page=2"
-    En is attribuut _links.self.href gelijk aan "/adressen?pandidentificatie=0826100000000467"
 
   Scenario: de zoekvraag levert meerdere pagina's en met de page parameter wordt de eerste pagina gevraagd
     Als de request wordt gedaan naar /adressen?pandidentificatie=0826100000000467&page=1
@@ -36,7 +35,6 @@ Functionaliteit: Als gemeente wil ik kunnen bladeren door een groot aantal resul
     En bevat het antwoord geen attribuut _links.first
     En bevat het antwoord geen attribuut _links.previous
     En is attribuut _links.next.href gelijk aan "/adressen?pandidentificatie=0826100000000467&page=2"
-    En is attribuut _links.self.href gelijk aan "/adressen?pandidentificatie=0826100000000467"
 
   Scenario: de zoekvraag levert meerdere pagina's en met de page parameter wordt een volgende pagina gevraagd
     Als de request wordt gedaan naar /adressen?pandidentificatie=0826100000000467&page=3
@@ -57,11 +55,12 @@ Functionaliteit: Als gemeente wil ik kunnen bladeren door een groot aantal resul
 
   Scenario: de zoekvraag levert meerdere pagina's en met de page parameter wordt een pagina bevraagd die niet bestaat
     Als de request wordt gedaan naar /adressen?pandidentificatie=0826100000000467&page=15
-    Dan zitten er 12 adressen in het antwoord
-    En is attribuut _links.self.href gelijk aan "/adressen?pandidentificatie=0826100000000467&page=15"
-    En is attribuut _links.first.href gelijk aan "/adressen?pandidentificatie=0826100000000467&page=1"
-    En is attribuut _links.previous.href gelijk aan "/adressen?pandidentificatie=0826100000000467&page=3"
-    En bevat het antwoord geen attribuut _links.next
+    Dan heeft het antwoord statuscode 400
+    En bevat het antwoord status met de waarde 400
+    En bevat het antwoord title met de waarde "Een of meerdere parameters zijn niet correct."
+    En bevat het antwoord invalidParams[0].name met de waarde "page"
+    En bevat het antwoord invalidParams[0].reason met de waarde "De opgegeven pagina bestaat niet."
+    En bevat het antwoord invalidParams[0].code met de waarde "page"
 
   Scenario: de zoekvraag levert één pagina
     Als de request wordt gedaan naar /adressen?pandidentificatie=0826100000000471

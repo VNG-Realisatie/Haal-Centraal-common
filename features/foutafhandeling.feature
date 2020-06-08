@@ -25,20 +25,20 @@ Functionaliteit: Afhandeling van fouten
   | Raadplegen geeft meerdere personen | 400    | Opgegeven {parameternaam} is niet uniek.                      | notUnique         |
 
   Wanneer de onderliggende bron GBA-V, een foutcode teruggeeft wordt dat als volgt vertaald:
-  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalid-params.code | invalid-params.reason                           |
+  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalidParams.code  | invalidParams.reason                           |
   | X                                           | 403    | autorisation     | -                   | -                                               |
   | U                                           | 400    | paramsValidation | unique              | De opgegeven persoonidentificatie is niet uniek |
   | H                                           | 403    | autorisation     | -                   | -                                               |
   | R                                           | 403    | autorisation     | -                   | -                                               |
 
-  Wanneer de fout is veroorzaakt door fouten in requestparameters (of request body), wordt "invalid-params" gevuld met details over elke foute parameter.
+  Wanneer de fout is veroorzaakt door fouten in requestparameters (of request body), wordt "invalidParams" gevuld met details over elke foute parameter.
 
-  Wanneer er fouten zitten op meerdere parameters, wordt er per validatiefout een "invalid-params" instantie opgenomen in het antwoord. Alle fouten worden dus teruggegeven.
+  Wanneer er fouten zitten op meerdere parameters, wordt er per validatiefout een "invalidParams" instantie opgenomen in het antwoord. Alle fouten worden dus teruggegeven.
 
-  Bij een fout op een parameter krijgt in "invalid-params" attribuut "type" een url naar een beschrijving van de fout in de parameter. De hier gerefereeerde foutbeschrijving is specifieker dan "type" op het hoofdniveau van het bericht.
-  Bij een fout op een parameter krijgt in "invalid-params" attribuut "name" de naam van de parameter waar de fout in zit.
-  Bij een fout op een parameter krijgt in "invalid-params" attribuut "code" een vaste waarde afhankelijk van het soort fout, zie tabel hieronder.
-  Bij een fout op een parameter krijgt in "invalid-params" attribuut "reason" een vaste omschrijving afhankelijk van het soort fout, zie tabel hieronder.
+  Bij een fout op een parameter krijgt in "invalidParams" attribuut "type" een url naar een beschrijving van de fout in de parameter. De hier gerefereeerde foutbeschrijving is specifieker dan "type" op het hoofdniveau van het bericht.
+  Bij een fout op een parameter krijgt in "invalidParams" attribuut "name" de naam van de parameter waar de fout in zit.
+  Bij een fout op een parameter krijgt in "invalidParams" attribuut "code" een vaste waarde afhankelijk van het soort fout, zie tabel hieronder.
+  Bij een fout op een parameter krijgt in "invalidParams" attribuut "reason" een vaste omschrijving afhankelijk van het soort fout, zie tabel hieronder.
 
   Bij valideren van een parameter tegen schema kunnen de volgende meldingen komen:
   | validatie        | reason                                                    | code         |
@@ -57,6 +57,7 @@ Functionaliteit: Afhandeling van fouten
   | fields           | Deel van de parameterwaarde niet correct: {waarde}.       | fields       |
   | expand           | Deel van de parameterwaarde niet correct: {waarde}.       | expand       |
   | wildcard         | Incorrect gebruik van wildcard karakter {wildcard}.       | wildcard     |
+  | page bestaat     | De opgegeven pagina bestaat niet.                         | page         |
 
   Bij een validatiefout op de expandparameter of fieldsparameter, wordt de plek binnen de parameterwaarde opgenomen waar de fout gevonden wordt.
 
@@ -66,10 +67,10 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Een of meerdere parameters zijn niet correct
     En is in het antwoord status=400
     En eindigt attribuut instance met /api/handelsregister/v1/{resource}/{waarde}
-    En bevat invalid-params exact 1 voorkomen(s)
-    En is in het antwoord invalid-params.name={parameter}
-    En is in het antwoord invalid-params.reason={reason}
-    En is in het antwoord invalid-params.code={code}
+    En bevat invalidParams exact 1 voorkomen(s)
+    En is in het antwoord invalidParams.name={parameter}
+    En is in het antwoord invalidParams.reason={reason}
+    En is in het antwoord invalidParams.code={code}
 
     Voorbeelden:
       | code         | reason                                                    | resource             | parameter           | waarde                      |
@@ -86,10 +87,10 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Een of meerdere parameters zijn niet correct
     En is in het antwoord status=400
     En eindigt attribuut instance met /api/handelsregister/v1/{resource}?{parameter}={waarde}
-    En bevat invalid-params exact 1 voorkomen(s)
-    En is in het antwoord invalid-params.name={parameter}
-    En is in het antwoord invalid-params.reason={reason}
-    En is in het antwoord invalid-params.code={code}
+    En bevat invalidParams exact 1 voorkomen(s)
+    En is in het antwoord invalidParams.name={parameter}
+    En is in het antwoord invalidParams.reason={reason}
+    En is in het antwoord invalidParams.code={code}
 
     Voorbeelden:
       | code         | reason                                                       | resource             | parameter                               | waarde                      |
@@ -116,7 +117,7 @@ Functionaliteit: Afhandeling van fouten
     En eindigt attribuut instance met /ingeschrevenpersonen
     En is in het antwoord code=paramsRequired
     En is in het antwoord title=Ten minste één parameter moet worden opgegeven
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: personen zoeken zonder minimale combinatie van zoekparamters
     Als ingeschrevenpersonen worden gezocht met naam__geslachtsnaam=jansen
@@ -126,7 +127,7 @@ Functionaliteit: Afhandeling van fouten
     En eindigt attribuut instance met ingeschrevenpersonen?naam__geslachtsnaam=jansen
     En is in het antwoord code=paramsCombination
     En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: meerdere fouten in parameters
     Als ingeschrevenpersonen worden gezocht met verblijfplaats__huisnummer=a&verblijfplaats__postcode=b&inclusiefoverledenpersonen=c&geboorte__datum=d
@@ -134,11 +135,11 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Een of meerdere parameters zijn niet correct.
     En is in het antwoord status=400
     En eindigt attribuut instance met ingeschrevenpersonen?huisnummer=a&postcode=b&inclusiefoverledenpersonen=c&geboorte__datum=d
-    En bevat invalid-params exact 4 voorkomen(s)
-    En is er een invalid-params met name=verblijfplaats__huisnummer
-    En is er een invalid-params met name=verblijfplaats__postcode
-    En is er een invalid-params met name=inclusiefoverledenpersonen
-    En is er een invalid-params met name=geboorte__datum
+    En bevat invalidParams exact 4 voorkomen(s)
+    En is er een invalidParams met name=verblijfplaats__huisnummer
+    En is er een invalidParams met name=verblijfplaats__postcode
+    En is er een invalidParams met name=inclusiefoverledenpersonen
+    En is er een invalidParams met name=geboorte__datum
 
   Scenario: niet geauthenticeerd
     Als ingeschrevenpersonen worden gezocht zonder authenticatiegegevens (zonder SAML assertion)
@@ -146,19 +147,19 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Niet correct geauthenticeerd
     En is in het antwoord status=401
     En is in het antwoord code=authentication
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
     Als ingeschrevenpersonen worden gezocht met invalide authenticatiegegevens (onjuiste SAML assertion)
     Dan is de http status code van het antwoord 401
     En is in het antwoord title=Niet correct geauthenticeerd.
     En is in het antwoord status=401
     En is in het antwoord code=authentication
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
     Als ingeschrevenpersonen worden gezocht met onbekende gebruiker (onbekende SAML assertion)
     Dan is de http status code van het antwoord 401
     En is in het antwoord title=Niet correct geauthenticeerd.
     En is in het antwoord status=401
     En is in het antwoord code=authentication
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: niet geautoriseerd
     Als ingeschrevenpersonen worden gezocht met een geauthentiseerde gebruiker zonder rechten op de API
@@ -166,7 +167,7 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=U bent niet geautoriseerd voor deze operatie.
     En is in het antwoord status=403
     En is in het antwoord code=autorisation
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: niet gevonden
     Als de ingeschrevenpersonen wordt geraadpleegd met burgerservicenummer=123456789
@@ -174,7 +175,7 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Opgevraagde resource bestaat niet.
     En is in het antwoord status=404
     En is in het antwoord code=notFound
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: niet ondersteund contenttype
     Als de ingeschrevenpersonen wordt geraadpleegd met acceptheader application/xml
@@ -182,7 +183,7 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Gevraagde contenttype wordt niet ondersteund.
     En is in het antwoord status=406
     En is in het antwoord code=notAcceptable
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: bronservice is niet beschikbaar
     Als een ingeschreven persoon wordt geraadpleegd
@@ -191,11 +192,11 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Bronservice GBA-V is niet beschikbaar.
     En is in het antwoord status=503
     En is in het antwoord code=sourceUnavailable
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
     Als een ingeschreven persoon wordt geraadpleegd
     En de bron GBA-V geeft de foutmelding “Service is niet geactiveerd voor dit account.”
     Dan is de http status code van het antwoord 503
     En is in het antwoord title=Bronservice GBA-V is niet beschikbaar.
     En is in het antwoord status=503
     En is in het antwoord code=sourceUnavailable
-    En komt attribuut invalid-params niet voor in het antwoord
+    En komt attribuut invalidParams niet voor in het antwoord
