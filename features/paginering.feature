@@ -10,7 +10,7 @@ Functionaliteit: Als gemeente wil ik kunnen bladeren door een groot aantal resul
 
   Wanneer geen page parameter wordt meegegeven in het request, wordt de eerste pagina van het resultaat getoond.
 
-  Wanneer de opgegeven pagina met de page parameter hoger is dan het aantal pagina's resultaat, worden de resultaten van de laatste resultaatpagina getoond.
+  Wanneer de opgegeven pagina met de page parameter hoger is dan het aantal pagina's resultaat, worden een foutmelding getoond.
 
 
   Achtergrond:
