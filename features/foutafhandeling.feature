@@ -24,8 +24,9 @@ Functionaliteit: Afhandeling van fouten
   | Bronservice is niet beschikbaar    | 503    | Bronservice {bron} is niet beschikbaar.                       | sourceUnavailable |
   | Raadplegen geeft meerdere personen | 400    | Opgegeven {parameternaam} is niet uniek.                      | notUnique         |
 
-  Wanneer de onderliggende bron GBA-V, een foutcode teruggeeft wordt dat als volgt vertaald:_
-  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalidParams.code | invalidParams.reason                           |
+
+  Wanneer de onderliggende bron GBA-V, een foutcode teruggeeft wordt dat als volgt vertaald:
+  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalidParams.code  | invalidParams.reason                            |
   | X                                           | 403    | autorisation     | -                   | -                                               |
   | U                                           | 400    | paramsValidation | unique              | De opgegeven persoonidentificatie is niet uniek |
   | H                                           | 403    | autorisation     | -                   | -                                               |
@@ -57,6 +58,7 @@ Functionaliteit: Afhandeling van fouten
   | fields           | Deel van de parameterwaarde niet correct: {waarde}.       | fields       |
   | expand           | Deel van de parameterwaarde niet correct: {waarde}.       | expand       |
   | wildcard         | Incorrect gebruik van wildcard karakter {wildcard}.       | wildcard     |
+  | page bestaat     | De opgegeven pagina bestaat niet.                         | page         |
 
   Bij een validatiefout op de expandparameter of fieldsparameter, wordt de plek binnen de parameterwaarde opgenomen waar de fout gevonden wordt.
 
