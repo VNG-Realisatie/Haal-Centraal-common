@@ -24,8 +24,9 @@ Functionaliteit: Afhandeling van fouten
   | Bronservice is niet beschikbaar    | 503    | Bronservice {bron} is niet beschikbaar.                       | sourceUnavailable |
   | Raadplegen geeft meerdere personen | 400    | Opgegeven {parameternaam} is niet uniek.                      | notUnique         |
 
+
   Wanneer de onderliggende bron GBA-V, een foutcode teruggeeft wordt dat als volgt vertaald:
-  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalidParams.code  | invalidParams.reason                           |
+  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalidParams.code  | invalidParams.reason                            |
   | X                                           | 403    | autorisation     | -                   | -                                               |
   | U                                           | 400    | paramsValidation | unique              | De opgegeven persoonidentificatie is niet uniek |
   | H                                           | 403    | autorisation     | -                   | -                                               |
