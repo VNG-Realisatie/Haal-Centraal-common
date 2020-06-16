@@ -453,6 +453,11 @@ components:
               title:
                 type: "string"
                 example: "Volgende pagina"
+    HalPaginationLinksMetLast:
+      allOf:
+      - $ref: "#/components/schemas/HalPaginationLinks"
+      - type: "object"
+        properties:
           last:
             type: "object"
             description: "uri voor het opvragen van de laatste pagina van deze collectie"
