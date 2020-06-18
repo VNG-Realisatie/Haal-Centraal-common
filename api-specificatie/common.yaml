@@ -20,10 +20,8 @@ components:
         type: string
         enum:
           - epsg:28992
-        default:
-          'epsg:28992'
-# Dit is RD, het enige coordinatenstelsetl dat het kadaster nu kan leveren en daarmee dus de default (ook impliciet indien niet gedefinieerd als default).
-# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers. Wijzigne van de default leidt wel tot breaking changes
+# Dit is RD, het enige coordinatenstelsetl dat het kadaster nu kan leveren
+# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers
     X_Pagination_Page:
       schema:
         type: integer
@@ -128,10 +126,8 @@ components:
         type: string
         enum:
           - epsg:28992
-        default:
-          'epsg:28992'
-# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren en daarmee dus de default (ook impliciet indien niet gedefinieerd als default).
-# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers. Wijzigne van de default leidt wel tot breaking changes
+# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
+# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers
     acceptCrs:
       name: Accept-Crs
       in: header
@@ -142,10 +138,8 @@ components:
         type: string
         enum:
           - epsg:28992
-        default:
-          'epsg:28992'
-# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren en daarmee dus de default (ook impliciet indien niet gedefinieerd als default).
-# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers. Wijzigne van de default leidt wel tot breaking changes
+# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
+# Toevoegen van enumeratiewaarden leidt niet tot braking changes bij consumers
   responses:
     '204':
       description: No content
