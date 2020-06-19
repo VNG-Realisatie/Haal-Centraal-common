@@ -50,6 +50,8 @@ Functionaliteit: Afhandeling van fouten
   | maximum          | Waarde is hoger dan maximum {maximum}.                    | maximum      |
   | minLength        | Waarde is korter dan minimale lengte {minLength}.         | minLength    |
   | maxLength        | Waarde is langer dan maximale lengte {maxLength}.         | maxLength    |
+  | minItems         | Array bevat minder dan {minItems} items.                  | minItems     |
+  | maxItems         | Array bevat meer dan {maxItems} items.                    | maxItems     |
   | pattern          | Waarde voldoet niet aan patroon {pattern}.                | pattern      |
   | enumeratiewaarde | Waarde heeft geen geldige waarde uit de enumeratie.       | enum         |
   | tabelwaarde      | Waarde komt niet voor in de tabel.                        | table        |
@@ -108,6 +110,7 @@ Functionaliteit: Afhandeling van fouten
       | fields       | Deel van de parameterwaarde is niet correct: bestaatniet.    | ingeschrevenpersonen | fields                                  | naam,bestaatniet,geboorte   |
       | expand       | Deel van de parameterwaarde is niet correct: bestaatniet.    | ingeschrevenpersonen | expand                                  | ouders,bestaatniet,kinderen |
       | wildcard     | Incorrect gebruik van wildcard karakter *.                   | ingeschrevenpersonen | naam__geslachtsnaam                     | Ja*en                       |
+      | minItems     | Array bevat minder dan 2 items.                              | panden               | locatie                                 | 98095.02                    |
 
 
   Scenario: geen enkele zoekparameter opgegeven in zoekvraag
