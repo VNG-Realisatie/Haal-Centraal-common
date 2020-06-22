@@ -447,6 +447,23 @@ components:
               title:
                 type: "string"
                 example: "Volgende pagina"
+    HalPaginationLinksMetLast:
+      allOf:
+      - $ref: "#/components/schemas/HalPaginationLinks"
+      - type: "object"
+        properties:
+          last:
+            type: "object"
+            description: "uri voor het opvragen van de laatste pagina van deze collectie"
+            properties:
+              href:
+                type: "string"
+                example: "/resourcenaam?page=8"
+              templated:
+                type: boolean
+              title:
+                type: "string"
+                example: "Laatste pagina"
     Foutbericht:
       type: object
       description: Terugmelding bij een fout. JSON representatie in lijn met [RFC7807](https://tools.ietf.org/html/rfc7807).
