@@ -146,6 +146,31 @@ Functionaliteit: Afhandeling van fouten
     En is er een invalidParams met name=inclusiefoverledenpersonen
     En is er een invalidParams met name=geboorte__datum
 
+  Scenario: onjuiste waarde in request header Content-Crs
+    Als /panden wordt gezocht met de niet-ondersteunde waarde voor header Content-Crs "epsg:4326"
+    Dan is de http status code van het antwoord 400
+    En is in het antwoord title=Een of meerdere parameters zijn niet correct.
+    En is in het antwoord status=400
+    En bevat invalidParams exact 1 voorkomen(s)
+    En is in het antwoord invalidParams.name=Content-Crs
+    En is in het antwoord invalidParams.reason=Waarde heeft geen geldige waarde uit de enumeratie.
+    En is in het antwoord invalidParams.code=enum
+
+  Scenario: request header Content-Crs ontbreekt bij gebruik van een query parameter met geometrie
+    Als /panden wordt gezocht met parameter locatie=98095,438495
+    En in het request is header Content-Crs niet opgenomen
+    En in het request is header Accept-Crs wel opgenomen met de waarde epsg:28992
+    Dan is de http status code van het antwoord 400
+    En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven.
+    En is in het antwoord status=400
+
+  Scenario: request header Content-Crs ontbreekt en er is geen geometrie gebruikt in het request
+    Als /panden wordt gezocht met parameter adresseerbaarObjectIdentificatie=0599010000165822
+    En in het request is geen geometrie opgenomen
+    En in het request is header Content-Crs niet opgenomen
+    En in het request is header Accept-Crs wel opgenomen met de waarde epsg:28992
+    Dan is de http status code van het antwoord 200
+
   Scenario: niet geauthenticeerd
     Als ingeschrevenpersonen worden gezocht zonder authenticatiegegevens (zonder SAML assertion)
     Dan is de http status code van het antwoord 401
