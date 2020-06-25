@@ -44,6 +44,7 @@ Functionaliteit: Afhandeling van fouten
   Bij valideren van een parameter tegen schema kunnen de volgende meldingen komen:
   | validatie        | reason                                                    | code         |
   | type: integer    | Waarde is geen geldige integer.                           | integer      |
+  | type: number     | Waarde is geen geldig decimaal getal.                     | number       |
   | type: boolean    | Waarde is geen geldige boolean.                           | boolean      |
   | format: date     | Waarde is geen geldige datum.                             | date         |
   | minimum          | Waarde is lager dan minimum {minimum}.                    | minimum      |
