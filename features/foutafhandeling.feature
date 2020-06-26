@@ -11,18 +11,22 @@ Functionaliteit: Afhandeling van fouten
   In de foutresponse krijgt "instance" de url van het request die tot de fout heeft geleid.
 
   We kennen de volgende foutsituaties:
-  | Foutsituatie                       | status | title                                                         | code              |
-  | Geen parameter is meegegeven       | 400    | Ten minste één parameter moet worden opgegeven.               | paramsRequired    |
-  | Verplichte parameter(combinatie)   | 400    | Minimale combinatie van parameters moet worden opgegeven.     | paramsCombination |
-  | Parametervalidatie                 | 400    | Een of meerdere parameters zijn niet correct.                 | paramsValidation  |
-  | Teveel zoekresultaten              | 400    | Teveel zoekresultaten.                                        | tooManyResults    |
-  | Niet geauthenticeerd               | 401    | Niet correct geauthenticeerd.                                 | authentication    |
-  | Geen autorisatie voor operatie     | 403    | U bent niet geautoriseerd voor deze operatie.                 | autorisation      |
-  | Opgevraagde resource bestaat niet  | 404    | Opgevraagde resource bestaat niet.                            | notFound          |
-  | Accept header <> JSON              | 406    | Gevraagde contenttype wordt niet ondersteund.                 | notAcceptable     |
-  | Technische of interne fout         | 500    | Interne server fout.                                          | serverError       |
-  | Bronservice is niet beschikbaar    | 503    | Bronservice {bron} is niet beschikbaar.                       | sourceUnavailable |
-  | Raadplegen geeft meerdere personen | 400    | Opgegeven {parameternaam} is niet uniek.                      | notUnique         |
+  | Foutsituatie                       | status | title                                                             | code              |
+  | Geen parameter is meegegeven       | 400    | Ten minste één parameter moet worden opgegeven.                   | paramsRequired    |
+  | Verplichte parameter(combinatie)   | 400    | Minimale combinatie van parameters moet worden opgegeven.         | paramsCombination |
+  | Parametervalidatie                 | 400    | Een of meerdere parameters zijn niet correct.                     | paramsValidation  |
+  | Teveel zoekresultaten              | 400    | Teveel zoekresultaten.                                            | tooManyResults    |
+  | Niet geauthenticeerd               | 401    | Niet correct geauthenticeerd.                                     | authentication    |
+  | Geen autorisatie voor operatie     | 403    | U bent niet geautoriseerd voor deze operatie.                     | autorisation      |
+  | Opgevraagde resource bestaat niet  | 404    | Opgevraagde resource bestaat niet.                                | notFound          |
+  | Accept header <> JSON              | 406    | Gevraagde contenttype wordt niet ondersteund.                     | notAcceptable     |
+  | Accept-Crs header niet ondersteund | 406    | Gevraagde coördinatenstelsel {crs} wordt niet ondersteund.        | crsNotAcceptable  |
+  | Geen Content-Crs opgegeven         | 412    | Coördinatenstelsel van gestuurde geometrie moet worden opgegeven. | contentCrsMissing |
+  | Geen Accept-Crs opgegeven          | 412    | Gewenste coördinatenstelsel voor geometrie moet worden opgegeven. | acceptCrsMissing  |
+  | Crs wordt niet ondersteund         | 415    | Coördinatenstelsel {crs} in Content-Crs wordt niet ondersteund.   | crsNotSupported   |
+  | Technische of interne fout         | 500    | Interne server fout.                                              | serverError       |
+  | Bronservice is niet beschikbaar    | 503    | Bronservice {bron} is niet beschikbaar.                           | sourceUnavailable |
+  | Raadplegen geeft meerdere personen | 400    | Opgegeven {parameternaam} is niet uniek.                          | notUnique         |
 
 
   Wanneer de onderliggende bron GBA-V, een foutcode teruggeeft wordt dat als volgt vertaald:
@@ -148,27 +152,53 @@ Functionaliteit: Afhandeling van fouten
 
   Scenario: onjuiste waarde in request header Content-Crs
     Als /panden wordt gezocht met de niet-ondersteunde waarde voor header Content-Crs "epsg:4326"
-    Dan is de http status code van het antwoord 400
-    En is in het antwoord title=Een of meerdere parameters zijn niet correct.
-    En is in het antwoord status=400
-    En bevat invalidParams exact 1 voorkomen(s)
-    En is in het antwoord invalidParams.name=Content-Crs
-    En is in het antwoord invalidParams.reason=Waarde heeft geen geldige waarde uit de enumeratie.
-    En is in het antwoord invalidParams.code=enum
+    Dan is de http status code van het antwoord 415
+    En is in het antwoord title=Coördinatenstelsel epsg:4326 in Content-Crs wordt niet ondersteund.
+    En is in het antwoord code=crsNotSupported
+    En is in het antwoord status=415
+    En komt attribuut invalidParams niet voor in het antwoord
+
+  Scenario: onjuiste waarde in request header Accept-Crs
+    Als /panden wordt gezocht met de niet-ondersteunde waarde voor header Content-Crs "epsg:4326"
+    Dan is de http status code van het antwoord 406
+    En is in het antwoord title=Gevraagde coördinatenstelsel epsg:4326 wordt niet ondersteund.
+    En is in het antwoord code=crsNotAcceptable
+    En is in het antwoord status=406
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: request header Content-Crs ontbreekt bij gebruik van een query parameter met geometrie
     Als /panden wordt gezocht met parameter locatie=98095,438495
     En in het request is header Content-Crs niet opgenomen
     En in het request is header Accept-Crs wel opgenomen met de waarde epsg:28992
-    Dan is de http status code van het antwoord 400
-    En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven.
-    En is in het antwoord status=400
+    Dan is de http status code van het antwoord 412
+    En is in het antwoord title=Coördinatenstelsel van gestuurde geometrie moet worden opgegeven.
+    En is in het antwoord code=contentCrsMissing
+    En is in het antwoord status=412
+    En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: request header Content-Crs ontbreekt en er is geen geometrie gebruikt in het request
     Als /panden wordt gezocht met parameter adresseerbaarObjectIdentificatie=0599010000165822
     En in het request is geen geometrie opgenomen
     En in het request is header Content-Crs niet opgenomen
     En in het request is header Accept-Crs wel opgenomen met de waarde epsg:28992
+    Dan is de http status code van het antwoord 200
+
+  Scenario: request header Accept-Crs ontbreekt bij resource die geometrie bevat
+    Gegeven de resource panden bevat property geometrie
+    Als /panden wordt gezocht met parameter adresseerbaarObjectIdentificatie=0599010000165822
+    En in het request is header Content-Crs wel opgenomen met de waarde epsg:28992
+    En in het request is header Accept-Crs niet opgenomen
+    Dan is de http status code van het antwoord 412
+    En is in het antwoord title=Gewenste coördinatenstelsel voor geometrie moet worden opgegeven.
+    En is in het antwoord code=acceptCrsMissing
+    En is in het antwoord status=412
+    En komt attribuut invalidParams niet voor in het antwoord
+
+  Scenario: request header Accept-Crs ontbreekt en er wordt geen geometrie gevraagd
+    Gegeven de resource panden bevat property geometrie
+    Als /panden wordt gezocht met parameter fields=oorspronkelijkBouwjaar,status
+    En in het request is header Content-Crs niet opgenomen
+    En in het request is header Accept-Crs niet opgenomen
     Dan is de http status code van het antwoord 200
 
   Scenario: niet geauthenticeerd
