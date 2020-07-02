@@ -159,7 +159,7 @@ Functionaliteit: Afhandeling van fouten
     En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: onjuiste waarde in request header Accept-Crs
-    Als /panden wordt gezocht met de niet-ondersteunde waarde voor header Content-Crs "epsg:4326"
+    Als /panden wordt gezocht met de niet-ondersteunde waarde voor header Accept-Crs "epsg:4326"
     Dan is de http status code van het antwoord 406
     En is in het antwoord title=Gevraagde coördinatenstelsel epsg:4326 wordt niet ondersteund.
     En is in het antwoord code=crsNotAcceptable
