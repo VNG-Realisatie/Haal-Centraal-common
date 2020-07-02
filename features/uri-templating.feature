@@ -25,7 +25,8 @@ Functionaliteit: URI templating
     - gebruik {propertynaam} als placeholder in een resource path. propertynaam is:
       - de naam van een property van de resource of
       - de naam van een property van een gegevensgroep van de resource.
-        Gebruik in dit geval de naam van de gegevensgroep gevolgd door een punt als prefix, bijv. persoon.identificatie, woonadres.adresIdentificatie 
+        Gebruik in dit geval de naam van de gegevensgroep gevolgd door een punt als prefix, bijv. persoon.identificatie, woonadres.adresIdentificatie
+    - indien de lijst met identificaties, die gebruikt wordt om samen met de templated link de daadwerkelijke links op te bouwen, leeg is wordt de templated link niet opgenomen. 
 
   Scenario: Verwijzing naar één externe Resource
     Gegeven een KadastraalOnroerendeZaak heeft een verwijzing via de 'adresIdentificatie' property naar een Adres
@@ -34,7 +35,7 @@ Functionaliteit: URI templating
     Dan is de Hal link naar de Adres gelijk aan
     | href                                         | templated |
     | {bagserverurl}/adressen/{adresIdentificatie} | true      |
-  
+
   Scenario: Verwijzing naar één externe Resource via gegevensgroep property
     Gegeven een KadastraalOnroerendeZaak heeft een verwijzing via de 'adresIdentificatie' property van gegevensgroep 'woonadres' naar een Adres
     En een Adres is te bevragen bij de BAG API via endpoint '/adressen'
