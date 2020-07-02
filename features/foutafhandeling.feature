@@ -14,6 +14,7 @@ Functionaliteit: Afhandeling van fouten
   | Foutsituatie                       | status | title                                                             | code              |
   | Geen parameter is meegegeven       | 400    | Ten minste één parameter moet worden opgegeven.                   | paramsRequired    |
   | Verplichte parameter(combinatie)   | 400    | Minimale combinatie van parameters moet worden opgegeven.         | paramsCombination |
+  | Niet toegestane paramtercombinatie | 400    | De combinatie van opgegeven parameters is niet toegestaan.        | unsupportedCombi  |
   | Parametervalidatie                 | 400    | Een of meerdere parameters zijn niet correct.                     | paramsValidation  |
   | Teveel zoekresultaten              | 400    | Teveel zoekresultaten.                                            | tooManyResults    |
   | Niet geauthenticeerd               | 401    | Niet correct geauthenticeerd.                                     | authentication    |
@@ -135,7 +136,17 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord status=400
     En eindigt attribuut instance met ingeschrevenpersonen?naam__geslachtsnaam=jansen
     En is in het antwoord code=paramsCombination
-    En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven
+    En komt attribuut invalidParams niet voor in het antwoord
+
+  Scenario: combinatie van opgegeven paramters wordt niet ondersteund
+    Gegeven op endpoint /panden kan gezocht worden op adresseerbaarObjectIdentificatie, nummeraanduidingIdentificatie of locatie
+    En het combineren van deze parameters wordt niet ondersteund
+    Als panden worden gezocht met adresseerbaarobjectidentificatie=0599010000165822&locatie=98095.02,438495.09
+    Dan is de http status code van het antwoord 400
+    En is in het antwoord title=De combinatie van opgegeven parameters is niet toegestaan.
+    En is in het antwoord status=400
+    En eindigt attribuut instance met /panden?adresseerbaarobjectidentificatie=0599010000165822&locatie=98095.02%2C438495.09
+    En is in het antwoord code=unsupportedCombi
     En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: meerdere fouten in parameters
