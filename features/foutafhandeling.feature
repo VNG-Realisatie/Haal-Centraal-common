@@ -11,22 +11,23 @@ Functionaliteit: Afhandeling van fouten
   In de foutresponse krijgt "instance" de url van het request die tot de fout heeft geleid.
 
   We kennen de volgende foutsituaties:
-  | Foutsituatie                       | status | title                                                             | code              |
-  | Geen parameter is meegegeven       | 400    | Ten minste één parameter moet worden opgegeven.                   | paramsRequired    |
-  | Verplichte parameter(combinatie)   | 400    | Minimale combinatie van parameters moet worden opgegeven.         | paramsCombination |
-  | Parametervalidatie                 | 400    | Een of meerdere parameters zijn niet correct.                     | paramsValidation  |
-  | Teveel zoekresultaten              | 400    | Teveel zoekresultaten.                                            | tooManyResults    |
-  | Niet geauthenticeerd               | 401    | Niet correct geauthenticeerd.                                     | authentication    |
-  | Geen autorisatie voor operatie     | 403    | U bent niet geautoriseerd voor deze operatie.                     | autorisation      |
-  | Opgevraagde resource bestaat niet  | 404    | Opgevraagde resource bestaat niet.                                | notFound          |
-  | Accept header <> JSON              | 406    | Gevraagde contenttype wordt niet ondersteund.                     | notAcceptable     |
-  | Accept-Crs header niet ondersteund | 406    | Gevraagde coördinatenstelsel {crs} wordt niet ondersteund.        | crsNotAcceptable  |
-  | Geen Content-Crs opgegeven         | 412    | Coördinatenstelsel van gestuurde geometrie moet worden opgegeven. | contentCrsMissing |
-  | Geen Accept-Crs opgegeven          | 412    | Gewenste coördinatenstelsel voor geometrie moet worden opgegeven. | acceptCrsMissing  |
-  | Crs wordt niet ondersteund         | 415    | Coördinatenstelsel {crs} in Content-Crs wordt niet ondersteund.   | crsNotSupported   |
-  | Technische of interne fout         | 500    | Interne server fout.                                              | serverError       |
-  | Bronservice is niet beschikbaar    | 503    | Bronservice {bron} is niet beschikbaar.                           | sourceUnavailable |
-  | Raadplegen geeft meerdere personen | 400    | Opgegeven {parameternaam} is niet uniek.                          | notUnique         |
+  | Foutsituatie                        | status | title                                                             | code              |
+  | Geen parameter is meegegeven        | 400    | Ten minste één parameter moet worden opgegeven.                   | paramsRequired    |
+  | Verplichte parameter(combinatie)    | 400    | Minimale combinatie van parameters moet worden opgegeven.         | paramsCombination |
+  | Niet toegestane parametercombinatie | 400    | De combinatie van opgegeven parameters is niet toegestaan.        | unsupportedCombi  |
+  | Parametervalidatie                  | 400    | Een of meerdere parameters zijn niet correct.                     | paramsValidation  |
+  | Teveel zoekresultaten               | 400    | Teveel zoekresultaten.                                            | tooManyResults    |
+  | Niet geauthenticeerd                | 401    | Niet correct geauthenticeerd.                                     | authentication    |
+  | Geen autorisatie voor operatie      | 403    | U bent niet geautoriseerd voor deze operatie.                     | autorisation      |
+  | Opgevraagde resource bestaat niet   | 404    | Opgevraagde resource bestaat niet.                                | notFound          |
+  | Accept header <> JSON               | 406    | Gevraagde contenttype wordt niet ondersteund.                     | notAcceptable     |
+  | Accept-Crs header niet ondersteund  | 406    | Gevraagde coördinatenstelsel {crs} wordt niet ondersteund.        | crsNotAcceptable  |
+  | Geen Content-Crs opgegeven          | 412    | Coördinatenstelsel van gestuurde geometrie moet worden opgegeven. | contentCrsMissing |
+  | Geen Accept-Crs opgegeven           | 412    | Gewenste coördinatenstelsel voor geometrie moet worden opgegeven. | acceptCrsMissing  |
+  | Crs wordt niet ondersteund          | 415    | Coördinatenstelsel {crs} in Content-Crs wordt niet ondersteund.   | crsNotSupported   |
+  | Technische of interne fout          | 500    | Interne server fout.                                              | serverError       |
+  | Bronservice is niet beschikbaar     | 503    | Bronservice {bron} is niet beschikbaar.                           | sourceUnavailable |
+  | Raadplegen geeft meerdere personen  | 400    | Opgegeven {parameternaam} is niet uniek.                          | notUnique         |
 
 
   Wanneer de onderliggende bron GBA-V, een foutcode teruggeeft wordt dat als volgt vertaald:
@@ -128,14 +129,24 @@ Functionaliteit: Afhandeling van fouten
     En is in het antwoord title=Ten minste één parameter moet worden opgegeven
     En komt attribuut invalidParams niet voor in het antwoord
 
-  Scenario: personen zoeken zonder minimale combinatie van zoekparamters
+  Scenario: personen zoeken zonder minimale combinatie van zoekparameters
     Als ingeschrevenpersonen worden gezocht met naam__geslachtsnaam=jansen
     Dan is de http status code van het antwoord 400
     En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven.
     En is in het antwoord status=400
     En eindigt attribuut instance met ingeschrevenpersonen?naam__geslachtsnaam=jansen
     En is in het antwoord code=paramsCombination
-    En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven
+    En komt attribuut invalidParams niet voor in het antwoord
+
+  Scenario: combinatie van opgegeven parameters wordt niet ondersteund
+    Gegeven op endpoint /panden kan gezocht worden op adresseerbaarObjectIdentificatie, nummeraanduidingIdentificatie of locatie
+    En het combineren van deze parameters wordt niet ondersteund
+    Als panden worden gezocht met adresseerbaarobjectidentificatie=0599010000165822&locatie=98095.02,438495.09
+    Dan is de http status code van het antwoord 400
+    En is in het antwoord title=De combinatie van opgegeven parameters is niet toegestaan.
+    En is in het antwoord status=400
+    En eindigt attribuut instance met /panden?adresseerbaarobjectidentificatie=0599010000165822&locatie=98095.02%2C438495.09
+    En is in het antwoord code=unsupportedCombi
     En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: meerdere fouten in parameters
