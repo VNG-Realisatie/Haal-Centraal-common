@@ -15,6 +15,8 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
   Wanneer de fields parameter is meegegeven in het request, worden alleen de attributen van de resource teruggegeven die zijn genoemd in de fields parameter, een waarde hebben en waarvoor de afnemer is geautoriseerd.
   Dus wanneer de gebruiker vraagt om gegevens waarvoor zij of hij niet geautoriseerd is, wordt er minder teruggegeven dan er gevraagd is in de fields-parameter.
 
+  Wanneer het endpoint een collectie van resources teruggeeft, worden in fields de properties van de resource teruggegeven. De HAL elementen van de collectie wordt hierbij niet opgenomen.
+
   Gevraagde attributen worden komma-gescheiden opgesomd. Bijvoorbeeld fields=burgerservicenummer,naam,geslachtsaanduiding.
   Gevraagde attributen kunnen in willekeurige volgorde worden opgenomen in de fields parameter. De volgorde waarin de gevraagde attributen worden opgesomd in de fields parameter heeft geen invloed op de volgorde waarin deze attributen worden opgenomen in het antwoord (volgorde is niet relevant in een json object).
 
@@ -303,3 +305,39 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
     Dan bevat het antwoord geen property stukken
     En bevat het antwoord property _links.stukken
     En bevat het antwoord property _links.self
+
+  Scenario: gebruik fields in een collectie
+    Gegeven er zijn twee panden met adresseerbaarObjectIdentificatie=0193010000096628
+    Als panden worden gezocht met adresseerbaarObjectIdentificatie=0193010000096628&fields=identificatie%2Cdocumentdatum
+    Dan is het antwoord:
+    ```
+      {
+       "_links" : {
+          "self" : {
+             "href" : "/panden?adresseerbaarObjectIdentificatie=0193010000096628&fields=identificatie%2Cdocumentdatum"
+          }
+       },
+       "_embedded" : {
+          "panden" : [
+             {
+                "identificatie" : "0193100000048288",
+                "documentdatum" : "2014-09-22",
+                "_links" : {
+                   "self" : {
+                      "href" : "/panden/0193100000048288"
+                   }
+                }
+             },
+             {
+                "identificatie" : "0193100000043750",
+                "documentdatum" : "2014-09-22",
+                "_links" : {
+                   "self" : {
+                      "href" : "/panden/0193100000043750"
+                   }
+                }
+             }
+          ]
+       }
+      }
+    ```
