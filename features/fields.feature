@@ -15,7 +15,7 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
   Wanneer de fields parameter is meegegeven in het request, worden alleen de attributen van de resource teruggegeven die zijn genoemd in de fields parameter, een waarde hebben en waarvoor de afnemer is geautoriseerd.
   Dus wanneer de gebruiker vraagt om gegevens waarvoor zij of hij niet geautoriseerd is, wordt er minder teruggegeven dan er gevraagd is in de fields-parameter.
 
-  Wanneer het endpoint een collectie van resources teruggeeft, worden in fields de properties van de resource teruggegeven. De HAL elementen van de collectie wordt hierbij niet opgenomen.
+  Wanneer het endpoint een collectie van resources teruggeeft, worden in fields de properties van de resource opgenomen. Bovenliggende berichtelementen die de collectie definieren worden hierbij niet opgenomen. Om bijvoorbeeld de straat en huisnummer te vragen in een collectie van adressen gaat met fiels=straat,huisnummer. Dus niet met _embedded.adressen.straat,_embedded.adressen.huisnummer.
 
   Gevraagde attributen worden komma-gescheiden opgesomd. Bijvoorbeeld fields=burgerservicenummer,naam,geslachtsaanduiding.
   Gevraagde attributen kunnen in willekeurige volgorde worden opgenomen in de fields parameter. De volgorde waarin de gevraagde attributen worden opgesomd in de fields parameter heeft geen invloed op de volgorde waarin deze attributen worden opgenomen in het antwoord (volgorde is niet relevant in een json object).
