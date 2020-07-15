@@ -222,7 +222,7 @@ Dit betekent dat er in de berichtspecificaties geen gebruik gemaakt wordt van de
 In diverse situaties worden booleans opgenomen als er sprake is van indicatoren. Deze booleans worden alleen geretourneerd als de waarde van de boolean ook informatief is. Dit soort properties worden dus alleen opgenomen als de waarde van de Boolean 'true' is.
 
 ### DD5.10 Alleen HTTP-foutcodes die kunnen voorkomen worden opgenomen in de specificatie
-Bij verschillende operaties zijn verschillende foutcodes van toepassing. Zo zal bij het bevragen van een collectie geen 404 optreden als er geen resultaat is, maar wordt er een lege collectie geretourneerd. Dan hoeft de 404 foutcode ook niet gespecificeerd te worden. Als "best practice" worden de volgend foutcodes bij per operatie gedefinieerd.
+Bij verschillende operaties zijn verschillende foutcodes van toepassing. Zo zal bij het bevragen van een collectie geen 404 optreden als er geen resultaat is, maar wordt er een lege collectie geretourneerd. Dan hoeft de 404 foutcode ook niet gespecificeerd te worden. Als "best practice" worden de volgende foutcodes bij per operatie gedefinieerd.
 * Bij een **get** operatie, zonder pad-parameter in de url, die een array als response oplevert:
   * 200 Geslaagd
   * 400 Bad request
