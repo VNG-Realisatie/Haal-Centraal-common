@@ -223,24 +223,24 @@ In diverse situaties worden booleans opgenomen als er sprake is van indicatoren.
 
 ### DD5.10 Alleen HTTP-foutcodes die kunnen voorkomen worden opgenomen in de specificatie
 Bij verschillende operaties zijn verschillende foutcodes van toepassing. Zo zal bij het bevragen van een collectie geen 404 optreden als er geen resultaat is, maar wordt er een lege collectie geretourneerd. Dan hoeft de 404 foutcode ook niet gespecificeerd te worden. Als "best practice" worden de volgend foutcodes bij per operatie gedefinieerd.
-* Bij een **get** operatie met query-parameters die een array als response oplevert:
+* Bij een **get** operatie, zonder pad-parameter in de url, die een array als response oplevert:
   * 200 Geslaagd
   * 400 Bad request
   * 401 Unauthorized
   * 403 Forbidden
   * 406 Not Acceptable
-  * 412 Precondition Failed
+  * 412 Precondition Failed (indien er request-headers zijn opgenomen)
   * 415 Unsupported Media Type (Alleen als content-negotiation wordt toegepast)
   * 500 Internal Server Error
   * default
-* Bij een **get** operatie die eindigt met een pathparameter (unieke resource opvragen):
+* Bij een **get** operatie waarbij een pad-parameter in de url is opgenomen:
     * 200 Geslaagd
     * 400 Bad request
     * 401 Unauthorized
     * 403 Forbidden
     * 404 Not Found
     * 406 Not Acceptable
-    * 412 Precondition Failed
+    * 412 Precondition Failed (indien er request-headers zijn opgenomen)
     * 415 Unsupported Media Type (Alleen als content-negotiation wordt toegepast)
     * 500 Internal Server Error
     * default
