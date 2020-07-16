@@ -232,6 +232,7 @@ Bij verschillende operaties zijn verschillende foutcodes van toepassing. Zo zal 
   * 412 Precondition Failed (indien er request-headers zijn opgenomen)
   * 415 Unsupported Media Type (Alleen als content-negotiation wordt toegepast)
   * 500 Internal Server Error
+  * 503 Service Unavailable
   * default
 * Bij een **get** operatie waarbij een pad-parameter in de url is opgenomen:
     * 200 Geslaagd
@@ -243,4 +244,5 @@ Bij verschillende operaties zijn verschillende foutcodes van toepassing. Zo zal 
     * 412 Precondition Failed (indien er request-headers zijn opgenomen)
     * 415 Unsupported Media Type (Alleen als content-negotiation wordt toegepast)
     * 500 Internal Server Error
+    * 503 Service Unavailable
     * default
