@@ -522,37 +522,31 @@ components:
               $ref: "#/components/schemas/InvalidParams"
     Datum_onvolledig:
       type: "object"
-      description: "Gegevens over de datums die mogelijk niet volledig zijn, maar\
-        \ waarvan de bekende gedeeltes wel moeten kunnen worden uitgewisseld. Als\
-        \ de volledige datum bekend is worden alle elementen gevuld."
+      description: "Constructie voor het uitwisselen van datums die wel of niet volledig bekend zijn."
       properties:
         dag:
           type: "integer"
           title: "dag"
-          description: "De dag. Als de dag van de datum bekend is wordt deze hier\
-            \ ingevuld. Ook als de volledige datum bekend is."
+          description: "Heeft een waarde als de dag van de datum bekend is."
           minimum: 1
           maximum: 31
           example: 3
         datum:
           type: "string"
           title: "datum"
-          description: "De volledige datum die in de `date` definitie past. Dit element\
-            \ wordt alleen gevuld als de volledige datum bekend is."
+          description: "Datum die in de date (hypertext) definitie past. Bevat alleen een waarde als de volledige datum bekend is."
           format: "date"
           example: "1989-05-03"
         jaar:
           type: "integer"
           title: "jaar"
-          description: "Het jaar van de datum. Als het jaar bekend is wordt dit element\
-            \ gevuld, ook als de volledige datum bekend is."
+          description: "Heeft een waarde als het jaar van de datum bekend is."
           maximum: 9999
           example: 1989
         maand:
           type: "integer"
           title: "maand"
-          description: "De maand. Als de maand van een datum bekend is wordt deze\
-            \ hier ingevuld. Ook als de volledige datum is ingevuld."
+          description: "Heeft een waarde als de maand van de datum bekend is."
           minimum: 1
           maximum: 12
           example: 5
