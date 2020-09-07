@@ -352,6 +352,7 @@ Voorbeeld van foutief gebruik van 'allOf':
 ```
  
 _**Ratio**_
+
 Afwijken van deze regel leidt tot problemen bij het genereren van code uit de API specificaties.
 
 ### DD5.22 Bij het gebruik van 'allOf' is er slechts 1 component waarnaar gerefereerd wordt
@@ -384,4 +385,5 @@ Voorbeeld van het foutief gebruik van allOf:
 NaamPersoon heeft geen eigen properties wat niet correct is.
  
 _**Ratio**_
+
 Afwijken van deze regel leidt tot problemen bij het genereren van code uit de API specificaties.
