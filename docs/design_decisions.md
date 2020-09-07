@@ -9,7 +9,7 @@ Onderstaande Design Decisions zijn een verbijzondering van paragraaf 6.1 van de 
 We benoemen altijd zo duidelijk mogelijk wat iets is. 
 
 Hoofdregel is altijd:
-1. propertynamen moeten zoveel mogelijk zelfverklarend zijn (lezen van de description om de betekenis te begrijpen is liefst niet nodig)
+1. propertynamen moeten zoveel mogelijk zelfverklarend zijn (lezen van de description om de betekenis te begrijpen is liefst niet nodig). Gegevens in een resource moeten kunnen worden gebruikt en geïnterpreteerd zonder domeinkennis of complexe algoritmes.
 2. propertynamen zijn zo kort als mogelijk om toch voldoende duidelijk en onderscheidend te zijn en niet langer dan daarvoor nodig
 
 ### DD1.2 Namen van properties zijn in lowerCamelCase
@@ -18,8 +18,8 @@ Voor de namen van properties wordt lowerCamelCase toegepast.
 ### DD1.3 Schema componentnamen zijn in UpperCamelCase
 Voor de namen van componenten in het schema wordt UpperCamelCase toegepast.
 
-### DD1.4 Enumeraties-waarden bevatten geen spaties, speciale tekens en hoofdletters.
-Enumeratiewaarden bevatten alleen kleine letters en underscores. Geen spaties, geen speciale tekens en geen hoofdletters.
+### DD1.4 Enumeratie-waarden zijn in snake_case
+Voor de waarden van enumeraties wordt snake_case toegepast. Deze bevatten dus alleen kleine letters en underscores. Geen spaties, geen speciale tekens en geen hoofdletters.
 
 _**Ratio**_
 
@@ -76,6 +76,28 @@ _**Ratio**_
 * De namen zijn erg lang. Dit is niet bevorderlijk voor eenvoud van implementatie.
 * Extensie "IngeschrevenNatuurlijkPersoon" is redundant, want het is al duidelijk dat het gaat over eigenschappen van een ingeschreven natuurlijk persoon.
 
+### DD1.13 Beperk de lengte van enumeratiewaarden
+De lengte van enumeratiewaarden wordt beperkt. Bijvoorbeeld "Opstalhouder Nutsvoorzieningen op gedeelte van perceel" krijgt als code "nutsvoorzieningen_gedeelte".
+
+### DD1.14 Vermijd het gebruik van afkortingen in propertynamen
+We vermijden het gebruik van afkortingen in propertynamen. Propertynamen moeten zoveel mogelijk zelfverklarend zijn.
+
+### DD1.15 Neem 'tot' of 'totEnMet' op in de naam van een einddatum 
+Indien DD5.14 niet geldig is neem dan voor einddatums altijd expliciet in de naam de string "tot" of "totEnMet" op.
+
+### DD1.16 Gebruik benamingen zoals gedefinieerd in een gegevenswoordenboek 
+Wanneer er een gegevenswoordenboek (gegevenscatalogus, informatiemodel) bestaat, gebruiken we voor corresponderende resource of voor corresponderende properties in een resource de naam zoals die in het gegevenswoordenbook staat, met inachtneming van de naamgevingsrichtlijnen zoals die in dit document staan benoemd, zoals gebruik (Upper)snakeCase.
+
+Van de naam in het gegevenswoordenboek kan worden afgeweken in o.a. de volgende situaties:
+ 
+* Weglaten van redundatie in de naam. Bijvoorbeeld "geboortedatum" in een gegevensgroep geboorte nemen we op als 'datum'.
+* Uitschrijven van afkortingen. Bijvoorbeeld "BSN" nemen we op als 'burgerservicenummer'.
+* Toevoegen van context, bijvoorbeeld wanneer het gegeven in een andere context wordt gebruikt dan in het gegevenswoordenboek. Bijvoorbeeld het opnemen van gegeven 'identificatie' van een woonplaats bij een nummeraanduiding wordt property 'woonplaatsIdentificatie'.
+* Een van het gegeven via een algoritme afgeleide property. Bijvoorbeeld 'leeftijd' van 'geboortedatum'.
+
+### DD1.17  
+Wanneer er in de naam van een property wordt afgeweken (anders dan toepassen lowerCamelCase, UpperCamelCase en snakeCase) van de naam van het corresponderende gegeven in het gegevenswoordenboek, wordt de naam van dat gegeven in het gegevenswoordenboek opgenomen. Daarbij wordt gebruik gemaakt van het attribuut 'title' in de definitie van het property in de API. In alle andere gevallen wordt 'title' niet opgenomen in de definitie van een property.
+
 ## Enumeraties en dynamische lijsten
 
 ### DD2.1 Dynamische domeinwaarden worden in de response opgenomen met zowel de code als de omschrijving
@@ -97,7 +119,18 @@ Een developer moet bij het coderen begrijpen wat de code betekent, om fouten in 
 
 _**Kanttekening**_
 
-De lengte van de enumeratiewaarden zal zoveel mogelijk beperkt moeten worden. 
+De lengte van de enumeratiewaarden zal zoveel mogelijk beperkt moeten worden (Zie DD2.6). 
+
+### DD2.4 Gebruik zo mogelijk boolean i.p.v. een enumeration
+Eigenschappen die functioneel alleen een waarde Ja/aan/waar of Nee/uit/onwaar kunnen hebben, worden gedefinieerd als boolean. We gebruiken dus geen enumeratie zoals [J,N] voor dit soort situaties.
+
+### DD2.5 Gebruik zo mogelijk string i.p.v. een enumeration
+Wanneer een gegeven in het informatiemodel gedefinieerd is als een enumeratie, maar de enumeratiewaarde wordt door gebruikers van de API alleen gebruikt wordt om als tekst te tonen aan eindgebruikers (mensen), definiëer het gegeven dan als string (niet als enumeratie) in de API.
+Wanneer de enumeratiewaarde gebruikt wordt in code (algoritmes), dan betekenisvolle maar bondige code.
+
+_**Ratio**_
+
+Het opnemen van de enumeratie in de API is een vorm van tight coupling.
 
 ## HAL, embedding en links
 
@@ -147,6 +180,9 @@ Historie wordt aflopend gesorteerd op datum geldigheid (datumVan).
 ### DD4.2 Bij historie wordt alleen de actuele situatie van inOnderzoek getoond
 Binnen de historie-endpoints wordt alleen de actuele situatie met betrekking tot "in Onderzoek" getoond. Er wordt geen historie getoond van de onderzoeken die in het verleden hebben plaatsgevonden.  
 
+### DD4.3 Gebruik standaard queryparameters voor datums bij historisch opvragen 
+Als queryparameters voor het historisch opvragen gebruiken we "peildatum", "datumvan" en "datumtotenmet"
+
 ## Diversen
 
 ### DD5.1 Descriptions worden als sibling van $Ref's opgenomen
@@ -172,11 +208,15 @@ We gebruiken daar niet de technische definities _pattern, minimum, maximum, minL
 De technische definitie _title_ gebruiken we alleen wanneer de propertynaam afwijkt van de naam in het informatiemodel (en het informatiemodel bekend is bij veel gebruikers).
 De technische definitie _enum_ gebruiken we wanneer (sommige/mogelijke) gebruikers de mogelijke waarden gebruiken in code/algoritmes en daarom moeten weten welke mogelijke waarden er zijn.  
 
-### DD5.4 oneOf constructies worden niet gebruikt in de API-sepcificaties
+### DD5.4 Gebruik geen oneOf of anyOf constructies voor polymorfe gegevens
+We gebruiken geen oneOf of anyOf constructies voor polymorfe gegevens. 
+
 Alhoewel de oneOf constructie een valide OAS3 constructie is levert deze bij het genereren van code problemen op.
 Deze constructie wordt ontweken door twee mogelijke alternatieven. 
-* De subtypes worden samengevoegd tot 1 object en er wordt een typeveld toegevoegd om te duiden welk subtype het betreft. Deze keuze is logisch als de subtypes grotendeels overlappen.
-* De subtypes worden volledig opgenomen als property van een object. In het response is altijd maar 1 van deze properties gevuld. Deze keuze is logisch als de subtypes weing gemeenschappelijke properties hebben.
+* De subtypes worden samengevoegd tot 1 object. Deze keuze is logisch als de subtypes grotendeels overlappen en er geen strijdigheid is tussen de verschillende mogelijke types.
+* De subtypes worden volledig opgenomen als property van een object, met daarin de eigenschappen van dat type. In het response is altijd maar 1 van deze properties gevuld. Deze keuze is logisch als de subtypes weing gemeenschappelijke properties hebben.
+
+In beide gevallen nemen we ook een type property op waaruit de gebruiker kan lezen welk type het betreft.
 
 _**Ratio**_
 
@@ -220,3 +260,128 @@ Dit betekent dat er in de berichtspecificaties geen gebruik gemaakt wordt van de
 
 ### DD5.9 Properties die gebruik maken van Booleans worden alleen geretourneerd als de waarde 'true' is
 In diverse situaties worden booleans opgenomen als er sprake is van indicatoren. Deze booleans worden alleen geretourneerd als de waarde van de boolean ook informatief is. Dit soort properties worden dus alleen opgenomen als de waarde van de Boolean 'true' is.
+
+### DD5.10 Identificatie van een resource zit altijd op het hoogste niveau van de resource
+De identificatie van een resource zit, wanneer die is opgenomen in de resource anders dan in _links.self, en gebruikt wordt als path-parameter van het resource-endpoint, altijd op het hoogste niveau van de resource in de vorm en inhoud zoals die wordt opgenomen in de uri (path-parameter) van de resource. 
+
+### DD5.11 Neem voor properties geen waarden op met een speciale betekenis
+We nemen geen waarden op met een speciale betekenis die afwijkt van de normale betekenis van het gegeven.
+
+* bijvoorbeeld datum "0000-00-00" om aan te geven dat een datum onbekend is
+* bijvoorbeeld landcode "0000" om aan te geven dat het land onbekend is
+
+### DD5.12 Neem geen reden op over het afwezig/leeg zijn van een gegeven
+We nemen geen reden op over het leeg/afwezig zijn van een waarde van een gegeven (zoals met StUF:noValue werd gedaan), tenzij duidelijk is dat er bij de gebruikers behoefte is om dit te weten.
+
+### DD5.13 Neem een indicator op als het gevuld zijn van een datum functionele betekenis heeft
+Wanneer het gevuld zijn van een datum functionele betekenis heeft, ook wanneer deze volledig onbekend is, wordt een indicator opgenomen om dit aan te geven. Bijvoorbeeld of een persoon overleden is kan niet worden afgeleid uit het bestaan van een overlijdensdatum wanneer die datum onbekend is. Daarvoor kan een boolean "indicatieOverleden" worden gedefinieerd.
+
+### DD5.14 Gebruik bestaande functionele gegevens voor begin- en einddatum 
+Wanneer er voor een begindatum of einddatum al een functioneel gegeven bestaat, gebruiken we die. Denk aan datumOntbindingHuwelijk of datumAanvangAdreshouding.
+
+### DD5.15 Definieer 'datumTot' indien er behoefte is aan een einddatum maar afwezig in het informatiemodel
+Wanneer een functioneel gegeven in het informatiemodel voor einddatum afwezig is terwijl daar wel behoefte aan is (omdat historie getoond wordt) gebruiken we "datumTot". Bijvoorbeeld in de BRP wordt alleen de begindatum van een verblijfplaats geregistreerd en geen einddatum. Daar is datumTot dus de datumAanvang van de volgende verblijfplaats.
+
+### DD5.16 De description van een property moet semantisch overeenkomen met de betekenis van het gegeven in een gegevenswoordenboek
+We nemen bij een property een description op die semantisch overeenkomt met de beschrijving in het gegevenswoordenboek. Deze kan ingekort, vereenvoudigd, of uitgebreid zijn, maar mag de betekenis van het gegeven niet laten afwijken van de betekenis van het corresponderende gegeven in het gegevenswoordenboek.
+
+De description kan worden weggelaten wanneer evident is dat de gebruikers van de API uit de propertynaam weten wat bedoeld wordt (bijvoorbeeld huisnummer).
+ 
+### DD5.17 Neem geen logica op in de description voor het samenstellen van de inhoud van een property
+In de description van een property mag geen logica (algoritme) worden beschreven voor het samenstellen van de inhoud van het property.
+
+ _**Ratio**_
+ Opnemen van providerlogica veroorzaakt tight coupling tussen de bron-implementatie en de API.
+ 
+### DD5.18 Vermijd een directe koppeling tussen definitie en structuur in een gegevenswoordenboek en een API
+Er is geen directe koppeling tussen de definitie en structuur van gegevens in een gegevenswoordenboek (informatiemodel) en de definitie en structuur van de corresponderende resource en/of propertie in een API.
+
+Voorbeelden:
+* Een resource mag meer gegevens bevatten dan het corresponderende object uit het gegevenswoordenboek. Er mogen bijvoorbeeld gegevens uit gerelateerde objecten aan de resource worden toegevoegd. Bijvoorbeeld bij een nummeraanduiding wordt de woonplaatsnaam opgenomen.
+* Een resource mag minder gegevens bevatten dan het corresponderende objecttype. In de resource worden alleen gegevens opgenomen waar behoefte aan is bij de gebruikers van de API.
+* Verschillende elementen uit het object mogen worden samengevoegd tot éen property van de resource. Bijvoorbeeld aanschrijfwijze is samengesteld uit o.a. voornamen, tussenvoegsel en geslachtsnaam.
+* Een element uit een model mag worden opgesplitst in meerdere properties in de resource. Bijvoorbeeld een mogelijk onbekende overlijdensdatum kan worden opgenomen als overlijdensdatum én indicatieOverleden.
+* Een abstract objecttype mag als (concrete) resource worden gedefinieerd. Bijvoorbeeld adresseerbaar object wordt resource adresseerbareObjecten.
+* Gegevens uit verschillende (gegevens)groepen mogen worden platgeslagen in de resource of in een gegevensgroep. Bijvoorbeeld Gemeente van inschrijving uit groep Inschrijving, functie adres uit groep Verblijfplaats en postcode uit groep Adres worden opgenomen in verblijfplaats.
+* Een resource mag gegevens opnemen in een andere representatievorm.
+  - Bijvoorbeeld Indicatie geheim kan de waarden 0 (niet geheim) of 7 (geheimhouding) hebben in het informatiemodel, maar in de API wordt dit opgenomen als boolean.
+  - Bijvoorbeeld enumeratie Type openbare ruimte wordt opgenomen als string, wanneer deze waarde alleen voor mensenogen bedoeld is en niet door computercode geïnterpreteerd hoeft te worden.
+
+_**Ratio**_
+
+* Koppeling met de implementatie van de providerregistratie beperkt de evolvability van zowel de achterliggende systemen, als van de applicaties die de API gebruiken, als van de API zelf.
+* Ontwerp van de resource gericht op de informatiebehoefte en het gebruik is eenvoudiger in gebruik en verkleint de kans op verkeerd gebruik.
+
+### DD5.19 Hergebruik API specificaties van een andere bron indien daarvan gegevens zijn opgenomen
+Wanneer in een API (comfort)gegevens worden opgenomen die authentiek zijn opgeslagen in een andere bron, worden deze bij voorkeur gemodelleerd op dezelfde manier als in die bron. Wanneer mogelijk wordt hergebruik gemaakt van de API specificatie van die andere bron (via $ref).
+
+Bijvoorbeeld het adres (BAG) van een ingeschreven persoon (BRP) of vestiging (HR). 
+Bijvoorbeeld de naam en geboortedatum (BRP) van een eigenaar in BRK of functionaris in HR.
+
+### DD5.20 Gebruik de 'allOf' constructie indien er meerdere componenten zijn met dezelfde properties
+Wanneer er meerdere componenten zijn met meerdere dezelfde properties, moet er hergebruik worden gemaakt via een 'allOf' constructie. Dit sluit aan op object oriëntatie in de verschillende programmeeromgevingen.
+* Bijvoorbeeld een woonadres en een postadres zijn identiek, behalve dat postadres ook een postbusnummer kent. Dan is postadres een extensie op woonadres.
+* Bijvoorbeeld een natuurlijk persoon en een niet-natuurlijk persoon hebben beide een naam en een adres, maar beide hebben ook eigen gegevens (natuurlijk persoon heeft geboortedatum, niet-natuurlijk persoon heeft eigenaar), dan zijn beide een extensie op een bovenliggende component "Persoon".
+* Bijvoorbeeld bij een zakelijkGerechtigde worden alleen minimale identificerende gegevens van een persoon opgenomen (alleen naam en identificatie), maar bij de persoon (resource) worden meer eigenschappen van de persoon opgenomen (zoals adres). Dan gebrukt zakelijkGerechtigde het component "persoonBeperkt" en is de uitgebreide persoon een extensie hierop.
+ 
+### DD5.21 Plaats bij het gebruik van 'allOf' het hergebruikte component als eerste
+Bij het gebruik van 'allOf' staat de component die hergebruikt wordt altijd eerst, en staan de toegevoegde properties als tweede.
+
+Voorbeeld van het correct gebruik van 'allOf':
+ 
+```
+     NaamPersoon:
+       allOf:
+         - $ref: "#/components/schemas/Naam"
+         - description: "Gegevens over de naam van de persoon"
+           properties:
+             aanhef:
+               type: "string"
+```
+ 
+Voorbeeld van foutief gebruik van 'allOf':
+ 
+```
+ 	NaamPersoon:
+ 	      allOf:
+ 	        - description: "Gegevens over de naam van de persoon"
+ 	          properties:
+ 	            aanhef:
+ 	              type: "string"
+ 	        - $ref: "#/components/schemas/Naam"
+```
+ 
+_**Ratio**_
+Afwijken van deze regel leidt tot problemen bij het genereren van code uit de API specificaties.
+
+### DD5.22 Bij het gebruik van 'allOf' is er slechts 1 component waarnaar gerefereerd wordt
+Bij gebruik van allOf is er altijd exact één component waarnaar gerefereerd wordt en één gedefinieerd object met ten minste één property.
+
+Voorbeeld van het foutief gebruik van allOf:
+ 
+```
+     NaamPersoon:
+       allOf:
+         - $ref: "#/components/schemas/Naam"
+         - $ref: "#/components/schemas/Aanschrijfwijze"
+         - description: "Gegevens over de naam van de persoon"
+           properties:
+             aanhef:
+               type: "string"
+```
+ 
+Er wordt hier uit twee componenten overgeërfd wat niet correct is.
+
+Voorbeeld van het foutief gebruik van allOf:
+ 
+```
+     NaamPersoon:
+       allOf:
+         - $ref: "#/components/schemas/Naam"
+         - description: "Gegevens over de naam van de persoon"
+```
+
+NaamPersoon heeft geen eigen properties wat niet correct is.
+ 
+_**Ratio**_
+Afwijken van deze regel leidt tot problemen bij het genereren van code uit de API specificaties.
