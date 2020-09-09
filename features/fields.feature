@@ -24,10 +24,9 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
 
   Attributen binnen een groep kunnen ook individueel worden bevraagd. De dot-notatie wordt gebruikt om specifieke attributen van een groep te selecteren. Bijvoorbeeld de voornamen, geboortedatum en geboorteplaats van een persoon kunnen worden opgevraagd via fields=naam.voornamen,geboorte.datum,geboorte.plaats.
 
-  Met de fields parameter kan ook worden aangegeven welke relaties moeten worden opgenomen. Dit betreft de links (in _links) die verwijzen (uri) naar de betreffende gerelateerde resource. Wanneer de fields parameter is meegegeven in het request worden alleen die relaties teruggegeven die zijn gevraagd in de fields parameter.
-  In de fields parameter kan de relatie worden gevraagd door de relatienaam op te nemen al dan niet voorafgegaan door HAL-element _links.
-  Bijvoorbeeld de links naar de kinderen van een persoon worden teruggegeven bij fields=burgerservicenummer,naam,kinderen. In dat geval worden andere relaties, zoals ouders en partners niet opgenomen in het antwoord (in _links). Hetzelfde antwoord kan worden verkregen met fields=burgerservicenummer,naam,_links.kinderen.
-  Wanneer de resource een property bevat met exact dezelfde naam als een van de properties in _links, dan wordt bij het vragen van deze property alleen het property uit de resource teruggegeven en niet het gelijknamige property uit _links. In dat geval kan de gelijknamige relatie alleen worden gevraagd door _links voor de linkpropertynaam te plaatsen.
+  Met de fields parameter kunnen velden uit een groep gevraagd worden zonder de groepsnaam op te nemen. Bijvoorbeeld fields=voornamen levert naam.voornamen. Bijvoorbeeld de links naar de kinderen van een persoon worden teruggegeven bij fields=burgerservicenummer,naam,kinderen. In dat geval worden andere relaties, zoals ouders en partners niet opgenomen in het antwoord (in _links). Hetzelfde antwoord kan worden verkregen met fields=burgerservicenummer,naam,_links.kinderen.
+  Wanneer een veld in een groep niet uniek is binnen de resource, en vragen van het veld met fields zonder de groepsnaam levert niet één uniek veld op, wordt een foutmelding gegeven.
+  Wanneer een veld voorkomt in de resource en in een groep in de resource komt een veld voor met dezelfde naam, dan wordt het veld met exact de opgegeven naam teruggegeven. Bijvoorbeeld als een resource een property woonadres heeft en ook een link _links.woonadres, dan levert fields=woonadres het woonadres, maar niet _links.woonadres.
 
   De self-link in _links (JSON HAL) wordt altijd teruggegeven in het antwoord. Deze hoeft (en mag) niet te worden opgenomen in de fields parameter.
 
@@ -44,6 +43,8 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
   Wanneer in de fields-parameter namen zijn opgenomen die niet voorkomen als attribuut in de resource, wordt een foutmelding gegeven.
 
   In de fields-parameter moeten attribuutnamen exact zo worden geschreven als voor de resource-response gedefinieerd. Dit is case sensitive. Bijvoorbeeld fields=BURGERSERVICENUMMER levert een foutmelding, want dat attribuut bestaat niet (attribuut burgerservicenummer bestaat wel).
+
+  Gebruik van de fields parameter heeft geen invloed op de inhoud van foutberichten.
 
 
   Achtergrond:
@@ -341,3 +342,69 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
        }
       }
     ```
+
+  Abstract Scenario: Teruggeven van velden in een groep
+    Gegeven resource kadasternatuurlijkpersonen bevat de volgende properties:
+      ```
+      {
+        "identificatie",
+        "heeftPartnerschap": [
+          {
+            "datumOntbinding": {
+              "dag",
+              "datum",
+              "jaar",
+              "maand"
+            },
+            "datumSluiting": {
+              "dag",
+              "datum",
+              "jaar",
+              "maand"
+            },
+            "naam": {
+              "geslachtsnaam",
+              "voornamen"",
+              "voorvoegsel"
+            }
+          }
+        ],
+        "naam": {
+          "geslachtsnaam",
+          "voornamen",
+          "voorvoegsel"
+        },
+        "geboorte": {
+          "plaats",
+          "datum": {
+            "dag",
+            "datum",
+            "jaar",
+            "maand"
+          },
+          "land": {
+            "code",
+            "waarde"
+          }
+        },
+        "_links": {
+          "self",
+          "woonadres",
+          "postadres",
+          "kadastraalOnroerendeZaken",
+          "zakelijkGerechtigden"
+        }
+      }
+      ```
+
+      Als resource kadasternatuurlijkpersonen wordt geraadpleegd met fields={fields}
+      Dan is de http status code van het antwoord {code}
+      En wordt geen enkel ander attribuut dan {resultaat} teruggegeven
+
+      Voorbeelden:
+        | fields               | code | resultaat                                                         |
+        | naam                 | 200  | naam.geslachtsnaam, naam.voornamen, naam.voorvoegsel, _links.self |
+        | geslachtsnaam        | 400  | type, title, status, detail, instance, code, invalidParams        |
+        | jaar                 | 400  | type, title, status, detail, instance, code, invalidParams        |
+        | datumSluiting.jaar   | 200  | heeftPartnerschap.datumSluiting.jaar, _links.self                 |
+        | woonadres            | 200  | woonadres                                                         |
