@@ -122,11 +122,11 @@ _**Kanttekening**_
 De lengte van de enumeratiewaarden zal zoveel mogelijk beperkt moeten worden (Zie DD2.6). 
 
 ### DD2.4 Gebruik zo mogelijk boolean i.p.v. een enumeration
-Eigenschappen die functioneel alleen een waarde Ja/aan/waar of Nee/uit/onwaar kunnen hebben, worden gedefinieerd als boolean. We gebruiken dus geen enumeratie zoals [J,N] voor dit soort situaties.
+Eigenschappen die functioneel alleen de waarde Ja/aan/waar of Nee/uit/onwaar kunnen hebben, worden gedefinieerd als boolean. We gebruiken dus geen enumeratie zoals [J,N] voor dit soort situaties.
 
 ### DD2.5 Gebruik zo mogelijk string i.p.v. een enumeration
-Wanneer een gegeven in het informatiemodel gedefinieerd is als een enumeratie, maar de enumeratiewaarde wordt door gebruikers van de API alleen gebruikt wordt om als tekst te tonen aan eindgebruikers (mensen), definiëer het gegeven dan als string (niet als enumeratie) in de API.
-Wanneer de enumeratiewaarde gebruikt wordt in code (algoritmes), dan betekenisvolle maar bondige code.
+Wanneer een gegeven in het informatiemodel gedefinieerd is als een enumeratie, maar de enumeratiewaarde wordt door gebruikers van de API alleen gebruikt om als tekst te tonen aan eindgebruikers (mensen), definiëer het gegeven dan als string (niet als enumeratie) in de API.
+Wanneer de enumeratiewaarde gebruikt wordt in code (algoritmes), definiëer dan een betekenisvolle maar bondige code.
 
 _**Ratio**_
 
@@ -181,7 +181,7 @@ Historie wordt aflopend gesorteerd op datum geldigheid (datumVan).
 Binnen de historie-endpoints wordt alleen de actuele situatie met betrekking tot "in Onderzoek" getoond. Er wordt geen historie getoond van de onderzoeken die in het verleden hebben plaatsgevonden.  
 
 ### DD4.3 Gebruik standaard queryparameters voor datums bij historisch opvragen 
-Als queryparameters voor het historisch opvragen gebruiken we "peildatum", "datumvan" en "datumtotenmet"
+Als queryparameters voor het historisch opvragen gebruiken we "peildatum", "datumVan" en "datumTotEnMet"
 
 ## Diversen
 
@@ -216,7 +216,7 @@ Deze constructie wordt ontweken door twee mogelijke alternatieven.
 * De subtypes worden samengevoegd tot 1 object. Deze keuze is logisch als de subtypes grotendeels overlappen en er geen strijdigheid is tussen de verschillende mogelijke types.
 * De subtypes worden volledig opgenomen als property van een object, met daarin de eigenschappen van dat type. In het response is altijd maar 1 van deze properties gevuld. Deze keuze is logisch als de subtypes weing gemeenschappelijke properties hebben.
 
-In beide gevallen nemen we ook een type property op waaruit de gebruiker kan lezen welk type het betreft.
+In beide gevallen nemen we ook een type property (discriminator) op waaruit de gebruiker kan opmaken welk type het betreft.
 
 _**Ratio**_
 
