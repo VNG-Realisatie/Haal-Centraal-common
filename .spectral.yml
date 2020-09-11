@@ -1,0 +1,33 @@
+extends: spectral:oas
+rules:
+  oas3-unused-components-schema: off
+  tag-description: off
+  schema-names-pascal-case:
+    description: Schema names MUST be written in PascalCase
+    message: '{{property}} is niet PascalCase: {{error}}'
+    recommended: true
+    type: style
+    given: '$.components.schemas.*~'
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][a-zA-Z0-9]*$'
+  property-of-object-type:
+    description: Properties MUST not be of object type
+    message: '{{path}} is gedefinieerd als een inline object. Definieer deze als een schema component en verwijs hiernaar met $ref'
+    type: style
+    resolved: false
+    given: '$.components.schemas..properties[?(@.type === "object")]'
+    then:
+      function: falsy
+  parameter-names-camel-case:
+    description: Parameter names MUST be written in camelCase
+    message: '{{value}} is niet camelCase: {{error}}'
+    recommended: true
+    type: style
+    given: '$.components.parameters[?(@.in == "query")]'
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]*$'
