@@ -2,6 +2,7 @@ openapi: 3.0.0
 info:
   title: Generieke componenten voor Haal Centraal APIs
   version: '1.1.0'
+paths: {}
 components:
   headers:
     api_version:
