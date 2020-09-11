@@ -9,7 +9,7 @@ Onderstaande Design Decisions zijn een verbijzondering van paragraaf 6.1 van de 
 We benoemen altijd zo duidelijk mogelijk wat iets is. 
 
 Hoofdregel is altijd:
-1. propertynamen moeten zoveel mogelijk zelfverklarend zijn (lezen van de description om de betekenis te begrijpen is liefst niet nodig). Gegevens in een resource moeten kunnen worden gebruikt en geïnterpreteerd zonder domeinkennis of complexe algoritmes.
+1. propertynamen moeten zoveel mogelijk zelfverklarend zijn (lezen van de description om de betekenis te begrijpen is liefst niet nodig).
 2. propertynamen zijn zo kort als mogelijk om toch voldoende duidelijk en onderscheidend te zijn en niet langer dan daarvoor nodig
 
 ### DD1.2 Namen van properties zijn in lowerCamelCase
@@ -97,6 +97,11 @@ Van de naam in het gegevenswoordenboek kan worden afgeweken in o.a. de volgende 
 
 ### DD1.17  
 Wanneer er in de naam van een property wordt afgeweken (anders dan toepassen lowerCamelCase, UpperCamelCase en snakeCase) van de naam van het corresponderende gegeven in het gegevenswoordenboek, wordt de naam van dat gegeven in het gegevenswoordenboek opgenomen. Daarbij wordt gebruik gemaakt van het attribuut 'title' in de definitie van het property in de API. In alle andere gevallen wordt 'title' niet opgenomen in de definitie van een property.
+
+### DD1.18
+Streef er naar het gebruik en interpretatie van gegevens in een resource (incl. hun mogelijke waarden) zonder domeinkennis of complexe algoritmes mogelijk te maken.
+_**Voorbeeld 1**_: I.p.v. voor de property 'indicatieGeheim' de waarden '0' of '1' te definiëren kun je ook de waarden 'true' en 'false' definiëren.
+_**Voorbeeld 2**_: I.p.v. de property 'inOnderzoek' kan je juist kiezen voor 'mogelijkOnjuist' waaruit veel duidelijker wordt wat de functie is.
 
 ## Enumeraties en dynamische lijsten
 
@@ -262,7 +267,7 @@ Dit betekent dat er in de berichtspecificaties geen gebruik gemaakt wordt van de
 In diverse situaties worden booleans opgenomen als er sprake is van indicatoren. Deze booleans worden alleen geretourneerd als de waarde van de boolean ook informatief is. Dit soort properties worden dus alleen opgenomen als de waarde van de Boolean 'true' is.
 
 ### DD5.10 Identificatie van een resource zit altijd op het hoogste niveau van de resource
-De identificatie van een resource zit, wanneer die is opgenomen in de resource anders dan in _links.self, en gebruikt wordt als path-parameter van het resource-endpoint, altijd op het hoogste niveau van de resource in de vorm en inhoud zoals die wordt opgenomen in de uri (path-parameter) van de resource. 
+De identificatie van een resource zit, als die is opgenomen in de resource en gebruikt wordt als path-parameter van het resource-endpoint, altijd op het hoogste niveau van de resource in de vorm en inhoud zoals die wordt opgenomen in de uri (path-parameter) van de resource. 
 
 ### DD5.11 Neem voor properties geen waarden op met een speciale betekenis
 We nemen geen waarden op met een speciale betekenis die afwijkt van de normale betekenis van het gegeven.
@@ -387,3 +392,4 @@ NaamPersoon heeft geen eigen properties wat niet correct is.
 _**Ratio**_
 
 Afwijken van deze regel leidt tot problemen bij het genereren van code uit de API specificaties.
+
