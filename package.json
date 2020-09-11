@@ -1,0 +1,32 @@
+{
+  "name": "haal-centraal-common",
+  "version": "1.1.0",
+  "description": "De Haal Centraal common repository is opgezet om zaken die gemeenschappelijk over alle Haal Centraal API's worden toegepast op één plek vast te leggen en te delen.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "lint": "spectral lint ./api-specificatie/common.yaml",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VNG-Realisatie/Haal-Centraal-common.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VNG-Realisatie/Haal-Centraal-common/issues"
+  },
+  "homepage": "https://github.com/VNG-Realisatie/Haal-Centraal-common#readme",
+  "devDependencies": {
+    "@stoplight/spectral": "^5.5.0",
+    "husky": "^4.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint"
+    }
+  }
+}
