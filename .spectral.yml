@@ -50,7 +50,7 @@ rules:
     message: '{{path}} moet beginnen met $ref'
     resolved: false
     type: style
-    given: '$.components.schemas[*].allOf[0]'
+    given: '$..allOf[0]'
     then:
       - field: "$ref"
         function: truthy
@@ -59,15 +59,15 @@ rules:
     message: '{{path}}: het tweede item in een allOf moet ten minste één property toevoegen'
     resolved: false
     type: style
-    given: '$.components.schemas[*].allOf[1]'
+    given: '$..allOf[1]'
     then:
-      - field: "properties"
-        function: truthy
+     - field: "properties"
+       function: truthy
   allof-single-extension:
     description: allOf must extend from exactly one object
     message: '{{path}}: allOf mag niet meer dan twee items bevatten, de eerste met $ref, de tweede met properties'
     resolved: false
     type: style
-    given: '$.components.schemas[*].allOf[2]'
+    given: '$..allOf[2]'
     then:
       function: falsy
