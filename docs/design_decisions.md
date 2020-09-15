@@ -1,5 +1,9 @@
 # Design decisions HaalCentraal API's
-Dit document beschrijft ontwerpkeuzes die gemaakt zijn voor het ontwerpen en specificeren van de API's binnen het programma HaalCentraal
+In de onderliggende Design Decisions zijn de inzichten vastgelegd die zijn opgedaan bij het ontwerpen en specificeren van API's binnen het programma HaalCentraal. Ze geven steeds de huidige status aan van een leerproces en het is dus onderhevig aan voortschrijdend inzicht. Om die reden kan het zijn dat de specificaties die vroeg in het Haal Centraal programma vervaardigd zijn niet voldoen aan alle Design Decisions.
+Op het moment dat een nieuwe versie van een API specificatie gepland wordt waarmee breaking changes worden doorgevoerd bepaalt de betreffende designer of dat een kans is om correcties door te voeren waardoor de API weer voldoet aan de onderstaande Design Decisions. Een nieuwe versie van een API specificatie met een breaking change houdt dus niet automatisch in dat deze is aangepast aan de Design Decisions.
+
+Van de common.yaml specificatie, in de onderliggende repository, wordt zo nodig wel steeds direct een nieuwe versie uitgebracht.
+In de releasenotes wordt dan aangegeven of de wijziging breaking is of niet (wat ook gevolgen kan hebben voor het versienummer). Daarmee kunnen nieuwe API's en API's in ontwikkeling optimaal bediend worden. Voor API's die gebruik maken van een "oude" versie van common.yaml geldt dat de API-designer bepaalt of bij een wijziging een nieuwe versie van de common.Yaml wordt gebruikt. De basis voor die beslissing is de impact voor de afnemers (consumers).
 
 ## Richtlijnen voor naamgeving 
 
