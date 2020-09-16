@@ -71,3 +71,33 @@ rules:
     given: '$..allOf[2]'
     then:
       function: falsy
+  too-much-information:
+    description: properties of GET responses should not use pattern, minimum, maximum, minLength, maxLength, minItems or required
+    resolved: false
+    type: style
+    message: 'Gebruik geen {{property}} in response definitie: {{path}}'
+    given: '$.components.schemas..properties[*]'
+    then:
+      - field: "minItems"
+        function: falsy
+
+      - field: "maxItems"
+        function: falsy
+
+      - field: "maxLength"
+        function: falsy
+
+      - field: "maxLength"
+        function: falsy
+
+      - field: "minimum"
+        function: falsy
+
+      - field: "maximum"
+        function: falsy
+
+      - field: "required"
+        function: falsy
+
+      - field: "pattern"
+        function: falsy

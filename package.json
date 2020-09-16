@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "lint": "spectral lint ./api-specificatie/common.yaml",
+    "oas:lint": "spectral lint ./api-specificatie/common.yaml",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,7 +26,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run oas:lint"
     }
   }
 }
