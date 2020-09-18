@@ -6,15 +6,15 @@ rules:
   openapi-tags: off
   info-description: off
   schema-names-pascal-case:
-    description: Schema names MUST be written in PascalCase
-    message: '{{property}} is niet PascalCase: {{error}}'
+    description: Schema names MUST be written in PascalCase, only extensions _links, _embedded, _enum and _tabel are allowd outside PascalCase
+    message: '{{property}} is niet PascalCase (UpperCamelCase): {{error}}'
     recommended: true
     type: style
     given: '$.components.schemas.*~'
     then:
-      function: casing
+      function: pattern
       functionOptions:
-        type: pascal
+        match: '/^([A-Z][a-z0-9]+)+(_embedded|_links|_enum|_tabel)?$/'
   property-of-object-type:
     description: Properties MUST not be of object type
     message: '{{path}} is gedefinieerd als een inline object. Definieer deze als een schema component en verwijs hiernaar met $ref'
