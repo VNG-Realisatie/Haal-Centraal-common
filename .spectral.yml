@@ -6,7 +6,7 @@ rules:
   openapi-tags: off
   info-description: off
   schema-names-pascal-case:
-    description: Schema names MUST be written in PascalCase, only extensions _links, _embedded, _enum and _tabel are allowd outside PascalCase
+    description: Schema names MUST be written in PascalCase, only extensions _links, _embedded, _enum and _tabel are allowed outside PascalCase
     message: '{{property}} is niet PascalCase (UpperCamelCase): {{error}}'
     recommended: true
     type: style
