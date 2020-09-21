@@ -3,6 +3,12 @@ info:
   title: Generieke componenten voor Haal Centraal APIs
   description: |
     De definitie van generieke components die worden gebruikt door de Haal Centraal APIs
+
+    DatumOnvolledig is toegevoegd als CamelCase tegenhanger van Datum_onvolledig (deprecated).
+    Deze constructie (t.b.v. evolvability) zorgt ervoor dat
+    - je geen duplicaat krijgt van een schema en
+    - maakt het mogelijk voor een provider om wel al te linken naar deze versie (voor bijvoorbeeld de nieuwe HalPaginationLinks en HalPaginationLinksMetLast schemas) zonder Datum_onvolledig ook te moeten vervangen.
+      Deze constructie is wel een overtreding van DD5.21 (een allOf zonder extra properties toevoegingen).
   version: '1.1.0'
   contact:
     name: Haal Centraal Common
@@ -531,7 +537,7 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/InvalidParams"
-    Datum_onvolledig:
+    DatumOnvolledig:
       type: "object"
       description: "Constructie voor het uitwisselen van datums die wel of niet volledig bekend zijn."
       properties:
@@ -561,6 +567,10 @@ components:
           minimum: 1
           maximum: 12
           example: 5
+    Datum_onvolledig:
+      default: true
+      allOf:
+          - $ref: "#/components/schemas/Datum_onvolledig"
     Waardelijst:
       type: "object"
       description: "Generieke waardelijst met waarden om een code en omschrijving op te nemen."
