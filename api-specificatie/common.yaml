@@ -409,6 +409,8 @@ components:
          type: string
     HalCollectionLinks:
       type: object
+      description: |
+        HalCollectionLinks bevat de self link die elke HAL Resource minimaal moet hebben in zijn _links property
       properties:
         self:
           $ref: "#/components/schemas/HalLink"
@@ -443,7 +445,7 @@ components:
           title: Volgende pagina
     HalPaginationLinksMetLast:
       description: |
-        HalPaginationLinks bevat de link properties die nodig zijn om te kunnen navigeren in een eindige collectie:
+        HalPaginationLinksMetLast bevat de link properties die nodig zijn om te kunnen navigeren in een eindige collectie:
 
         - first: uri voor het opvragen van de eerste pagina van deze collectie
         - previous: uri voor het opvragen van de vorige pagina van deze collectie
