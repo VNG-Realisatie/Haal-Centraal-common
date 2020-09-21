@@ -23,7 +23,7 @@ Voor de namen van properties wordt lowerCamelCase toegepast.
 Voor de namen van componenten in het schema wordt UpperCamelCase toegepast.
 
 ### DD1.4 Enumeratie-waarden zijn in snake_case
-Voor de waarden van enumeraties wordt snake_case toegepast. Deze bevatten dus alleen kleine letters en underscores. Geen spaties, geen speciale tekens en geen hoofdletters.
+Voor de waarden van enumeraties wordt snake_case toegepast. Deze bevatten dus alleen kleine letters, cijfers en underscores. Geen spaties, geen speciale tekens en geen hoofdletters.
 
 _**Ratio**_
 
