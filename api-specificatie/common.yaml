@@ -570,7 +570,7 @@ components:
     Datum_onvolledig:
       default: true
       allOf:
-          - $ref: "#/components/schemas/Datum_onvolledig"
+          - $ref: "#/components/schemas/DatumOnvolledig"
     Waardelijst:
       type: "object"
       description: "Generieke waardelijst met waarden om een code en omschrijving op te nemen."
