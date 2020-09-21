@@ -99,11 +99,11 @@ Van de naam in het gegevenswoordenboek kan worden afgeweken in o.a. de volgende 
 * Toevoegen van context, bijvoorbeeld wanneer het gegeven in een andere context wordt gebruikt dan in het gegevenswoordenboek. Bijvoorbeeld het opnemen van gegeven 'identificatie' van een woonplaats bij een nummeraanduiding wordt property 'woonplaatsIdentificatie'.
 * Een van het gegeven via een algoritme afgeleide property. Bijvoorbeeld 'leeftijd' van 'geboortedatum'.
 
-### DD1.17  
+### DD1.17 Maak gebruik van 'title' (en alleen dan) indien wordt afgeweken van de naam van het corresponderende gegeven in het gegevenswoordenboek
 Wanneer er in de naam van een property wordt afgeweken (anders dan toepassen lowerCamelCase, UpperCamelCase en snakeCase) van de naam van het corresponderende gegeven in het gegevenswoordenboek, wordt de naam van dat gegeven in het gegevenswoordenboek opgenomen. Daarbij wordt gebruik gemaakt van het attribuut 'title' in de definitie van het property in de API. In alle andere gevallen wordt 'title' niet opgenomen in de definitie van een property.
 
-### DD1.18
-Streef er naar het gebruik en interpretatie van gegevens in een resource (incl. hun mogelijke waarden) zonder domeinkennis of complexe algoritmes mogelijk te maken.
+### DD1.18 Streef naar het gebruik en interpretatie van gegevens mogelijk te maken zonder noodzaak tot domein- en algoritmekennis
+Streef er naar het gebruik en interpretatie van gegevens in een resource (incl. hun mogelijke waarden) mogelijk te maken zonder dat daarvoor domeinkennis of kennis van complexe algoritmes nodig is.
 _**Voorbeeld 1**_: I.p.v. voor de property 'indicatieGeheim' de waarden '0' of '1' te definiëren kun je ook de waarden 'true' en 'false' definiëren.
 _**Voorbeeld 2**_: I.p.v. de property 'inOnderzoek' kan je juist kiezen voor 'mogelijkOnjuist' waaruit veel duidelijker wordt wat de functie is.
 
