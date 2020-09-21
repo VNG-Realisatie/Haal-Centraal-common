@@ -7,6 +7,9 @@ info:
   contact:
     name: Haal Centraal Common
     url: https://github.com/VNG-Realisatie/Haal-Centraal-Common
+  license:
+    name: European Union Public License, version 1.2 (EUPL-1.2)
+    url: https://eupl.eu/1.2/nl/
 paths: {}
 components:
   headers:
@@ -395,7 +398,7 @@ components:
       type: string
       example: "https://datapunt.voorbeeldgemeente.nl/api/v{major-versie}/resourcename/{resource-identificatie}"
     HalLink:
-      description: De Link Object zoals gespecificeerd in https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5
+      description: De Link Object zoals gespecificeerd in https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5; Deze link kan als templated link worden aangeboden. [URI-templating is hier beschreven](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/v1.1.0/features/uri-templating.feature).
       type: object
       required:
         - href
@@ -530,37 +533,31 @@ components:
               $ref: "#/components/schemas/InvalidParams"
     Datum_onvolledig:
       type: "object"
-      description: "Gegevens over de datums die mogelijk niet volledig zijn, maar\
-        \ waarvan de bekende gedeeltes wel moeten kunnen worden uitgewisseld. Als\
-        \ de volledige datum bekend is worden alle elementen gevuld."
+      description: "Constructie voor het uitwisselen van datums die wel of niet volledig bekend zijn."
       properties:
         dag:
           type: "integer"
           title: "dag"
-          description: "De dag. Als de dag van de datum bekend is wordt deze hier\
-            \ ingevuld. Ook als de volledige datum bekend is."
+          description: "Heeft een waarde als de dag van de datum bekend is."
           minimum: 1
           maximum: 31
           example: 3
         datum:
           type: "string"
           title: "datum"
-          description: "De volledige datum die in de `date` definitie past. Dit element\
-            \ wordt alleen gevuld als de volledige datum bekend is."
+          description: "Datum die in de date (hypertext) definitie past. Bevat alleen een waarde als de volledige datum bekend is."
           format: "date"
           example: "1989-05-03"
         jaar:
           type: "integer"
           title: "jaar"
-          description: "Het jaar van de datum. Als het jaar bekend is wordt dit element\
-            \ gevuld, ook als de volledige datum bekend is."
+          description: "Heeft een waarde als het jaar van de datum bekend is."
           maximum: 9999
           example: 1989
         maand:
           type: "integer"
           title: "maand"
-          description: "De maand. Als de maand van een datum bekend is wordt deze\
-            \ hier ingevuld. Ook als de volledige datum is ingevuld."
+          description: "Heeft een waarde als de maand van de datum bekend is."
           minimum: 1
           maximum: 12
           example: 5
