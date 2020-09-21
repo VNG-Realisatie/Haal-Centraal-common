@@ -568,7 +568,7 @@ components:
           maximum: 12
           example: 5
     Datum_onvolledig:
-      default: true
+      deprecated: true
       allOf:
           - $ref: "#/components/schemas/DatumOnvolledig"
     Waardelijst:
