@@ -1,6 +1,14 @@
 openapi: 3.0.0
 info:
   title: Generieke componenten voor Haal Centraal APIs
+  description: |
+    De definitie van generieke components die worden gebruikt door de Haal Centraal APIs
+
+    DatumOnvolledig is toegevoegd als CamelCase tegenhanger van Datum_onvolledig (deprecated).
+    Deze constructie (t.b.v. evolvability) zorgt ervoor dat
+    - je geen duplicaat krijgt van een schema en
+    - maakt het mogelijk voor een provider om wel al te linken naar deze versie (voor bijvoorbeeld de nieuwe HalPaginationLinks en HalPaginationLinksMetLast schemas) zonder Datum_onvolledig ook te moeten vervangen.
+      Deze constructie is wel een overtreding van DD5.21 (een allOf zonder extra properties toevoegingen).
   version: '1.1.0'
   contact:
     name: Haal Centraal Common
@@ -410,67 +418,69 @@ components:
          type: string
     HalCollectionLinks:
       type: object
+      description: |
+        HalCollectionLinks bevat de self link die elke HAL Resource minimaal moet hebben in zijn _links property
       properties:
         self:
           $ref: "#/components/schemas/HalLink"
     HalPaginationLinks:
+      description: |
+        HalPaginationLinks bevat de link properties die nodig zijn om te kunnen navigeren in een collectie:
+
+        - first: uri voor het opvragen van de eerste pagina van deze collectie
+        - previous: uri voor het opvragen van de vorige pagina van deze collectie
+        - next: uri voor het opvragen van de volgende pagina van deze collectie
       allOf:
       - $ref: "#/components/schemas/HalCollectionLinks"
-      - type: "object"
+      - type: object
         properties:
           first:
-            type: "object"
-            description: "uri voor het opvragen van de eerste pagina van deze collectie"
-            properties:
-              href:
-                type: "string"
-                example: "/resourcenaam?page=1"
-              templated:
-                type: boolean
-              title:
-                type: "string"
-                example: "Eerste pagina"
+            $ref: "#/components/schemas/HalLink"
           previous:
-            type: "object"
-            description: "uri voor het opvragen van de vorige pagina van deze collectie"
-            properties:
-              href:
-                type: "string"
-                example: "/resourcenaam?page=3"
-              templated:
-                type: boolean
-              title:
-                type: "string"
-                example: "Vorige pagina"
+            $ref: "#/components/schemas/HalLink"
           next:
-            type: "object"
-            description: "uri voor het opvragen van de volgende pagina van deze collectie"
-            properties:
-              href:
-                type: "string"
-                example: "/resourcenaam?page=5"
-              templated:
-                type: boolean
-              title:
-                type: "string"
-                example: "Volgende pagina"
+            $ref: "#/components/schemas/HalLink"
+      example:
+        self:
+          href: /resourcenaam?page=4
+        first:
+          href: /resourcenaam?page=1
+          title: Eerste pagina
+        previous:
+          href: /resourcenaam?page=3
+          title: Vorige pagina
+        next:
+          href: /resourcenaam?page=5
+          title: Volgende pagina
     HalPaginationLinksMetLast:
+      description: |
+        HalPaginationLinksMetLast bevat de link properties die nodig zijn om te kunnen navigeren in een eindige collectie:
+
+        - first: uri voor het opvragen van de eerste pagina van deze collectie
+        - previous: uri voor het opvragen van de vorige pagina van deze collectie
+        - next: uri voor het opvragen van de volgende pagina van deze collectie
+        - last: uri voor het opvragen van de laatste pagina van deze collectie
       allOf:
       - $ref: "#/components/schemas/HalPaginationLinks"
-      - type: "object"
+      - type: object
         properties:
           last:
-            type: "object"
-            description: "uri voor het opvragen van de laatste pagina van deze collectie"
-            properties:
-              href:
-                type: "string"
-                example: "/resourcenaam?page=8"
-              templated:
-                type: boolean
-              title:
-                type: "string"
-                example: "Laatste pagina"
+            $ref: "#/components/schemas/HalLink"
+      example:
+        self:
+          href: /resourcenaam?page=4
+        first:
+          href: /resourcenaam?page=1
+          title: Eerste pagina
+        previous:
+          href: /resourcenaam?page=3
+          title: Vorige pagina
+        next:
+          href: /resourcenaam?page=5
+          title: Volgende pagina
+        last:
+          href: /resourcenaam?page=8
+          title: Laatste pagina
     Foutbericht:
       type: object
       description: Terugmelding bij een fout. JSON representatie in lijn met [RFC7807](https://tools.ietf.org/html/rfc7807).
@@ -527,7 +537,7 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/InvalidParams"
-    Datum_onvolledig:
+    DatumOnvolledig:
       type: "object"
       description: "Constructie voor het uitwisselen van datums die wel of niet volledig bekend zijn."
       properties:
@@ -557,6 +567,10 @@ components:
           minimum: 1
           maximum: 12
           example: 5
+    Datum_onvolledig:
+      deprecated: true
+      allOf:
+          - $ref: "#/components/schemas/DatumOnvolledig"
     Waardelijst:
       type: "object"
       description: "Generieke waardelijst met waarden om een code en omschrijving op te nemen."
