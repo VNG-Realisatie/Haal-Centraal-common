@@ -99,8 +99,9 @@ Van de naam in het gegevenswoordenboek kan worden afgeweken in o.a. de volgende 
 * Toevoegen van context, bijvoorbeeld wanneer het gegeven in een andere context wordt gebruikt dan in het gegevenswoordenboek. Bijvoorbeeld het opnemen van gegeven 'identificatie' van een woonplaats bij een nummeraanduiding wordt property 'woonplaatsIdentificatie'.
 * Een van het gegeven via een algoritme afgeleide property. Bijvoorbeeld 'leeftijd' van 'geboortedatum'.
 
-### DD1.17 Maak gebruik van 'title' (en alleen dan) indien wordt afgeweken van de naam van het corresponderende gegeven in het gegevenswoordenboek
-Wanneer er in de naam van een property wordt afgeweken (anders dan toepassen lowerCamelCase, UpperCamelCase en snakeCase) van de naam van het corresponderende gegeven in het gegevenswoordenboek, wordt de naam van dat gegeven in het gegevenswoordenboek opgenomen. Daarbij wordt gebruik gemaakt van het attribuut 'title' in de definitie van het property in de API. In alle andere gevallen wordt 'title' niet opgenomen in de definitie van een property.
+### DD1.17 Maak alleen gebruik van 'title' indien wordt afgeweken van de naam van het corresponderende gegeven in het gegevenswoordenboek
+Bij de naamgeving van een property komt het voor dat vergaand wordt afgeweken van de naam van het corresponderende gegeven in het gegevenswoordenboek. Indien het een afwijking betreft anders dan het toepassen van lowerCamelCase, UpperCamelCase, snakeCase, inkorten, uitschrijven afkorting, enz. wordt de naam van dat gegeven in het gegevenswoordenboek opgenomen in het attribuut 'title' van de property definitie. Dit wordt echter alleen gedaan als het vermoeden bestaat dat dit voor sommige gebruikers tot verwarring kan leiden. In alle andere gevallen wordt 'title' niet opgenomen in de definitie van een property.
+Het is verstandig om in deze situaties de afwijkende naamgeving voor het property eerst nog eens goed te overwegen.
 
 ### DD1.18 Streef naar het gebruik en interpretatie van gegevens mogelijk te maken zonder noodzaak tot domein- en algoritmekennis
 Streef er naar het gebruik en interpretatie van gegevens in een resource (incl. hun mogelijke waarden) mogelijk te maken zonder dat daarvoor domeinkennis of kennis van complexe algoritmes nodig is.
