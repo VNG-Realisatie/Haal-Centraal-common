@@ -16,9 +16,6 @@ Functionaliteit: zoeken met een wildcard wordt ondersteund op enkele parameters
 
   Bij het zoeken op de parameters die een wildcard ondersteunen, moeten er minimaal 2 karakters exclusief de wildcard(s) worden opgegeven.
 
-  Achtergrond:
-    Gegeven de registratie ingeschreven personen kent zoals beschreven in testdata.csv
-
   Scenario: Voor attribuut geslachtsnaam wordt zoeken met een wildcard ondersteund
     Gegeven de registratie ingeschreven personen kent met de geslachtsnaam "Groen", "Groenlo", "Groenink", "Groenen"
     Als ingeschreven personen gezocht worden met ?geboorte__datum=1983-05-26&naam__geslachtsnaam=groen*&naam__voornamen=*frank*

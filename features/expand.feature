@@ -38,8 +38,7 @@ Functionaliteit: Automatisch laden van sub-resources
   Wanneer de expand-parameter wordt opgenomen zonder waarde, wordt een foutmelding gegeven.
 
   Achtergrond:
-    Gegeven de registratie ingeschreven personen kent zoals beschreven in testdata.csv
-    En de te raadplegen persoon een actuele partner(partnerschap of huwelijk), ouders en kinderen heeft
+    Gegeven de te raadplegen persoon een actuele partner(partnerschap of huwelijk), ouders en kinderen heeft
     En in onderstaande scenario's wordt de fields-parameter niet gebruikt, tenzij expliciet aangegeven
     En de gebruiker geautoriseerd is voor gevraagde gegevens (sub-resources), tenzij expliciet anders aangegeven
 
