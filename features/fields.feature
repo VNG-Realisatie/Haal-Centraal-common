@@ -192,7 +192,7 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
     ```
 
 
-    Voor sommige API's kan besloten worden extra functionaliteit te bieden bij het invullen van de fields paramter. Bij de API specificaties en/of features is dan aangegeven dat de uitgebreide variant van de fields functionaliteit wordt geborden.
+    Voor sommige API's kan besloten worden extra functionaliteit te bieden bij het invullen van de fields paramter. Bij de API specificaties en/of features is dan aangegeven dat de uitgebreide variant van de fields functionaliteit wordt geboden.
     Deze functionaliteit maakt het mogelijk velden in groepen te vragen door alleen de naam van de property op te geven, of een deel van het pad, niet het hele pad ervoor. Dit kan nuttig zijn om de lengte van de waarde in fields te beperken.
 
     Met de fields parameter kan een gevraagd veld worden aangeduid met:
