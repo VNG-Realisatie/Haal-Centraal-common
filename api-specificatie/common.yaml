@@ -543,26 +543,22 @@ components:
       properties:
         dag:
           type: "integer"
-          title: "dag"
           description: "is gevuld als de dag van de datum of de hele datum bekend is."
           minimum: 1
           maximum: 31
           example: 3
         datum:
           type: "string"
-          title: "datum"
           description: "Datum conform date definitie. Is gevuld als de volledige datum bekend is"
           format: "date"
           example: "1989-05-03"
         jaar:
           type: "integer"
-          title: "jaar"
           description: "is gevuld als het jaar van de datum of de hele datum bekend is."
           maximum: 9999
           example: 1989
         maand:
           type: "integer"
-          title: "maand"
           description: "is gevuld als de maand van de datum of de hele datum bekend is."
           minimum: 1
           maximum: 12
@@ -577,25 +573,20 @@ components:
       properties:
         code:
           type: "string"
-          title: "code"
           description: "6"
         waarde:
           type: "string"
-          title: "waarde"
           description: "Huurrecht (zakelijk)"
     Waardetabel:
       type: "object"
       properties:
         code:
           type: "string"
-          title: "code"
           example: "6030"
         omschrijving:
           type: "string"
-          title: "omschrijving"
           example: "Nederland"
     Geometry:
-      title: Geometry
       description: GeoJSON geometry
       required:
       - type
@@ -619,7 +610,6 @@ components:
       externalDocs:
         url: https://tools.ietf.org/html/rfc7946#section-3.1
     Point2D:
-      title: Point2D
       description: A 2D point
       type: array
       items:
@@ -739,7 +729,6 @@ components:
       externalDocs:
         url: https://tools.ietf.org/html/rfc7946#section-3.1.8
     GeoJSONGeometry:
-      title: GeoJSONGeometry
       type: object
       oneOf:
       - $ref: "#/components/schemas/Point"
