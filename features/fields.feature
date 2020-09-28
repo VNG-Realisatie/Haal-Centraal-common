@@ -96,7 +96,7 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
     En bevat _embedded alleen attribuut kinderen
 
   Scenario: Vragen van specifieke velden met de expand parameter heeft geen invloed op de inhoud van de resource, alleen op de inhoud van de embedded subresource
-    Als een ingeschreven persoon wordt geraadpleegd met expand=kinderen.naam.voornamen
+    Als een ingeschreven persoon wordt geraadpleegd met fields=burgerservicenummer,naam,geboorte&expand=kinderen.naam.voornamen
     Dan bevat elk voorkomen van_embedded.kinderen attribuut naam.voornamen met een waarde
     En bevat elk voorkomen van_embedded.kinderen attribuut _links.self met een waarde
     En bevat elk voorkomen van _embedded.kinderen alleen attributen naam en _links
