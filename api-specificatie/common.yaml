@@ -539,31 +539,31 @@ components:
               $ref: "#/components/schemas/InvalidParams"
     DatumOnvolledig:
       type: "object"
-      description: "Constructie voor het uitwisselen van datums die wel of niet volledig bekend zijn."
+      description: "Biedt mogelijkheid om ook datums die voor een deel bekend zijn uit te wisselen."
       properties:
         dag:
           type: "integer"
           title: "dag"
-          description: "Heeft een waarde als de dag van de datum bekend is."
+          description: "is gevuld als de dag van de datum of de hele datum bekend is."
           minimum: 1
           maximum: 31
           example: 3
         datum:
           type: "string"
           title: "datum"
-          description: "Datum die in de date (hypertext) definitie past. Bevat alleen een waarde als de volledige datum bekend is."
+          description: "Datum conform date definitie. Is gevuld als de volledige datum bekend is"
           format: "date"
           example: "1989-05-03"
         jaar:
           type: "integer"
           title: "jaar"
-          description: "Heeft een waarde als het jaar van de datum bekend is."
+          description: "is gevuld als het jaar van de datum of de hele datum bekend is."
           maximum: 9999
           example: 1989
         maand:
           type: "integer"
           title: "maand"
-          description: "Heeft een waarde als de maand van de datum bekend is."
+          description: "is gevuld als de maand van de datum of de hele datum bekend is."
           minimum: 1
           maximum: 12
           example: 5
@@ -585,7 +585,6 @@ components:
           description: "Huurrecht (zakelijk)"
     Waardetabel:
       type: "object"
-      description: "Generieke tabel met waarden om een code en omschrijving op te nemen."
       properties:
         code:
           type: "string"
