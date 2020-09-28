@@ -51,63 +51,38 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
 
   Scenario: Slechts één enkel attribuut wordt gevraagd
     Als een ingeschreven persoon wordt geraadpleegd met fields=geslachtsaanduiding
-    Dan wordt attribuut geslachtsaanduiding teruggegeven
-    En wordt attribuut _links.self teruggegeven
-    En wordt geen enkel ander attribuut dan geslachtsaanduiding teruggegeven
-    En bevat _links geen ander attribuut dan self
-    En wordt er geen gerelateerde sub-resource teruggegeven in _embedded
+    Dan worden alleen attributen geslachtsaanduiding en _links teruggegeven
+    En bevat _links alleen attribuut self
 
   Scenario: Meerdere attributen worden gevraagd
     Als een ingeschreven persoon wordt geraadpleegd met fields=burgerservicenummer,burgerlijkeStaat,geslachtsaanduiding
-    Dan wordt attribuut burgerservicenummer teruggegeven
-    En wordt attribuut burgerlijkeStaat teruggegeven
-    En wordt attribuut geslachtsaanduiding teruggegeven
-    En wordt attribuut _links.self teruggegeven
-    En wordt geen enkel ander attribuut dan burgerservicenummer, burgerlijkeStaat, geslachtsaanduiding en _links.self teruggegeven
-    En bevat _links geen ander attribuut dan self
-    En wordt er geen gerelateerde sub-resource teruggegeven in _embedded
+    Dan worden alleen attributen burgerservicenummer, burgerlijkeStaat, geslachtsaanduiding en _links teruggegeven
+    En bevat _links alleen attribuut self
 
   Scenario: Hele groep wordt gevraagd
     Gegeven de te raadplegen persoon heeft voornamen, geslachtsnaam en voorvoegsel
     Als een ingeschreven persoon wordt geraadpleegd met fields=burgerservicenummer,naam
-    Dan wordt attribuut burgerservicenummer teruggegeven
-    En wordt attribuut naam.voornamen teruggegeven
-    En wordt attribuut naam.geslachtsnaam teruggegeven
-    En wordt attribuut naam.voorvoegsel teruggegeven
-    En wordt attribuut _links.self teruggegeven
-    En wordt geen enkel ander attribuut dan burgerservicenummer, naam en _links teruggegeven
-    En bevat _links geen ander attribuut dan self
-    En wordt er geen gerelateerde sub-resource teruggegeven in _embedded
+    Dan worden alleen attributen burgerservicenummer, naam en _links teruggegeven
+    En bevat _links alleen attribuut self
 
   Scenario: Een of enkele attributen binnen een groep worden gevraagd
     Als een ingeschreven persoon wordt geraadpleegd met fields=naam.aanschrijfwijze,naam.voornamen
-    Dan wordt attribuut naam.aanschrijfwijze teruggegeven
-    En wordt attribuut naam.voornamen teruggegeven
-    En wordt attribuut _links.self teruggegeven
-    En bevat naam geen ander attribuut dan aanschrijfwijze en voornamen
-    En bevat _links geen ander attribuut dan self
-    En wordt geen enkel ander attribuut dan naam en _links teruggegeven
-    En wordt er geen gerelateerde sub-resource teruggegeven in _embedded
+    Dan worden alleen attributen naam en _links teruggegeven
+    En bevat naam alleen attributen aanschrijfwijze en voornamen
+    En bevat _links alleen attribuut self
 
   Scenario: Relaties (links) vragen (en beperken) in het antwoord
     Gegeven de te raadplegen persoon heeft een actuele partner(partnerschap of huwelijk), ouders en kinderen
     Als een ingeschreven persoon wordt geraadpleegd met fields=burgerservicenummer,naam,_links.partners
-    Dan wordt attribuut _links.partners teruggegeven
-    En wordt attribuut burgerservicenummer teruggegeven
-    En wordt attribuut naam.voornamen teruggegeven
-    En wordt attribuut naam.geslachtsnaam teruggegeven
-    En wordt attribuut naam.voorvoegsel teruggegeven
-    En wordt attribuut _links.self teruggegeven
-    En wordt in _links geen enkel ander attribuut dan self en partners teruggegeven
-    En wordt er geen gerelateerde sub-resource teruggegeven in _embedded
+    Dan worden alleen attributen burgerservicenummer, naam en _links teruggegeven
+    En bevat _links alleen attributen self en partners
 
   Scenario: Gebruik van de fields parameter heeft geen invloed op embedded sub-resources
     Als een ingeschreven persoon wordt geraadpleegd met fields=geboorte.land&expand=kinderen
-    Dan wordt attribuut geboorte.land teruggegeven
-    En wordt attribuut _links.self teruggegeven
-    En wordt in _links geen enkel ander attribuut dan self teruggegeven
-    En wordt geen enkel ander attribuut dan geboorte, _links en _embedded teruggegeven
-    En wordt attribuut _embedded.kinderen teruggegeven
+    Dan worden alleen attributen geboorte, _links en _embedded teruggegeven
+    En bevat geboorte alleen attribuut land
+    En bevat _links alleen attribuut self
+    En bevat _embedded alleen attribuut kinderen
     En bevat elk voorkomen van _embedded.kinderen attribuut burgerservicenummer met een waarde
     En bevat elk voorkomen van_embedded.kinderen attribuut naam met een waarde
     En bevat elk voorkomen van_embedded.kinderen attribuut geboorte.datum met een waarde
@@ -116,19 +91,17 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
 
   Scenario: Gebruik van de expand parameter heeft geen invloed op de inhoud van de resource
     Als een ingeschreven persoon wordt geraadpleegd met fields=_links.partners&expand=kinderen
-    Dan wordt attribuut _links.partners teruggegeven
-    En wordt attribuut _links.self teruggegeven
-    En bevat _links niet attribuut kinderen
-    En wordt in _links geen enkel ander attribuut dan self en partners teruggegeven
-    En wordt attribuut _embedded.kinderen teruggegeven
-    En wordt in _embedded geen enkel ander attribuut dan kinderen teruggegeven
-    En wordt geen enkel ander attribuut dan _links en _embedded teruggegeven
+    Dan worden alleen attributen _links en _embedded teruggegeven
+    En bevat _links alleen attributen self en partners
+    En bevat _embedded alleen attribuut kinderen
 
   Scenario: Vragen van specifieke velden met de expand parameter heeft geen invloed op de inhoud van de resource, alleen op de inhoud van de embedded subresource
     Als een ingeschreven persoon wordt geraadpleegd met expand=kinderen.naam.voornamen
     Dan bevat elk voorkomen van_embedded.kinderen attribuut naam.voornamen met een waarde
     En bevat elk voorkomen van_embedded.kinderen attribuut _links.self met een waarde
-    En wordt in elk voorkomen van _embedded.kinderen geen enkel ander attribuut dan naam.voornamen en _links.self teruggegeven
+    En bevat elk voorkomen van _embedded.kinderen alleen attributen naam en _links
+    En bevat in elk voorkomen van _embedded.kinderen naam alleen attribuut voornamen
+    En bevat in elk voorkomen van _embedded.kinderen _links alleen attribuut self
     En wordt attribuut burgerservicenummer teruggegeven
     En wordt attribuut naam.voornamen teruggegeven
     En wordt attribuut naam.geslachtsnaam teruggegeven
@@ -136,7 +109,6 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
     En wordt attribuut geboorte teruggegeven
     En wordt attribuut _links.self teruggegeven
     En wordt attribuut _links.kinderen teruggegeven
-    En wordt in _embedded geen enkel ander attribuut dan kinderen teruggegeven
 
   Scenario: Lege fields parameter geeft alle attributen
     Als een ingeschreven persoon wordt geraadpleegd met fields=
@@ -162,7 +134,7 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
     En is in het antwoord attribuut geboorte.plaats niet aanwezig
     En is in het antwoord attribuut geboorte.land niet aanwezig
     En wordt attribuut _links.self teruggegeven
-    En wordt in _links geen enkel ander attribuut dan self teruggegeven
+    En bevat _links alleen attribuut self
 
   Scenario: Fields vraagt specifiek om een gegeven waarvoor deze niet geautoriseerd is
     Gegeven de gebruiker is geautoriseerd voor geboortedatum
@@ -172,12 +144,14 @@ Functionaliteit: Aanpasbare representatie met de fields parameter
     En is in het antwoord attribuut geboorte.plaats niet aanwezig
     En is in het antwoord attribuut geboorte.land niet aanwezig
     En wordt attribuut _links.self teruggegeven
-    En wordt in _links geen enkel ander attribuut dan self teruggegeven
 
   Scenario: Fields bevat attributen die bij de geraadpleegde persoon geen waarde hebben
     Gegeven de te raadplegen persoon verblijft in het buitenland
     Als een ingeschreven persoon wordt geraadpleegd met fields=verblijfplaats.postcode,verblijfplaats.huisnummer
-    Dan wordt attribuut verblijfplaats.adresregel1 teruggegeven
+    Dan wordt alleen attribuut _links teruggegeven
+    En bevat _links alleen attribuut self
+    En is in het antwoord attribuut verblijfplaats.adresregel1 niet aanwezig
+    En is in het antwoord attribuut verblijfplaats.land niet aanwezig
     En is in het antwoord attribuut verblijfplaats.postcode niet aanwezig
     En is in het antwoord attribuut verblijfplaats.huisnummer niet aanwezig
 
