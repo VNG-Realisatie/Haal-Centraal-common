@@ -593,7 +593,6 @@ components:
         omschrijving:
           type: "string"
           title: "omschrijving"
-          description: "Voor mensen leesbare omschrijving van de waarde."
           example: "Nederland"
     Geometry:
       title: Geometry
