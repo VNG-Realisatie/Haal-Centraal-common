@@ -108,6 +108,13 @@ Streef er naar het gebruik en interpretatie van gegevens in een resource (incl. 
 _**Voorbeeld 1**_: I.p.v. voor de property 'indicatieGeheim' de waarden '0' of '1' te definiëren kun je ook de waarden 'true' en 'false' definiëren.
 _**Voorbeeld 2**_: I.p.v. de property 'inOnderzoek' kan je juist kiezen voor 'mogelijkOnjuist' waaruit veel duidelijker wordt wat de functie is.
 
+### DD1.19 Gebruik het schemacomponent xxxHalBasis als er gebruik wordt gemaakt van Hal
+
+Voor een Hal component die alleen bestaat uit _links voldoet de naam aan de volgende syntax:
+'xxxHalBasis' (waarbij xxx staat voor de naam van de resource).
+Als ook een _embedded moet worden toegevoegd wordt er een extensie gemaakt op 'xxxHalBasis' waarin de _embedded wordt toegevoegd. De naam van dat component voldoet aan de volgende syntax:
+'xxxHal' (waarbij xxx wederom staat voor de naam van de resource).
+
 ## Enumeraties en dynamische lijsten
 
 ### DD2.1 Dynamische domeinwaarden worden in de response opgenomen met zowel de code als de omschrijving
