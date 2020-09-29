@@ -97,7 +97,7 @@ components:
         format: date
         example: "2018-09-09"
     datumVan:
-      name: datumvan
+      name: datumVan
       in: query
       description: "De begindatum van de periode waarover de resource wordt opgevraagd."
       required: false
@@ -106,7 +106,7 @@ components:
         format: date
         example: "2018-09-09"
     datumTotEnMet:
-      name: datumtotenmet
+      name: datumTotEnMet
       in: query
       description: "De einddatum van de periode waarover de resource wordt opgevraagd."
       required: false
