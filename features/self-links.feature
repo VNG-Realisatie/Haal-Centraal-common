@@ -23,10 +23,7 @@ Functionaliteit: JSON HAL self links worden opgenomen in de response
     Dan eindigt attribuut "_links.self.href" met "/ingeschrevenpersonen/999999023?fields=naam,geboorte,overlijden&expand=kinderen"
 
   Scenario: self link van een embedded resource
-    Gegeven de persoon met burgerservicenummer 999999023 heeft een actuele partner
-    Als ingeschreven persoon wordt geraadpleegd met "/ingeschrevenpersonen/999999023?expand=partners.naam&fields=naam,geboorte,overlijden"
-    Dan bevat het attribuut "_embedded.partners[0]._links.self.href" de tekst "/ingeschrevenpersonen/999999023/partners/"
-    En bevat het attribuut "_embedded.partners[0]._links.self.href" niet "?"
-    En bevat het attribuut "_embedded.partners[0]._links.self.href" niet "expand"
-    En bevat het attribuut "_embedded.partners[0]._links.self.href" niet "fields"
-    En eindigt het attribuut "_embedded.partners[0]._links.self.href" niet op "/"
+    Gegeven kadastraal onroerende zaak met identificatie "76870487970000" heeft een zakelijk gerechtigde met identificatie "30493367"
+    Als de kadastraal onroerende zaak wordt geraadpleegd met "/kadastraalonroerendezaken/76870487970000?expand=zakelijkGerechtigden.persoon,zakelijkGerechtigden.type&fields=koopsom,aardCultuurBebouwd"
+    Dan heeft attribuut "_links.self.href" de waarde "/kadastraalonroerendezaken/76870487970000?expand=zakelijkGerechtigden.persoon,zakelijkGerechtigden.type&fields=koopsom,aardCultuurBebouwd"
+    En heeft attribuut "_embedded.zakelijkGerechtigden[0]._links.self.href" de waarde "/kadastraalonroerendezaken/76870487970000/zakelijkgerechtigden/30493367"
