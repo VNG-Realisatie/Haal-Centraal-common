@@ -12,7 +12,7 @@
 - Contact, license en paths toegevoegd om valide OAS3 te krijgen ivm linter-parametervalidatie (primair voor intern beheer)
 - datumvan --> datumVan
 - datumtotenmet --> datumTotEnMet
-- Bij foutmeldingen type aangepast zodat de URL coorect verwijst naar de betreffende section
+- Bij foutmeldingen type aangepast zodat de URL correct verwijst naar de betreffende section
 - Diverse descriptions voor standaard Hal-componenten aangepast.
 - Bij paginering de embedded object definitie vervangen door $ref's
 - Bij diverse properties de overbodige titles verwijderd
