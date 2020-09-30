@@ -9,10 +9,10 @@
     - je geen duplicaat krijgt van een schema en
     - maakt het mogelijk voor een provider om wel al te linken naar deze versie (voor bijvoorbeeld de nieuwe HalPaginationLinks en HalPaginationLinksMetLast schemas) zonder Datum_onvolledig ook te moeten vervangen.
     Deze constructie is wel een overtreding van DD5.21 (een allOf zonder extra properties toevoegingen).
-- contact, license en paths toegevoegd om valide OAS3 te krijgen ivm linter-parametervalidatie (primair voor intern beheer)
+- Contact, license en paths toegevoegd om valide OAS3 te krijgen ivm linter-parametervalidatie (primair voor intern beheer)
 - datumvan --> datumVan
 - datumtotenmet --> datumTotEnMet
-- bij foutmeldingen type aangepast zodat de URL coorect verwijst naar de betreffende section
+- Bij foutmeldingen type aangepast zodat de URL coorect verwijst naar de betreffende section
 - Diverse descriptions voor standaard Hal-componenten aangepast.
 - Bij paginering de embedded object definitie vervangen door $ref's
 - Bij diverse properties de overbodige titles verwijderd
