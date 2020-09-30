@@ -96,8 +96,8 @@ components:
         type: string
         format: date
         example: "2018-09-09"
-    datumvan:
-      name: datumvan
+    datumVan:
+      name: datumVan
       in: query
       description: "De begindatum van de periode waarover de resource wordt opgevraagd."
       required: false
@@ -105,8 +105,8 @@ components:
         type: string
         format: date
         example: "2018-09-09"
-    datumtotenmet:
-      name: datumtotenmet
+    datumTotEnMet:
+      name: datumTotEnMet
       in: query
       description: "De einddatum van de periode waarover de resource wordt opgevraagd."
       required: false
