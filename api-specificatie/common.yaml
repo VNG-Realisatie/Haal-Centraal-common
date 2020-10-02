@@ -9,7 +9,7 @@ info:
     - je geen duplicaat krijgt van een schema en
     - maakt het mogelijk voor een provider om wel al te linken naar deze versie (voor bijvoorbeeld de nieuwe HalPaginationLinks en HalPaginationLinksMetLast schemas) zonder Datum_onvolledig ook te moeten vervangen.
       Deze constructie is wel een overtreding van DD5.21 (een allOf zonder extra properties toevoegingen).
-  version: '1.1.0'
+  version: '1.2.0'
   contact:
     name: Haal Centraal Common
     url: https://github.com/VNG-Realisatie/Haal-Centraal-Common
