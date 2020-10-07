@@ -9,3 +9,6 @@ rules:
   oas3-schema: off
   openapi-tags: off
   oas3-unused-components-schema: off
+  operation-description: off
+  operation-operationId: off
+  operation-tags: off

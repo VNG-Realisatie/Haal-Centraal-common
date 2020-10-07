@@ -4,7 +4,7 @@ extends:
 - ./spectral_rules/allof-extends-object.yml
 - ./spectral_rules/allof-single-extension.yml
 - ./spectral_rules/enum-value-snake-case.yml
-- ./spectral_rules/parameter-names-camel-case.yml
+- ./spectral_rules/query-parameter-names-camel-case.yml
 - ./spectral_rules/property-of-object-type.yml
 - ./spectral_rules/schema-names-pascal-case.yml
 - ./spectral_rules/too-much-information.yml
