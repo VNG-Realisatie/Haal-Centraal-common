@@ -1,0 +1,10 @@
+rules:
+  allof-extends-object:
+    description: allOf must extend an object and add at least one property
+    message: '{{path}} moet beginnen met $ref'
+    resolved: false
+    type: style
+    given: '$..allOf[0]'
+    then:
+      - field: "$ref"
+        function: truthy

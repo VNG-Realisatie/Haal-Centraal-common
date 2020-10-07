@@ -1,0 +1,12 @@
+rules:
+  enum-value-snake-case:
+    description: Enumeration values SHOULD be in snake case
+    message: 'Enumeratiewaarde "{{value}}" is niet snake_case: {{path}}'
+    recommended: true
+    resolved: false
+    type: style
+    given: '$.components.schemas..enum[*]'
+    then:
+      function: casing
+      functionOptions:
+        type: snake

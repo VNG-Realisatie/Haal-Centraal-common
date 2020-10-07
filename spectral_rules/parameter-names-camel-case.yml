@@ -1,0 +1,12 @@
+rules:
+  parameter-names-camel-case:
+    description: Parameter names MUST be written in camelCase
+    message: '{{value}} is niet camelCase: {{error}}'
+    recommended: true
+    type: style
+    given: '$.components.parameters[?(@.in == "query")]'
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: camel

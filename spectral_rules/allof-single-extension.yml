@@ -1,0 +1,9 @@
+rules:
+  allof-single-extension:
+    description: allOf must extend from exactly one object
+    message: '{{path}}: allOf mag niet meer dan twee items bevatten, de eerste met $ref, de tweede met properties'
+    resolved: false
+    type: style
+    given: '$..allOf[2]'
+    then:
+      function: falsy

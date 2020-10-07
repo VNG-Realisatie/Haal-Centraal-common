@@ -1,0 +1,11 @@
+# Deze ruleset wordt gebruikt voor het testen van een specifieke rule.
+# Specifieke spectral:oas rules zijn uitgezet zodat de OAS kan worden beperkt
+# tot de spec die nodig is om de specifieke rule te valideren
+extends: spectral:oas
+rules:
+  info-contact: off
+  info-description: off
+  oas3-api-servers: off
+  oas3-schema: off
+  openapi-tags: off
+  oas3-unused-components-schema: off
