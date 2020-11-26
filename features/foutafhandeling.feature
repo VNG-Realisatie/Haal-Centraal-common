@@ -67,6 +67,7 @@ Functionaliteit: Afhandeling van fouten
   | expand           | Deel van de parameterwaarde niet correct: {waarde}.       | expand       |
   | wildcard         | Incorrect gebruik van wildcard karakter {wildcard}.       | wildcard     |
   | page bestaat     | De opgegeven pagina bestaat niet.                         | page         |
+  | paramWaarde      | Parameter bevat niet toegestane karakters.                | notAllowedCharacter |
 
   Bij een validatiefout op de expandparameter of fieldsparameter, wordt de plek binnen de parameterwaarde opgenomen waar de fout gevonden wordt.
 
