@@ -1,0 +1,4 @@
+# Deze ruleset wordt gebruikt voor het testen van een specifieke rule.
+# Alle spectral:oas rules zijn uitgezet zodat de OAS kan worden beperkt
+# tot de specificatie die nodig is om de specifieke rule te valideren
+extends: [[spectral:oas, off]]
