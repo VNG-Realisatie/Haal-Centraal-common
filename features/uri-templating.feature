@@ -27,6 +27,7 @@ Functionaliteit: URI templating
       - de naam van een property van een gegevensgroep van de resource.
         Gebruik in dit geval de naam van de gegevensgroep gevolgd door een punt als prefix, bijv. persoon.identificatie, woonadres.adresIdentificatie
     - indien de lijst met identificaties, die gebruikt wordt om samen met de templated link de daadwerkelijke links op te bouwen, leeg is wordt de templated link niet opgenomen.
+    - indien een resource (via gegevensgroepen) meerdere verwijzingen heeft naar een zelfde resource type, dan kan voor deze verwijzingen één link property worden gedefinieerd.
 
   Scenario: Verwijzing naar één externe Resource
     Gegeven een KadastraalOnroerendeZaak heeft een verwijzing via de 'adresIdentificatie' property naar een Adres
@@ -64,6 +65,15 @@ Functionaliteit: URI templating
     En is de Hal link naar de Persoon van het type ingeschreven_niet_natuurlijk_persoon gelijk aan
     | href                                            | templated |
     | /kadasternietnatuurlijkpersonen/{identificatie} | true      |
+
+  Scenario: Verwijzingen naar een Resource type via meerdere properties van één of meerdere gegevensgroepen
+    Gegeven een ZakelijkGerechtigde heeft een verwijzing via de 'stukIdentificaties' property van gegevensgroep 'ZakelijkRecht' naar Stukken
+    En de ZakelijkGerechtigde heeft een vewijzing via de 'isVermeldInStukdeelIdentificaties' property van de gegevensgroep 'ZakelijkRecht' naar Stukdelen
+    En de ZakelijkGerechtigde heeft een verwijzing via de 'stukIdentificaties' property van de gegevensgroep 'Tenaamstelling' naar Stukken
+    En de ZakelijkGerechtigde heeft een vewijzing via de 'isVermeldInStukdeelIdentificaties' property van de gegevensgroep 'Tenaamstelling' naar Stukdelen
+    Als de links voor de ZakelijkGerechtigde is gegenereerd
+    Dan bevat de _links gegevensgroep van de ZakelijkGerechtigde een 'Stukken' property waarmee een link naar een Stuk kan worden samengesteld voor zowel de 'ZakelijkRecht' en 'Tenaamstelling' gegevensgroep
+    En bevat de _links gegevensgroep van de ZakelijkGerechtigde een 'Stukdelen' property waarmee een link naar een Stukdeel kan worden samengesteld voor zowel de 'ZakelijkRecht' en 'Tenaamstelling' gegevensgroep
 
   Scenario: Expanden van een templated url
     Gegeven de json response fragment van een kadastraal onroerende zaak
