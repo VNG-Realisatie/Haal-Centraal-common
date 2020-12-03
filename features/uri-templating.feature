@@ -67,13 +67,21 @@ Functionaliteit: URI templating
     | /kadasternietnatuurlijkpersonen/{identificatie} | true      |
 
   Scenario: Verwijzingen naar een Resource type via meerdere properties van één of meerdere gegevensgroepen
-    Gegeven een ZakelijkGerechtigde heeft een verwijzing via de 'stukIdentificaties' property van gegevensgroep 'ZakelijkRecht' naar Stukken
-    En de ZakelijkGerechtigde heeft een vewijzing via de 'isVermeldInStukdeelIdentificaties' property van de gegevensgroep 'ZakelijkRecht' naar Stukdelen
-    En de ZakelijkGerechtigde heeft een verwijzing via de 'stukIdentificaties' property van de gegevensgroep 'Tenaamstelling' naar Stukken
-    En de ZakelijkGerechtigde heeft een vewijzing via de 'isVermeldInStukdeelIdentificaties' property van de gegevensgroep 'Tenaamstelling' naar Stukdelen
-    Als de links voor de ZakelijkGerechtigde is gegenereerd
-    Dan bevat de _links gegevensgroep van de ZakelijkGerechtigde een 'Stukken' property waarmee een link naar een Stuk kan worden samengesteld voor zowel de 'ZakelijkRecht' en 'Tenaamstelling' gegevensgroep
-    En bevat de _links gegevensgroep van de ZakelijkGerechtigde een 'Stukdelen' property waarmee een link naar een Stukdeel kan worden samengesteld voor zowel de 'ZakelijkRecht' en 'Tenaamstelling' gegevensgroep
+    Gegeven een ZakelijkGerechtigde met de volgende kenmerken
+    | naam                                             | waarde  |
+    | zakelijkRecht.stukIdentificaties                 | 1234567 |
+    | zakelijkRecht.isVermeldInStukdeelIdentificaties  | 2345678 |
+    | tenaamstelling.stukIdentificaties                | 3456789 |
+    | tenaamstelling.isVermeldInStukdeelIdentificaties | 4567890 |
+    Als de ZakelijkGerechtigde wordt geraadpleegd
+    Dan bevat de response de volgende kenmerken
+    | naam             | waarde                             |
+    | _links.stukken   | /stukken/{stukIdentificatie}       |
+    | _links.stukdelen | /stukdelen/{stukdeelIdentificatie} |
+    En kan het stuk met identificatie 1234567 worden geraadpleegd met uri '/stukken/1234567'
+    En kan het stuk met identificatie 3456789 worden geraadpleegd met uri '/stukken/3456789'
+    En kan het stukdeel met identificatie 2345678 worden geraadpleegd met uri '/stukdelen/2345678'
+    En kan het stukdeel met identificatie 4567890 worden geraadpleegd met uri '/stukdelen/4567890'
 
   Scenario: Expanden van een templated url
     Gegeven de json response fragment van een kadastraal onroerende zaak
