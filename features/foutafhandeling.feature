@@ -12,7 +12,7 @@ Functionaliteit: Afhandeling van fouten
 
   We kennen de volgende foutsituaties:
   | Foutsituatie                        | status | voorbeeld title                                                   | code              |
-  | Geen parameter is meegegeven        | 400    | Ten minste één parameter moet worden opgegeven.                   | paramsRequired    |
+  | Geen parameter is meegegeven        | 400    | Geef tenminste één parameter op.                                  | paramsRequired    |
   | Verplichte parameter(combinatie)    | 400    | Minimale combinatie van parameters moet worden opgegeven.         | paramsCombination |
   | Niet toegestane parametercombinatie | 400    | De combinatie van opgegeven parameters is niet toegestaan.        | unsupportedCombi  |
   | Parametervalidatie                  | 400    | Een of meerdere parameters zijn niet correct.                     | paramsValidation  |
