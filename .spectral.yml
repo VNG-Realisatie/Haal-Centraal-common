@@ -101,3 +101,4 @@ rules:
 
       - field: "pattern"
         function: falsy
+  no-$ref-siblings: off
