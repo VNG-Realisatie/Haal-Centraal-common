@@ -8,7 +8,6 @@
   },
   "scripts": {
     "oas:lint": "spectral lint ./api-specificatie/common.yaml",
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
