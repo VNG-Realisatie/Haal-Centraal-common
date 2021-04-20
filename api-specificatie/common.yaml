@@ -32,9 +32,7 @@ components:
     contentCrs:
       description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
-        type: string
-        enum:
-          - epsg:28992
+        $ref: '#/components/schemas/CrsEnum'
 # Dit is RD, het enige coordinatenstelsel dat het kadaster nu kan leveren
 # Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
     X_Pagination_Page:
@@ -138,9 +136,7 @@ components:
       required: false
       description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
-        type: string
-        enum:
-          - epsg:28992
+        $ref: '#/components/schemas/CrsEnum'
 # Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
 # Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
     acceptCrs:
@@ -150,9 +146,7 @@ components:
       description: Gewenste CRS van de coördinaten in de response.
       schema:
         description: 'CRS van de coördinaten in de response. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.'
-        type: string
-        enum:
-          - epsg:28992
+        $ref: '#/components/schemas/CrsEnum'
 # Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
 # Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
   responses:
@@ -738,3 +732,7 @@ components:
       - $ref: "#/components/schemas/Polygon"
       - $ref: "#/components/schemas/MultiPolygon"
       - $ref: "#/components/schemas/GeometryCollection"
+    CrsEnum:
+      type: string
+      enum:
+        - epsg:28992
