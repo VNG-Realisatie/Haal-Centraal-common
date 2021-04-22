@@ -736,3 +736,4 @@ components:
       type: string
       enum:
         - epsg:28992
+      default: epsg:28992
