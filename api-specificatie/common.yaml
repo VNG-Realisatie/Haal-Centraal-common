@@ -32,9 +32,7 @@ components:
     contentCrs:
       description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
-        type: string
-        enum:
-          - epsg:28992
+        $ref: '#/components/schemas/CrsEnum'
 # Dit is RD, het enige coordinatenstelsel dat het kadaster nu kan leveren
 # Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
     X_Pagination_Page:
@@ -138,27 +136,14 @@ components:
       required: false
       description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
-        type: string
-        enum:
-          - epsg:28992
-        default: epsg:28992
-# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
-# Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
-# Voor 1.3.0 de default toegevoegd. Daarmee voorkomen we dat de Content-Crs verplicht opgegeven moet worden zolang er maar 1 waarde is
+        $ref: '#/components/schemas/CrsEnum'
     acceptCrs:
       name: Accept-Crs
       in: header
       required: false
       description: Gewenste CRS van de coördinaten in de response.
       schema:
-        description: 'CRS van de coördinaten in de response. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.'
-        type: string
-        enum:
-          - epsg:28992
-        default: epsg:28992
-# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
-# Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
-# Voor 1.3.0 de default toegevoegd. Daarmee voorkomen we dat de Accept-Crs verplicht opgegeven moet worden zolang er maar 1 waarde is
+        $ref: '#/components/schemas/CrsEnum'
   responses:
     '204':
       description: No content
@@ -742,3 +727,12 @@ components:
       - $ref: "#/components/schemas/Polygon"
       - $ref: "#/components/schemas/MultiPolygon"
       - $ref: "#/components/schemas/GeometryCollection"
+    CrsEnum:
+      description: CRS van geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
+      type: string
+      enum:
+        - epsg:28992
+      default: epsg:28992
+      # Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
+      # Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
+      # Voor 1.3.0 de default toegevoegd. Daarmee voorkomen we dat de Content-Crs verplicht opgegeven moet worden zolang er maar 1 waarde is

@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "oas:lint": "spectral lint ./api-specificatie/common.yaml",
+    "oas:lint": "spectral lint ./api-specificatie/common.yaml"
   },
   "repository": {
     "type": "git",
