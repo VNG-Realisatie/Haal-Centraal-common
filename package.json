@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/VNG-Realisatie/Haal-Centraal-common#readme",
   "devDependencies": {
-    "@stoplight/spectral": "^5.8.0",
+    "@stoplight/spectral": "^5.9.1",
     "husky": "^4.3.7"
   },
   "husky": {
