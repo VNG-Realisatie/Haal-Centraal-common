@@ -424,3 +424,24 @@ Dan hoeft de 404 foutcode ook niet gespecificeerd te worden. Als "best practice"
     * 500 Internal Server Error
     * 503 Service Unavailable
     * default
+
+### DD5.24 Gebruik minLength en maxLength voor het afdwingen van de lengte van een waarde
+Indien er voor een waarde een vaste lengte gewenst is en er wordt al gebruik gemaakt van een pattern dan is het logisch om die vaste lengte ook af te dwingen met het pattern.
+We kiezen er echter voor om deze altijd te definiëren met de properties 'minlength' en 'maxLength'.
+
+_**Ratio**_
+
+Wanneer een gebruiker (burger of ambtenaar) iets verkeerd invult kan de applicatie explicieter zijn in de beschrijving van de oorzaak. De yaml code
+
+```yaml
+pattern: "^[ 0-9]*$"
+maxLength: 12
+minLength: 12
+```
+maakt het dus mogelijk om de volgende foutmeldingen te genereren:
+
+* er is een niet-numerieke waarde ingetypt (alleen cijfers zijn toegestaan)
+* er is een getal te weinig ingetypt
+* er is een getal teveel ingetypt
+
+als je alleen het pattern hebt, kan je alleen zeggen dat een ongeldige waarde is ingetypt, maar niet wat er precies ongeldig aan is.
