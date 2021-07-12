@@ -215,8 +215,12 @@ Nu verwijzen de links nog naar de master-branch van Haal-centraal-common. Op het
 ### DD5.3 Technische definities van properties alleen opnemen voor zover dat noodzakelijk is voor gebruik
 Meestal volstaat het om in de definitie van properties in de response de _propertynaam, type, format, description_ en _example_ op te nemen.
 We gebruiken daar niet de technische definities _pattern, minimum, maximum, minLength, maxLength, minItems_ en _required_, tenzij....
+
+* het een van de properties van 'Datum_onvolledig' (dag, maand en jaar) betreft. Daar mag 'minimum' en 'maximum' wel gebruikt worden.
+* we een (inter)nationale standaard gebruiken waarin dit wel is opgenomen.
+
 De technische definitie _title_ gebruiken we alleen wanneer de propertynaam afwijkt van de naam in het informatiemodel (en het informatiemodel bekend is bij veel gebruikers).
-De technische definitie _enum_ gebruiken we wanneer (sommige/mogelijke) gebruikers de mogelijke waarden gebruiken in code/algoritmes en daarom moeten weten welke mogelijke waarden er zijn.  
+De technische definitie _enum_ gebruiken we wanneer (sommige/mogelijke) gebruikers de mogelijke waarden gebruiken in code/algoritmes en daarom moeten weten welke mogelijke waarden er zijn. 
 
 ### DD5.4 Gebruik geen oneOf of anyOf constructies voor polymorfe gegevens
 We gebruiken geen oneOf of anyOf constructies voor polymorfe gegevens.
