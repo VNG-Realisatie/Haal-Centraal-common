@@ -52,7 +52,13 @@ Voor de namen van endpoints, url's en parameters worden alleen kleine letters ge
   * kinderen (resource "ingeschrevenpersonen" en relatie "heeft kinderen")
 
 ### DD1.8 Namen van Identificatie properties zijn afhankelijk van het wel of niet voorkomen van sibling properties
-Wanneer een relatie-property (niet link of embedded) geen andere properties heeft dan alleen de identificatie van een gerelateerde resource, wordt deze niet gemodelleerd als property met daarbinnen de identificatie-property. De relatie-property wordt dan vervangen door de identificatie-property met als naam de naam van de gerelateerde resource plus het woord 'Identificatie'.
+Wanneer een relatie-property (niet link of embedded) geen andere properties heeft dan alleen de identificatie van een gerelateerde resource dan kan deze op verschillende manieren worden gemodelleerd.
+1. Als object property met daarbinnen de identificatie-property. 
+2. Als alleen een identificatie property.
+
+Het voordeel van de eerste vorm is dat deze uitbreidbaar is met andere properties zonder breaking change terwijl de tweede vorm eenvoudiger van structuur en eenvoudig te gebruiken is. Overwegingen die goed tegen elkaar afgewogen moeten worden.
+
+Als gekozen wordt voor de tweede vorm dan wordt de relatie-property vervangen door de identificatie-property met als naam de naam van de gerelateerde resource plus het woord 'Identificatie'.
 
 Om bijv. in de resource 'kadastraalOnroerendeZaken' te kunnen verwijzen naar een 'zakelijkGerechtigde' kun je de identificatie(s) van de zakelijkGerechtigde(n) direct als property opnemen van de resource 'kadastraalOnroerendeZaken'. In dat laatste geval moet je die property niet slechts 'identificatie' of 'identificaties' noemen. Je moet dan in de naam duidelijk maken waarop de identificaties betrekkening hebben. In dit geval noem je die property dus 'zakelijkGerechtigdeIdentificaties'. Dat ziet er dus als volgt uit:
 
