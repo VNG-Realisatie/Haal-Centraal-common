@@ -29,8 +29,8 @@ _**Ratio**_
 
 In sommige development-omgevingen leveren hoofdletters, spaties of speciale tekens in enumeratie-waarden een probleem op met code-genereren.
 
-### DD1.5 Namen van endpoints, url's en parameters bevatten alleen kleine letters
-Voor de namen van endpoints, url's en parameters worden alleen kleine letters gebruikt.
+### _DD1.5 Namen van endpoints, url's en parameters bevatten alleen kleine letters_
+Deze Design Decision is komen te vervallen.
 
 ### DD1.6 Naamgeving van properties worden beïnvloed door de kardinaliteit
 * Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Een property die als array gedefinieerd is wordt in meervoud benoemd.
@@ -69,7 +69,7 @@ Bijvoorbeeld:
 Er wordt naar gestreefd om enumeratiewaarden te ontdoen van spaties en bijzondere tekens. Indien mogelijk worden spaties in enumeratiewaarden vervangen door underscores.
 
 ### DD1.11 Schema componentnamen voor domeinwaarden en enumeraties krijgen een vaste extensie
-Schema componenten voor dynamische domeinwaarden (referentielijsten zoals "Tabel 32 Nationaliteitentabel") en enumeraties krijgen respectievelijk extensie "\_tabel" en "\_enum".
+Deze Design Decision is komen te vervallen.
 
 ### DD1.12 Redundantie in propertynamen wordt verwijderd.
 Dit is het geval wanneer in een propertynaam de gegevensgroepnaam of resourcenaam waar deze zich in bevindt wordt herhaald.
