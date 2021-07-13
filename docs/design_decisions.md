@@ -68,6 +68,9 @@ Bijvoorbeeld:
 ### DD1.10 Naamgeving van enumeratiewaarden wordt ontdaan van spaties en bijzondere tekens
 Er wordt naar gestreefd om enumeratiewaarden te ontdoen van spaties en bijzondere tekens. Indien mogelijk worden spaties in enumeratiewaarden vervangen door underscores.
 
+### DD1.11 Schema componentnamen voor domeinwaarden en enumeraties krijgen een vaste extensie
+Deze Design Decision is komen te vervallen.
+
 ### DD1.12 Redundantie in propertynamen wordt verwijderd.
 Dit is het geval wanneer in een propertynaam de gegevensgroepnaam of resourcenaam waar deze zich in bevindt wordt herhaald.
 
