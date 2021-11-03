@@ -63,8 +63,8 @@ Functionaliteit: URI templating
     | href                                                | templated |
     | {brpserverurl}/ingeschrevenpersonen/{identificatie} | true      |
     En is de Hal link naar de Persoon van het type ingeschreven_niet_natuurlijk_persoon gelijk aan
-    | href                                            | templated |
-    | /kadasternietnatuurlijkpersonen/{identificatie} | true      |
+    | href                                                          | templated |
+    | {brkserverurl}/kadasternietnatuurlijkpersonen/{identificatie} | true      |
 
   Scenario: Verwijzingen naar een Resource type via meerdere properties van één of meerdere gegevensgroepen
     Gegeven een ZakelijkGerechtigde met de volgende kenmerken
@@ -75,13 +75,13 @@ Functionaliteit: URI templating
     | tenaamstelling.isVermeldInStukdeelIdentificaties | 4567890 |
     Als de ZakelijkGerechtigde wordt geraadpleegd
     Dan bevat de response de volgende kenmerken
-    | naam             | waarde                             |
-    | _links.stukken   | /stukken/{stukIdentificatie}       |
-    | _links.stukdelen | /stukdelen/{stukdeelIdentificatie} |
-    En kan het stuk met identificatie 1234567 worden geraadpleegd met uri '/stukken/1234567'
-    En kan het stuk met identificatie 3456789 worden geraadpleegd met uri '/stukken/3456789'
-    En kan het stukdeel met identificatie 2345678 worden geraadpleegd met uri '/stukdelen/2345678'
-    En kan het stukdeel met identificatie 4567890 worden geraadpleegd met uri '/stukdelen/4567890'
+    | naam             | waarde                                           |
+    | _links.stukken   | {brkserverurl}/stukken/{stukIdentificatie}       |
+    | _links.stukdelen | {brkserverurl}/stukdelen/{stukdeelIdentificatie} |
+    En kan het stuk met identificatie 1234567 worden geraadpleegd met uri '{brkserverurl}/stukken/1234567'
+    En kan het stuk met identificatie 3456789 worden geraadpleegd met uri '{brkserverurl}/stukken/3456789'
+    En kan het stukdeel met identificatie 2345678 worden geraadpleegd met uri '{brkserverurl}/stukdelen/2345678'
+    En kan het stukdeel met identificatie 4567890 worden geraadpleegd met uri '{brkserverurl}/stukdelen/4567890'
 
   Scenario: Expanden van een templated url
     Gegeven de json response fragment van een kadastraal onroerende zaak
