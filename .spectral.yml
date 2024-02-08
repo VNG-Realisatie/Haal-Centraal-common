@@ -9,7 +9,8 @@ extends:
 - ./spectral_rules/schema-names-pascal-case.yml
 - ./spectral_rules/too-much-information.yml
 rules:
-  oas3-unused-components-schema: off
+  oas3-unused-component: off
+  oas3-valid-schema-example: off
   tag-description: off
   oas3-api-servers: off
   openapi-tags: off

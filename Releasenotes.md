@@ -1,5 +1,11 @@
 # Releasenotes Haal-Centraal-common
 
+## Versie 1.3.0 :
+
+### Common.yaml :
+
+- De parameters Content-Crs en Accept-Crs zijn van een default waarde voorzien.
+
 ## Versie 1.2.0 :
 
 ### Common.yaml :

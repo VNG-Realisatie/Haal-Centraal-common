@@ -29,8 +29,8 @@ _**Ratio**_
 
 In sommige development-omgevingen leveren hoofdletters, spaties of speciale tekens in enumeratie-waarden een probleem op met code-genereren.
 
-### DD1.5 Namen van endpoints, url's en parameters bevatten alleen kleine letters
-Voor de namen van endpoints, url's en parameters worden alleen kleine letters gebruikt.
+### _DD1.5 Namen van endpoints, url's en parameters bevatten alleen kleine letters_
+Deze Design Decision is komen te vervallen.
 
 ### DD1.6 Naamgeving van properties worden beïnvloed door de kardinaliteit
 * Een property die 1 maal voorkomt wordt in enkelvoud benoemd. Een property die als array gedefinieerd is wordt in meervoud benoemd.
@@ -69,7 +69,7 @@ Bijvoorbeeld:
 Er wordt naar gestreefd om enumeratiewaarden te ontdoen van spaties en bijzondere tekens. Indien mogelijk worden spaties in enumeratiewaarden vervangen door underscores.
 
 ### DD1.11 Schema componentnamen voor domeinwaarden en enumeraties krijgen een vaste extensie
-Schema componenten voor dynamische domeinwaarden (referentielijsten zoals "Tabel 32 Nationaliteitentabel") en enumeraties krijgen respectievelijk extensie "\_tabel" en "\_enum".
+Deze Design Decision is komen te vervallen.
 
 ### DD1.12 Redundantie in propertynamen wordt verwijderd.
 Dit is het geval wanneer in een propertynaam de gegevensgroepnaam of resourcenaam waar deze zich in bevindt wordt herhaald.
@@ -215,8 +215,12 @@ Nu verwijzen de links nog naar de master-branch van Haal-centraal-common. Op het
 ### DD5.3 Technische definities van properties alleen opnemen voor zover dat noodzakelijk is voor gebruik
 Meestal volstaat het om in de definitie van properties in de response de _propertynaam, type, format, description_ en _example_ op te nemen.
 We gebruiken daar niet de technische definities _pattern, minimum, maximum, minLength, maxLength, minItems_ en _required_, tenzij....
+
+* het een van de properties van 'Datum_onvolledig' (dag, maand en jaar) betreft. Daar mag 'minimum' en 'maximum' wel gebruikt worden.
+* we een (inter)nationale standaard gebruiken waarin dit wel is opgenomen.
+
 De technische definitie _title_ gebruiken we alleen wanneer de propertynaam afwijkt van de naam in het informatiemodel (en het informatiemodel bekend is bij veel gebruikers).
-De technische definitie _enum_ gebruiken we wanneer (sommige/mogelijke) gebruikers de mogelijke waarden gebruiken in code/algoritmes en daarom moeten weten welke mogelijke waarden er zijn.  
+De technische definitie _enum_ gebruiken we wanneer (sommige/mogelijke) gebruikers de mogelijke waarden gebruiken in code/algoritmes en daarom moeten weten welke mogelijke waarden er zijn. 
 
 ### DD5.4 Gebruik geen oneOf of anyOf constructies voor polymorfe gegevens
 We gebruiken geen oneOf of anyOf constructies voor polymorfe gegevens.

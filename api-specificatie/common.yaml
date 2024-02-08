@@ -9,7 +9,7 @@ info:
     - je geen duplicaat krijgt van een schema en
     - maakt het mogelijk voor een provider om wel al te linken naar deze versie (voor bijvoorbeeld de nieuwe HalPaginationLinks en HalPaginationLinksMetLast schemas) zonder Datum_onvolledig ook te moeten vervangen.
       Deze constructie is wel een overtreding van DD5.21 (een allOf zonder extra properties toevoegingen).
-  version: '1.2.0'
+  version: '1.3.0'
   contact:
     name: Haal Centraal Common
     url: https://github.com/VNG-Realisatie/Haal-Centraal-Common
@@ -32,9 +32,7 @@ components:
     contentCrs:
       description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
-        type: string
-        enum:
-          - epsg:28992
+        $ref: '#/components/schemas/CrsEnum'
 # Dit is RD, het enige coordinatenstelsel dat het kadaster nu kan leveren
 # Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
     X_Pagination_Page:
@@ -69,14 +67,14 @@ components:
       name: expand
       in: query
       required: false
-      description: "Hiermee kun je opgeven welke gerelateerde resources meegeleverd moeten worden, en hun inhoud naar behoefte aanpassen. Hele resources of enkele properties geef je in de expand parameter kommagescheiden op. Properties die je wil ontvangen geef je op met de resource-naam gevolgd door de property naam, met daartussen een punt. In de definitie van het antwoord kun je bij _embedded zien welke gerelateerde resources meegeleverd kunnen worden. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/v1.2.0/features/expand.feature)."
+      description: "Hiermee kun je opgeven welke gerelateerde resources meegeleverd moeten worden, en hun inhoud naar behoefte aanpassen. Hele resources of enkele properties geef je in de expand parameter kommagescheiden op. Properties die je wil ontvangen geef je op met de resource-naam gevolgd door de property naam, met daartussen een punt. In de definitie van het antwoord kun je bij _embedded zien welke gerelateerde resources meegeleverd kunnen worden. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/v1.3.0/features/expand.feature)."
       schema:
         type: string
     fields:
       name: fields
       in: query
       required: false
-      description: "Hiermee kun je de inhoud van de resource naar behoefte aanpassen door een door komma's gescheiden lijst van property namen op te geven. Bij opgave van niet-bestaande properties wordt een 400 Bad Request teruggegeven. Wanneer de fields parameter niet is opgegeven, worden alle properties met een waarde teruggegeven. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/v1.2.0/features/fields.feature)"
+      description: "Hiermee kun je de inhoud van de resource naar behoefte aanpassen door een door komma's gescheiden lijst van property namen op te geven. Bij opgave van niet-bestaande properties wordt een 400 Bad Request teruggegeven. Wanneer de fields parameter niet is opgegeven, worden alle properties met een waarde teruggegeven. Zie [functionele specificaties](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/v1.3.0/features/fields.feature)"
       schema:
         type: string
     uuid:
@@ -138,23 +136,14 @@ components:
       required: false
       description: CRS van de meegegeven geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
       schema:
-        type: string
-        enum:
-          - epsg:28992
-# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
-# Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
+        $ref: '#/components/schemas/CrsEnum'
     acceptCrs:
       name: Accept-Crs
       in: header
       required: false
       description: Gewenste CRS van de coördinaten in de response.
       schema:
-        description: 'CRS van de coördinaten in de response. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.'
-        type: string
-        enum:
-          - epsg:28992
-# Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
-# Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
+        $ref: '#/components/schemas/CrsEnum'
   responses:
     '204':
       description: No content
@@ -404,7 +393,7 @@ components:
       type: string
       example: "https://datapunt.voorbeeldgemeente.nl/api/v{major-versie}/resourcename/{resource-identificatie}"
     HalLink:
-      description: De Link Object zoals gespecificeerd in https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5; Deze link kan als templated link worden aangeboden. [URI-templating is hier beschreven](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/v1.2.0/features/uri-templating.feature).
+      description: De Link Object zoals gespecificeerd in https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5; Deze link kan als templated link worden aangeboden. [URI-templating is hier beschreven](https://github.com/VNG-Realisatie/Haal-Centraal-common/blob/v1.3.0/features/uri-templating.feature).
       type: object
       required:
         - href
@@ -738,3 +727,12 @@ components:
       - $ref: "#/components/schemas/Polygon"
       - $ref: "#/components/schemas/MultiPolygon"
       - $ref: "#/components/schemas/GeometryCollection"
+    CrsEnum:
+      description: CRS van geometrie. epsg:28992 mapt op het RD New Nederlands coordinatenstelsel.
+      type: string
+      enum:
+        - epsg:28992
+      default: epsg:28992
+      # Dit is RD, het enige coordinatenstelsel dat het kadaster nu (19-05-2020) kan leveren
+      # Toevoegen van enumeratiewaarden leidt niet tot breaking changes bij consumers
+      # Voor 1.3.0 de default toegevoegd. Daarmee voorkomen we dat de Content-Crs verplicht opgegeven moet worden zolang er maar 1 waarde is

@@ -4,15 +4,15 @@ Functionaliteit: Afhandeling van fouten
   Wanneer er een foutsituatie is, wordt de betreffende http statuscode teruggegeven. Het antwoord bevat dan details over de fout conform problem+json.
 
   In de foutresponse krijgt "type" een url naar een beschrijving van de fout.
-  In de foutresponse krijgt "title" een korte omschrijving van de fout, zie tabel hieronder.
+  In de foutresponse krijgt "title" een korte omschrijving van de fout, zoals in ../docs/foutmeldingen.json (op basis van de foutcode).
   In de foutresponse krijgt "status" de waarde van de http status code, zie tabel hieronder.
   In de foutresponse krijgt "detail" een uitgebreide beschrijving van de fout.
   In de foutresponse krijgt "code" een waarde, zie tabel hieronder.
   In de foutresponse krijgt "instance" de url van het request die tot de fout heeft geleid.
 
   We kennen de volgende foutsituaties:
-  | Foutsituatie                        | status | title                                                             | code              |
-  | Geen parameter is meegegeven        | 400    | Ten minste één parameter moet worden opgegeven.                   | paramsRequired    |
+  | Foutsituatie                        | status | voorbeeld title                                                   | code              |
+  | Geen parameter is meegegeven        | 400    | Geef tenminste één parameter op.                                  | paramsRequired    |
   | Verplichte parameter(combinatie)    | 400    | Minimale combinatie van parameters moet worden opgegeven.         | paramsCombination |
   | Niet toegestane parametercombinatie | 400    | De combinatie van opgegeven parameters is niet toegestaan.        | unsupportedCombi  |
   | Parametervalidatie                  | 400    | Een of meerdere parameters zijn niet correct.                     | paramsValidation  |
@@ -31,7 +31,7 @@ Functionaliteit: Afhandeling van fouten
 
 
   Wanneer de onderliggende bron GBA-V, een foutcode teruggeeft wordt dat als volgt vertaald:
-  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalidParams.code  | invalidParams.reason                            |
+  | /vraagResponse/vraagReturn/resultaat/letter | status | code             | invalidParams.code  | voorbeeld invalidParams.reason                  |
   | X                                           | 403    | autorisation     | -                   | -                                               |
   | U                                           | 400    | paramsValidation | unique              | De opgegeven persoonidentificatie is niet uniek |
   | H                                           | 403    | autorisation     | -                   | -                                               |
@@ -44,10 +44,10 @@ Functionaliteit: Afhandeling van fouten
   Bij een fout op een parameter krijgt in "invalidParams" attribuut "type" een url naar een beschrijving van de fout in de parameter. De hier gerefereeerde foutbeschrijving is specifieker dan "type" op het hoofdniveau van het bericht.
   Bij een fout op een parameter krijgt in "invalidParams" attribuut "name" de naam van de parameter waar de fout in zit.
   Bij een fout op een parameter krijgt in "invalidParams" attribuut "code" een vaste waarde afhankelijk van het soort fout, zie tabel hieronder.
-  Bij een fout op een parameter krijgt in "invalidParams" attribuut "reason" een vaste omschrijving afhankelijk van het soort fout, zie tabel hieronder.
+  Bij een fout op een parameter krijgt in "invalidParams" attribuut "reason" een vaste omschrijving afhankelijk van het soort fout, zoals in ../docs/foutmeldingen.json (op basis van de foutcode).
 
   Bij valideren van een parameter tegen schema kunnen de volgende meldingen komen:
-  | validatie        | reason                                                    | code         |
+  | validatie        | voorbeeld reason                                          | code         |
   | type: integer    | Waarde is geen geldige integer.                           | integer      |
   | type: number     | Waarde is geen geldig decimaal getal.                     | number       |
   | type: boolean    | Waarde is geen geldige boolean.                           | boolean      |
@@ -67,18 +67,17 @@ Functionaliteit: Afhandeling van fouten
   | expand           | Deel van de parameterwaarde niet correct: {waarde}.       | expand       |
   | wildcard         | Incorrect gebruik van wildcard karakter {wildcard}.       | wildcard     |
   | page bestaat     | De opgegeven pagina bestaat niet.                         | page         |
+  | paramWaarde      | Parameter bevat niet toegestane karakters.                | notAllowedCharacter |
 
   Bij een validatiefout op de expandparameter of fieldsparameter, wordt de plek binnen de parameterwaarde opgenomen waar de fout gevonden wordt.
 
   Abstract Scenario: Ongeldige pathparameter waarde bij raadplegen resource
     Als de {resource} wordt geraadpleegd met {parameter}={waarde}
     Dan is de http status code van het antwoord 400
-    En is in het antwoord title=Een of meerdere parameters zijn niet correct
     En is in het antwoord status=400
     En eindigt attribuut instance met /api/handelsregister/v1/{resource}/{waarde}
     En bevat invalidParams exact 1 voorkomen(s)
     En is in het antwoord invalidParams.name={parameter}
-    En is in het antwoord invalidParams.reason={reason}
     En is in het antwoord invalidParams.code={code}
 
     Voorbeelden:
@@ -93,12 +92,10 @@ Functionaliteit: Afhandeling van fouten
   Abstract Scenario: Ongeldige queryparameter waarde bij zoeken
     Als {resource} worden gezocht met {parameter}={waarde}
     Dan is de http status code van het antwoord 400
-    En is in het antwoord title=Een of meerdere parameters zijn niet correct
     En is in het antwoord status=400
     En eindigt attribuut instance met /api/handelsregister/v1/{resource}?{parameter}={waarde}
     En bevat invalidParams exact 1 voorkomen(s)
     En is in het antwoord invalidParams.name={parameter}
-    En is in het antwoord invalidParams.reason={reason}
     En is in het antwoord invalidParams.code={code}
 
     Voorbeelden:
@@ -122,17 +119,14 @@ Functionaliteit: Afhandeling van fouten
   Scenario: geen enkele zoekparameter opgegeven in zoekvraag
     Als ingeschrevenpersonen worden gezocht zonder parameters
     Dan is de http status code van het antwoord 400
-    En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven.
     En is in het antwoord status=400
     En eindigt attribuut instance met /ingeschrevenpersonen
     En is in het antwoord code=paramsRequired
-    En is in het antwoord title=Ten minste één parameter moet worden opgegeven
     En komt attribuut invalidParams niet voor in het antwoord
 
   Scenario: personen zoeken zonder minimale combinatie van zoekparameters
     Als ingeschrevenpersonen worden gezocht met naam__geslachtsnaam=jansen
     Dan is de http status code van het antwoord 400
-    En is in het antwoord title=Minimale combinatie van parameters moet worden opgegeven.
     En is in het antwoord status=400
     En eindigt attribuut instance met ingeschrevenpersonen?naam__geslachtsnaam=jansen
     En is in het antwoord code=paramsCombination
@@ -143,7 +137,6 @@ Functionaliteit: Afhandeling van fouten
     En het combineren van deze parameters wordt niet ondersteund
     Als panden worden gezocht met adresseerbaarobjectidentificatie=0599010000165822&locatie=98095.02,438495.09
     Dan is de http status code van het antwoord 400
-    En is in het antwoord title=De combinatie van opgegeven parameters is niet toegestaan.
     En is in het antwoord status=400
     En eindigt attribuut instance met /panden?adresseerbaarobjectidentificatie=0599010000165822&locatie=98095.02%2C438495.09
     En is in het antwoord code=unsupportedCombi
@@ -152,7 +145,6 @@ Functionaliteit: Afhandeling van fouten
   Scenario: meerdere fouten in parameters
     Als ingeschrevenpersonen worden gezocht met verblijfplaats__huisnummer=a&verblijfplaats__postcode=b&inclusiefoverledenpersonen=c&geboorte__datum=d
     Dan is de http status code van het antwoord 400
-    En is in het antwoord title=Een of meerdere parameters zijn niet correct.
     En is in het antwoord status=400
     En eindigt attribuut instance met ingeschrevenpersonen?huisnummer=a&postcode=b&inclusiefoverledenpersonen=c&geboorte__datum=d
     En bevat invalidParams exact 4 voorkomen(s)
@@ -164,7 +156,6 @@ Functionaliteit: Afhandeling van fouten
   Scenario: onjuiste waarde in request header Content-Crs
     Als /panden wordt gezocht met de niet-ondersteunde waarde voor header Content-Crs "epsg:4326"
     Dan is de http status code van het antwoord 415
-    En is in het antwoord title=Coördinatenstelsel epsg:4326 in Content-Crs wordt niet ondersteund.
     En is in het antwoord code=crsNotSupported
     En is in het antwoord status=415
     En komt attribuut invalidParams niet voor in het antwoord
@@ -172,7 +163,6 @@ Functionaliteit: Afhandeling van fouten
   Scenario: onjuiste waarde in request header Accept-Crs
     Als /panden wordt gezocht met de niet-ondersteunde waarde voor header Accept-Crs "epsg:4326"
     Dan is de http status code van het antwoord 406
-    En is in het antwoord title=Gevraagde coördinatenstelsel epsg:4326 wordt niet ondersteund.
     En is in het antwoord code=crsNotAcceptable
     En is in het antwoord status=406
     En komt attribuut invalidParams niet voor in het antwoord
@@ -182,7 +172,6 @@ Functionaliteit: Afhandeling van fouten
     En in het request is header Content-Crs niet opgenomen
     En in het request is header Accept-Crs wel opgenomen met de waarde epsg:28992
     Dan is de http status code van het antwoord 412
-    En is in het antwoord title=Coördinatenstelsel van gestuurde geometrie moet worden opgegeven.
     En is in het antwoord code=contentCrsMissing
     En is in het antwoord status=412
     En komt attribuut invalidParams niet voor in het antwoord
@@ -200,7 +189,6 @@ Functionaliteit: Afhandeling van fouten
     En in het request is header Content-Crs wel opgenomen met de waarde epsg:28992
     En in het request is header Accept-Crs niet opgenomen
     Dan is de http status code van het antwoord 412
-    En is in het antwoord title=Gewenste coördinatenstelsel voor geometrie moet worden opgegeven.
     En is in het antwoord code=acceptCrsMissing
     En is in het antwoord status=412
     En komt attribuut invalidParams niet voor in het antwoord
@@ -215,19 +203,16 @@ Functionaliteit: Afhandeling van fouten
   Scenario: niet geauthenticeerd
     Als ingeschrevenpersonen worden gezocht zonder authenticatiegegevens (zonder SAML assertion)
     Dan is de http status code van het antwoord 401
-    En is in het antwoord title=Niet correct geauthenticeerd
     En is in het antwoord status=401
     En is in het antwoord code=authentication
     En komt attribuut invalidParams niet voor in het antwoord
     Als ingeschrevenpersonen worden gezocht met invalide authenticatiegegevens (onjuiste SAML assertion)
     Dan is de http status code van het antwoord 401
-    En is in het antwoord title=Niet correct geauthenticeerd.
     En is in het antwoord status=401
     En is in het antwoord code=authentication
     En komt attribuut invalidParams niet voor in het antwoord
     Als ingeschrevenpersonen worden gezocht met onbekende gebruiker (onbekende SAML assertion)
     Dan is de http status code van het antwoord 401
-    En is in het antwoord title=Niet correct geauthenticeerd.
     En is in het antwoord status=401
     En is in het antwoord code=authentication
     En komt attribuut invalidParams niet voor in het antwoord
@@ -235,7 +220,6 @@ Functionaliteit: Afhandeling van fouten
   Scenario: niet geautoriseerd
     Als ingeschrevenpersonen worden gezocht met een geauthentiseerde gebruiker zonder rechten op de API
     Dan is de http status code van het antwoord 403
-    En is in het antwoord title=U bent niet geautoriseerd voor deze operatie.
     En is in het antwoord status=403
     En is in het antwoord code=autorisation
     En komt attribuut invalidParams niet voor in het antwoord
@@ -243,7 +227,6 @@ Functionaliteit: Afhandeling van fouten
   Scenario: niet gevonden
     Als de ingeschrevenpersonen wordt geraadpleegd met burgerservicenummer=123456789
     Dan is de http status code van het antwoord 404
-    En is in het antwoord title=Opgevraagde resource bestaat niet.
     En is in het antwoord status=404
     En is in het antwoord code=notFound
     En komt attribuut invalidParams niet voor in het antwoord
@@ -251,7 +234,6 @@ Functionaliteit: Afhandeling van fouten
   Scenario: niet ondersteund contenttype
     Als de ingeschrevenpersonen wordt geraadpleegd met acceptheader application/xml
     Dan is de http status code van het antwoord 406
-    En is in het antwoord title=Gevraagde contenttype wordt niet ondersteund.
     En is in het antwoord status=406
     En is in het antwoord code=notAcceptable
     En komt attribuut invalidParams niet voor in het antwoord
@@ -260,14 +242,12 @@ Functionaliteit: Afhandeling van fouten
     Als een ingeschreven persoon wordt geraadpleegd
     En de bron GBA-V geen response of een timeout geeft
     Dan is de http status code van het antwoord 503
-    En is in het antwoord title=Bronservice GBA-V is niet beschikbaar.
     En is in het antwoord status=503
     En is in het antwoord code=sourceUnavailable
     En komt attribuut invalidParams niet voor in het antwoord
     Als een ingeschreven persoon wordt geraadpleegd
     En de bron GBA-V geeft de foutmelding “Service is niet geactiveerd voor dit account.”
     Dan is de http status code van het antwoord 503
-    En is in het antwoord title=Bronservice GBA-V is niet beschikbaar.
     En is in het antwoord status=503
     En is in het antwoord code=sourceUnavailable
     En komt attribuut invalidParams niet voor in het antwoord
