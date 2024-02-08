@@ -1,4 +1,13 @@
-extends: spectral:oas
+extends:
+- spectral:oas
+- ./spectral_rules/allof-adds-property.yml
+- ./spectral_rules/allof-extends-object.yml
+- ./spectral_rules/allof-single-extension.yml
+- ./spectral_rules/enum-value-snake-case.yml
+- ./spectral_rules/query-parameter-names-camel-case.yml
+- ./spectral_rules/property-of-object-type.yml
+- ./spectral_rules/schema-names-pascal-case.yml
+- ./spectral_rules/too-much-information.yml
 rules:
   oas3-unused-component: off
   oas3-valid-schema-example: off
@@ -6,70 +15,3 @@ rules:
   oas3-api-servers: off
   openapi-tags: off
   info-description: off
-  schema-names-pascal-case:
-    description: Schema names MUST be written in PascalCase, only extensions _links, _embedded, _enum and _tabel are allowed outside PascalCase
-    message: '{{property}} is niet PascalCase (UpperCamelCase): {{error}}'
-    recommended: true
-    type: style
-    given: '$.components.schemas.*~'
-    then:
-      function: pattern
-      functionOptions:
-        match: '/^([A-Z][a-z0-9]+)+(_embedded|_links|_enum|_tabel)?$/'
-  property-of-object-type:
-    description: Properties MUST not be of object type
-    message: '{{path}} is gedefinieerd als een inline object. Definieer deze als een schema component en verwijs hiernaar met $ref'
-    type: style
-    resolved: false
-    given: '$.components.schemas..properties[*].properties'
-    then:
-      function: falsy
-  parameter-names-camel-case:
-    description: Parameter names MUST be written in camelCase
-    message: '{{value}} is niet camelCase: {{error}}'
-    recommended: true
-    type: style
-    given: '$.components.parameters[?(@.in == "query")]'
-    then:
-      field: name
-      function: casing
-      functionOptions:
-        type: camel
-  enum-value-snake-case:
-    description: Enumeration values SHOULD be in snake case
-    message: 'Enumeratiewaarde "{{value}}" is niet snake_case: {{path}}'
-    recommended: true
-    resolved: false
-    type: style
-    given: '$.components.schemas..enum[*]'
-    then:
-      function: casing
-      functionOptions:
-        type: snake
-  allof-extends-object:
-    description: allOf must extend an object and add at least one property
-    message: '{{path}} moet beginnen met $ref'
-    resolved: false
-    type: style
-    given: '$..allOf[0]'
-    then:
-      - field: "$ref"
-        function: truthy
-  allof-adds-property:
-    description: allOf must extend an object and add at least one property
-    message: '{{path}}: het tweede item in een allOf moet ten minste één property toevoegen'
-    resolved: false
-    type: style
-    given: '$..allOf[1]'
-    then:
-     - field: "properties"
-       function: truthy
-  allof-single-extension:
-    description: allOf must extend from exactly one object
-    message: '{{path}}: allOf mag niet meer dan twee items bevatten, de eerste met $ref, de tweede met properties'
-    resolved: false
-    type: style
-    given: '$..allOf[2]'
-    then:
-      function: falsy
-  no-$ref-siblings: off

@@ -1,0 +1,9 @@
+rules:
+  property-of-object-type:
+    description: Properties MUST not be of object type
+    message: '{{path}} is gedefinieerd als een inline object. Definieer deze als een schema component en verwijs hiernaar met $ref'
+    type: style
+    resolved: false
+    given: '$.components.schemas..properties[*].properties'
+    then:
+      function: falsy

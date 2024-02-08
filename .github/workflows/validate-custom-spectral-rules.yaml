@@ -1,0 +1,32 @@
+name: validate-custom-spectral-rules
+
+on:
+  push:
+    paths:
+      - ./spectral_rules/*.yml
+      - .github/workflows/validate-custom-spectral-rules.yml
+      - ./features/spectral_rules/*.feature
+    branches:
+      - '**'
+  pull_request:
+    paths:
+      - ./spectral_rules/*.yml
+      - .github/workflows/validate-custom-spectral-rules.yml
+      - ./features/spectral_rules/*.feature
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  validate-custom-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install dependencies
+        run: npm install
+      - name: validate custom spectral rules
+        run: npm run spectral:rules-test
