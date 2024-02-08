@@ -52,9 +52,24 @@ Deze Design Decision is komen te vervallen.
   * kinderen (resource "ingeschrevenpersonen" en relatie "heeft kinderen")
 
 ### DD1.8 Namen van Identificatie properties zijn afhankelijk van het wel of niet voorkomen van sibling properties
-Wanneer een relatie-property (niet link of embedded) alleen de identificatie van een gerelateerde resource bevat en geen andere properties, wordt als naam van de property de naam van de resource plus het woord 'Identificatie' gebruikt.
+Wanneer een relatie-property (niet link of embedded) geen andere properties heeft dan alleen de identificatie van een gerelateerde resource dan kan deze op verschillende manieren worden gemodelleerd.
+1. Als object property met daarbinnen de identificatie-property. 
+2. Als alleen een identificatie property.
 
-Bijvoorbeeld: _maakt deel uit van + pand + Identificatie = pandIdentificatie_
+Het voordeel van de eerste vorm is dat deze uitbreidbaar is met andere properties zonder breaking change terwijl de tweede vorm eenvoudiger van structuur en eenvoudig te gebruiken is. Overwegingen die goed tegen elkaar afgewogen moeten worden.
+
+Als gekozen wordt voor de tweede vorm dan wordt de relatie-property vervangen door de identificatie-property met als naam de naam van de gerelateerde resource plus het woord 'Identificatie'.
+
+Om bijv. in de resource 'kadastraalOnroerendeZaken' te kunnen verwijzen naar een 'zakelijkGerechtigde' kun je de identificatie(s) van de zakelijkGerechtigde(n) direct als property opnemen van de resource 'kadastraalOnroerendeZaken'. In dat laatste geval moet je die property niet slechts 'identificatie' of 'identificaties' noemen. Je moet dan in de naam duidelijk maken waarop de identificaties betrekkening hebben. In dit geval noem je die property dus 'zakelijkGerechtigdeIdentificaties'. Dat ziet er dus als volgt uit:
+
+```
+   "kadastraalOnroerendeZaken": [
+      {
+       ...
+       "zakelijkGerechtigdeIdentificaties": [
+          "1234567890"
+       ],
+``` 
 
 ### DD1.9 Namen van parameters die geen onderdeel zijn van de op te vragen resource wijken af
 Indien een parameter een element betreft dat geen onderdeel van de op te vragen resource is, maar onderdeel van een gerelateerde resource, een subresource of een gegevensgroep, dan wordt de elementnaam voorafgegaan door de betreffende resourcenaam of gegevensgroepnaam en vervolgens twee underscores.
@@ -74,7 +89,30 @@ Deze Design Decision is komen te vervallen.
 ### DD1.12 Redundantie in propertynamen wordt verwijderd.
 Dit is het geval wanneer in een propertynaam de gegevensgroepnaam of resourcenaam waar deze zich in bevindt wordt herhaald.
 
-Bijvoorbeeld _verblijfstitelIngeschrevenNatuurlijkPersoon_ wordt _verblijfstitel_, _overlijdenIngeschrevenNatuurlijkPersoon_ wordt _overlijden_, _geboorteIngeschrevenNatuurlijkPersoon_ wordt _geboorte_, enz.
+Dus bijvoorbeeld niet
+
+```
+   "ingeschrevenNatuurlijkPersoon": [
+      {
+       ...
+       "verblijfstitelIngeschrevenNatuurlijkPersoon": "...",
+       "geboorteIngeschrevenNatuurlijkPersoon": "...",
+       "overlijdenIngeschrevenNatuurlijkPersoon": "..."
+      }
+      ...
+``` 
+maar
+
+```
+   "ingeschrevenNatuurlijkPersoon": [
+      {
+       ...
+       "verblijfstitel": "...",
+       "geboorte": "...",
+       "overlijden": "..."
+      }
+      ...
+``` 
 
 _**Ratio**_
 * De namen zijn erg lang. Dit is niet bevorderlijk voor eenvoud van implementatie.
