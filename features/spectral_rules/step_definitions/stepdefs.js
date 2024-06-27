@@ -1,7 +1,11 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
-const { Spectral, Document, Parsers, isOpenApiv3 } = require('@stoplight/spectral');
+const { Spectral, Document } = require('@stoplight/spectral-core');
+const Parsers = require('@stoplight/spectral-parsers');
+const { bundleAndLoadRuleset } = require('@stoplight/spectral-ruleset-bundler/with-loader');
+const { fetch } = require('@stoplight/spectral-runtime');
 const { join } = require('path');
 const should = require('chai').should();
+const fs = require('node:fs');
 
 Given('de spectral rule {string}', function (rule) {
     this.rule = rule;
@@ -13,11 +17,9 @@ Given('de OpenAPI specificatie', function (oasSpecificatie) {
 
 When('de OpenAPI specificatie is gevalideerd met spectral', async function () {
     const spectral = new Spectral();
-    spectral.registerFormat('oas3', isOpenApiv3);
-    await spectral.loadRuleset([
-        join(__dirname, '../../../spectral_rules/test-rule.yml'),
-        join(__dirname, '../../../spectral_rules/' + this.rule + '.yml')
-    ]);
+    const filePath = join(__dirname, '../../../spectral_rules/' + this.rule + '.yml');
+    const ruleset = await bundleAndLoadRuleset(filePath, { fs, fetch });
+    spectral.setRuleset(ruleset);
     this.results = await spectral.run(this.oasSpecificatie);
 });
 

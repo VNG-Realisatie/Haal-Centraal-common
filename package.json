@@ -21,14 +21,10 @@
   },
   "homepage": "https://github.com/VNG-Realisatie/Haal-Centraal-common#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^7.0.0-rc.0",
-    "@stoplight/spectral": "^5.5.0",
-    "chai": "^4.2.0",
-    "husky": "^4.3.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run oas:lint"
-    }
+    "@cucumber/cucumber": "^10.8.0",
+    "@stoplight/spectral-cli": "^6.11.1",
+    "@stoplight/spectral-core": "^1.18.3",
+    "@stoplight/spectral-parsers": "^1.0.4",
+    "chai": "^4.4.1"
   }
 }
