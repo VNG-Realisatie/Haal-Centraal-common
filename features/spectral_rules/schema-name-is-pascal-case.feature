@@ -26,7 +26,7 @@ Functionaliteit: Een schema name is in Pascal case
               type: object
         """
         Als de OpenAPI specificatie is gevalideerd met spectral
-        Dan bevat spectral's resultaat de validatie melding "<schema naam> is niet PascalCase (UpperCamelCase): must match the pattern \'/^([A-Z][a-z0-9]+)+(_embedded|_links|_enum|_tabel)?$/\'"
+        Dan bevat spectral's resultaat de validatie melding "<schema naam> is niet PascalCase (UpperCamelCase): Object{} must match the pattern \"/^([A-Z][a-z0-9]+)+(_embedded|_links|_enum|_tabel)?$/\""
 
         Voorbeelden:
             | schema naam          |
