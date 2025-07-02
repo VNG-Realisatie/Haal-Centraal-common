@@ -1,3 +1,8 @@
+| Eigenaar | Ingevuld door |
+| --- | --- |
+| Kennis centrum Architectuur | Robert Melskens |
+<hr/>
+
 # Haal-Centraal-common
 
 ![lint oas](https://github.com/VNG-Realisatie/Haal-Centraal-Common/workflows/lint-oas/badge.svg)
